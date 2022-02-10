@@ -1,16 +1,21 @@
-# wt_versus
+# War Thunder Versus
 
-A new Flutter project.
+Cross-platform Flutter app, that can compare aircrafts, tanks, helicopters and ships in the game War Thunder
 
-## Getting Started
+## App status
 
-This project is a starting point for a Flutter application.
+* Started: ***10.02.2022***
+* Published: ***xx.xx.2022***
+* Status: ***Developing***
+ 
+### For debugging
+Find all "//FIXME:" comment and follow the instruction
 
-A few resources to get you started if this is your first Flutter project:
+## Authors
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+* **Bohdan** - *Flutter developer* - [github](https://github.com/booooohdan)
+* **Dmytro** - *UI/UX Designer* - [behance](https://www.behance.net/dmytroratushn)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE.md](LICENSE.md) file for details
