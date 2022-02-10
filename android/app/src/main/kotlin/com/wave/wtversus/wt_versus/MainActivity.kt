@@ -1,4 +1,4 @@
-package com.wave.wtversus.wt_versus
+package com.wave.wtversus
 
 import io.flutter.embedding.android.FlutterActivity
 
