@@ -5,7 +5,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="WT Versus">
         <activity
-            android:name=".MainActivity"
+            android:name=".wt_versus.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
