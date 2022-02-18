@@ -49,3 +49,5 @@ app.*.map.json
 /lib/utilities/ads_collection.dart
 *.keyInfo
 *.keystore
+google-services.json
+GoogleService-Info.plist
