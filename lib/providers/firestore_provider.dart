@@ -15,39 +15,51 @@ class FirestoreProvider with ChangeNotifier {
   // }
 
   final _fireStoreInstance = FirebaseFirestore.instance;
-  Plane? plane;
 
   Future<QuerySnapshot<Map<String, dynamic>>> getDocs() async {
-    final cacheDocRef = _fireStoreInstance.doc('ateststatus/status');
+    final cacheDocRef = _fireStoreInstance.doc('statusplane/status');
     final cacheField = 'updatedAt';
-    final query = _fireStoreInstance.collection('atestcollection');
+    final query = _fireStoreInstance.collection('planes').limit(10);
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
       cacheDocRef: cacheDocRef,
       firestoreCacheField: cacheField,
-      isUpdateCacheDate: true
     );
-
-    var a = snapshot.metadata.isFromCache;
 
     return snapshot;
   }
 
-  Future<List<String>> getPlanes() async {
-    List<String> planesList = [];
+  Future<List<Plane>> getPlanes() async {
+    final List<Plane> planesList = [];
+    await getDocs().then((value) => value.docs.forEach((doc) {
+          final plane = Plane(
+            link: doc['link'],
+            name: doc['name'],
+            image: doc['image'],
+            nation: doc['nation'],
+            rank: doc['rank'],
+            BRs: doc['BRs'].cast<String>(),
+            isPremium: doc['isPremium'],
+            planeClass: doc['tankClass'].cast<String>(),
+            //FIX THIS TO planeClass
+            features: doc['features'].cast<String>(),
+            turnTime: doc['turnTime'],
+            maxAltitude: doc['maxAltitude'],
+            engineName: doc['engineName'],
+            weight: doc['weight'],
+            crew: doc['crew'],
+            altitudeForSpeed: doc['altitudeForSpeed'],
+            speed: doc['speed'],
+            engineType: doc['engineType'],
+            coolingSystem: doc['coolingSystem'],
+            flutterStructural: doc['flutterStructural'],
+            flutterGear: doc['flutterGear'],
+            repairCosts: doc['repairCosts'].cast<String>(),
+          );
 
-    await _fireStoreInstance.collection('planes').limit(10).get().then((QuerySnapshot snapshot) {
-      snapshot.docs.forEach((doc) {
-        var link = doc['link'];
+          planesList.add(plane);
+        }));
 
-        //this hack needed to store unique id value with "/" in firebase. E.g "Strv_m/39"
-        if (link.contains('/')) {
-          link = link.replaceAll('/', '');
-        } //end of hack
-
-        planesList.add(link);
-      });
-    });
     return planesList;
   }
 }
