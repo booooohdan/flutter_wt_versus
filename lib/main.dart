@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/widgets/bottom_navigation_bar.dart';
 
 import '../providers/firestore_provider.dart';
-import '../screens/comparison_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,11 +20,19 @@ Future<void> main() async {
       ],
       child: MaterialApp(
         title: 'WT Versus',
-        theme: ThemeData(brightness: Brightness.light),
-        routes: {
-          '/': (context) => const ComparisonScreen(),
-        },
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.red,
+          ),
+          //textTheme: GoogleFonts.oxygenTextTheme()
+          scaffoldBackgroundColor: Color(0xFFF6F6FA),
+        ),
+        darkTheme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
+        home: BottomNavBar(),
+        // routes: {
+        //   '/': (context) => const ComparisonScreen(),
+        // },
       ),
     ),
   );
