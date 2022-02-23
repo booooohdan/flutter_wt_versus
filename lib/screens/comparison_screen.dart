@@ -33,12 +33,12 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
     ];
   }
 
-  bool _isIntroductionNeed = false;
-  List<bool> _toggleList = [false, false, false, false];
-  bool _isChecked = false;
-  List<String> _checkedVehicle = [];
+  bool _isFirstLaunch = false;
+  List<bool> _toggleButtons = [false, false, false, false];
+  List<String> _selectedVehicles = [];
   final _searchController = TextEditingController();
-  late Future<List<Plane>> _allResults;
+  List<Plane> _allResults = [];
+  List<Plane> _searchResult = [];
 
   @override
   void initState() {
@@ -46,12 +46,28 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
     _searchController.addListener(_onSearchChanged);
   }
 
-  _onSearchChanged() {}
+  void _onSearchChanged() {
+    List<Plane> showResult = [];
+    if (_searchController.text != '') {
+      for (var item in _allResults) {
+        final name = item.name.toLowerCase();
+        if (name.contains(_searchController.text.toLowerCase())) {
+          showResult.add(item);
+        }
+      }
+    } else {
+      showResult = _allResults;
+    }
+    setState(() {_searchResult = showResult;
+    });
+  }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
-    _allResults = context.read<FirestoreProvider>().getPlanes();
+    _allResults = await context.watch<FirestoreProvider>().getPlanes();
+    _searchResult = _allResults;
+    setState(() {});
   }
 
   @override
@@ -76,7 +92,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
         elevation: 0,
         shape: ContinuousRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
       ),
-      body: _isIntroductionNeed
+      body: _isFirstLaunch
           ? IntroductionScreen(
               pages: getPages(),
               showBackButton: true,
@@ -96,13 +112,13 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       Icon(Icons.not_accessible),
                       Icon(Icons.directions_boat),
                     ],
-                    isSelected: _toggleList,
+                    isSelected: _toggleButtons,
                     constraints: BoxConstraints(minWidth: (screenSize.width - 36) / 4),
                     borderRadius: BorderRadius.circular(30),
                     onPressed: (int index) {
                       setState(() {
-                        _toggleList = [false, false, false, false];
-                        _toggleList[index] = true;
+                        _toggleButtons = [false, false, false, false];
+                        _toggleButtons[index] = true;
                       });
                     },
                   ),
@@ -119,51 +135,41 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                       ),
                     ],
                   ),
-                  FutureBuilder<List<Plane>>(
-                      future: _allResults,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          return Expanded(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final _vehicleSelected = _checkedVehicle.contains(snapshot.data![index].link);
-                                return ListTile(
-                                  leading: Container(
-                                    height: 50,
-                                    child: Image.network(
-                                      snapshot.data![index].image,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  title: Text('[${snapshot.data![index].BRs[1]}] ${snapshot.data![index].name}'),
-                                  subtitle: Text(snapshot.data![index].nation),
-                                  trailing: _vehicleSelected ? Icon(Icons.check) : Icon(Icons.check, size: 0),
-                                  tileColor: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  onTap: () {
-                                    setState(() {
-                                      if (_vehicleSelected) {
-                                        _checkedVehicle.remove(snapshot.data![index].link);
-                                      } else {
-                                        _checkedVehicle.add(snapshot.data![index].link);
-                                      }
-                                    });
-                                  },
-                                  selected: _vehicleSelected,
-                                );
-                              },
-                              //children: snapshot.data!.docs
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: _searchResult.length,
+                      itemBuilder: (context, index) {
+                        final _vehicleSelected = _selectedVehicles.contains(_searchResult[index].link);
+                        return ListTile(
+                          leading: Container(
+                            height: 50,
+                            child: Image.network(
+                              _searchResult[index].image,
+                              fit: BoxFit.cover,
                             ),
-                          );
-                        }
-                      }),
+                          ),
+                          title: Text('[${_searchResult[index].BRs[1]}] ${_searchResult[index].name}'),
+                          subtitle: Text(_searchResult[index].nation),
+                          trailing: _vehicleSelected ? Icon(Icons.check) : Icon(Icons.check, size: 0),
+                          tileColor: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          onTap: () {
+                            setState(() {
+                              if (_vehicleSelected) {
+                                _selectedVehicles.remove(_searchResult[index].link);
+                              } else {
+                                _selectedVehicles.add(_searchResult[index].link);
+                              }
+                            });
+                          },
+                          selected: _vehicleSelected,
+                        );
+                      },
+                      //children: snapshot.data!.docs
+                    ),
+                  ),
                 ],
               ),
             ),

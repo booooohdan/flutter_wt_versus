@@ -58,7 +58,7 @@ class FirestoreProvider with ChangeNotifier {
           );
 
           planesList.add(plane);
-        }));
+            }));
 
     return planesList;
   }
