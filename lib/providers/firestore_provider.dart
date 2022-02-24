@@ -19,7 +19,8 @@ class FirestoreProvider with ChangeNotifier {
   Future<QuerySnapshot<Map<String, dynamic>>> getDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statusplane/status');
     final cacheField = 'updatedAt';
-    final query = _fireStoreInstance.collection('planes').limit(10);
+    final query = _fireStoreInstance.collection('planes');
+    //final query = _fireStoreInstance.collection('planes').limit(10);
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
       cacheDocRef: cacheDocRef,

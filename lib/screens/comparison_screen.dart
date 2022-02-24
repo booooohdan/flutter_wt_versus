@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:wt_versus/models/plane.dart';
@@ -34,17 +36,12 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   }
 
   bool _isFirstLaunch = false;
-  List<bool> _toggleButtons = [false, false, false, false];
+  int? groupValue = 0;
+  //List<bool> _toggleButtons = [false, false, false, false];
   List<String> _selectedVehicles = [];
   final _searchController = TextEditingController();
   List<Plane> _allResults = [];
   List<Plane> _searchResult = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(_onSearchChanged);
-  }
 
   void _onSearchChanged() {
     List<Plane> showResult = [];
@@ -58,8 +55,15 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
     } else {
       showResult = _allResults;
     }
-    setState(() {_searchResult = showResult;
+    setState(() {
+      _searchResult = showResult;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
   }
 
   @override
@@ -81,106 +85,163 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Please select vehicles to compare',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        shadowColor: Colors.red,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        shape: ContinuousRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
-      ),
-      body: _isFirstLaunch
-          ? IntroductionScreen(
-              pages: getPages(),
-              showBackButton: true,
-              back: const Icon(Icons.navigate_before),
-              next: const Icon(Icons.navigate_next),
-              done: Text('Done'),
-              onDone: () {},
-            )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  ToggleButtons(
-                    children: [
-                      Icon(Icons.airplanemode_active),
-                      Icon(Icons.agriculture),
-                      Icon(Icons.not_accessible),
-                      Icon(Icons.directions_boat),
-                    ],
-                    isSelected: _toggleButtons,
-                    constraints: BoxConstraints(minWidth: (screenSize.width - 36) / 4),
-                    borderRadius: BorderRadius.circular(30),
-                    onPressed: (int index) {
-                      setState(() {
-                        _toggleButtons = [false, false, false, false];
-                        _toggleButtons[index] = true;
-                      });
-                    },
-                  ),
-                  Row(
-                    children: [
-                      ElevatedButton(onPressed: () {}, child: Text('Filter')),
-                      SizedBox(width: 30),
-                      Expanded(
-                        child: TextField(
-                          controller: _searchController,
-                          onChanged: (value) {},
-                          decoration: const InputDecoration(labelText: 'Search', suffixIcon: Icon(Icons.search)),
-                        ),
+      body: SafeArea(
+        child: _isFirstLaunch
+            ? IntroductionScreen(
+                pages: getPages(),
+                showBackButton: true,
+                back: const Icon(Icons.navigate_before),
+                next: const Icon(Icons.navigate_next),
+                done: Text('Done'),
+                onDone: () {},
+              )
+            : CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    expandedHeight: screenSize.height / 5,
+                    floating: true,
+                    flexibleSpace: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                'https://cdn.pixabay.com/photo/2017/06/09/10/40/colour-2386473_960_720.jpg'),
+                            fit: BoxFit.fill),
                       ),
-                    ],
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: _searchResult.length,
-                      itemBuilder: (context, index) {
-                        final _vehicleSelected = _selectedVehicles.contains(_searchResult[index].link);
-                        return ListTile(
-                          leading: Container(
-                            height: 50,
-                            child: Image.network(
-                              _searchResult[index].image,
-                              fit: BoxFit.cover,
-                            ),
+                      height: 300,
+                      child: Column(
+                        children: [
+                          CupertinoSlidingSegmentedControl<int>(
+                            backgroundColor: CupertinoColors.white,
+                            thumbColor: Theme.of(context).colorScheme.primary,
+                            groupValue: groupValue,
+                            children: {
+                              0: Container(
+                                child: Text(
+                                  "text",
+                                  style: TextStyle(fontSize: 22, color: Colors.black),
+                                ),
+                              ),
+                              1: Container(
+                                child: Text(
+                                  "text",
+                                  style: TextStyle(fontSize: 22, color: Colors.black),
+                                ),
+                              ),
+                              2: Container(
+                                child: Text(
+                                  "text",
+                                  style: TextStyle(fontSize: 22, color: Colors.black),
+                                ),
+                              ),
+                            },
+                            onValueChanged: (value) {
+                              setState(() {
+                                groupValue = value;
+                              });
+                            },
                           ),
-                          title: Text('[${_searchResult[index].BRs[1]}] ${_searchResult[index].name}'),
-                          subtitle: Text(_searchResult[index].nation),
-                          trailing: _vehicleSelected ? Icon(Icons.check) : Icon(Icons.check, size: 0),
-                          tileColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          onTap: () {
-                            setState(() {
-                              if (_vehicleSelected) {
-                                _selectedVehicles.remove(_searchResult[index].link);
-                              } else {
-                                _selectedVehicles.add(_searchResult[index].link);
-                              }
-                            });
-                          },
-                          selected: _vehicleSelected,
-                        );
-                      },
-                      //children: snapshot.data!.docs
+                          Row(
+                            children: [
+                              ElevatedButton(onPressed: () {}, child: Text('Filter')),
+                              SizedBox(width: 30),
+                              Expanded(
+                                child: TextField(
+                                  controller: _searchController,
+                                  onChanged: (value) {},
+                                  decoration: const InputDecoration(labelText: 'Search', suffixIcon: Icon(Icons.search)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                  // SliverFillRemaining(
+                  //   child: Column(
+                  //     children: [
+                  //
+                  //       Expanded(
+                  //         child: ListView.builder(
+                  //           shrinkWrap: true,
+                  //           physics: const BouncingScrollPhysics(),
+                  //           itemCount: _searchResult.length,
+                  //           itemBuilder: (context, index) {
+                  //             final _vehicleSelected = _selectedVehicles.contains(_searchResult[index].link);
+                  //             return ListTile(
+                  //               leading: Container(
+                  //                 height: 50,
+                  //                 child: SvgPicture.asset(
+                  //                   'assets/icons/${_searchResult[index].nation}.svg',
+                  //                   height: screenSize.height / 20,
+                  //                 ),
+                  //               ),
+                  //               title: Text('[${_searchResult[index].BRs[1]}] ${_searchResult[index].name}'),
+                  //               subtitle: Text(_searchResult[index].nation),
+                  //               trailing: _vehicleSelected ? Icon(Icons.check) : Icon(Icons.check, size: 0),
+                  //               tileColor: Colors.white,
+                  //               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   if (_vehicleSelected) {
+                  //                     _selectedVehicles.remove(_searchResult[index].link);
+                  //                   } else {
+                  //                     _selectedVehicles.add(_searchResult[index].link);
+                  //                   }
+                  //                 });
+                  //               },
+                  //               selected: _vehicleSelected,
+                  //             );
+                  //           },
+                  //           //children: snapshot.data!.docs
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final _vehicleSelected = _selectedVehicles.contains(_searchResult[index].link);
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: ListTile(
+                            leading: Container(
+                              height: 50,
+                              child: SvgPicture.asset(
+                                'assets/icons/${_searchResult[index].nation}.svg',
+                                height: screenSize.height / 20,
+                              ),
+                            ),
+                            title: Text('[${_searchResult[index].BRs[1]}] ${_searchResult[index].name}'),
+                            subtitle: Text(_searchResult[index].nation),
+                            trailing: _vehicleSelected ? Icon(Icons.check) : Icon(Icons.check, size: 0),
+                            tileColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            onTap: () {
+                              setState(() {
+                                if (_vehicleSelected) {
+                                  _selectedVehicles.remove(_searchResult[index].link);
+                                } else {
+                                  _selectedVehicles.add(_searchResult[index].link);
+                                }
+                              });
+                            },
+                            selected: _vehicleSelected,
+                          ),
+                        );
+                      },
+                    ),
+                  )
                 ],
               ),
-            ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 20),
-        child: FloatingActionButton.extended(
-          elevation: 0,
-          icon: Icon(Icons.image),
-          label: Text('Compare'),
-          onPressed: () {},
-        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 0,
+        icon: Icon(Icons.image),
+        label: Text('Compare'),
+        onPressed: () {},
       ),
     );
   }

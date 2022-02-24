@@ -25,7 +25,7 @@ Future<void> main() async {
             primarySwatch: Colors.red,
           ),
           //textTheme: GoogleFonts.oxygenTextTheme()
-          scaffoldBackgroundColor: Color(0xFFF6F6FA),
+          scaffoldBackgroundColor: Color(0xFFA5A5A5),
         ),
         darkTheme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
