@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
 
   bool _isFirstLaunch = false;
   int? groupValue = 0;
+
   //List<bool> _toggleButtons = [false, false, false, false];
   List<String> _selectedVehicles = [];
   final _searchController = TextEditingController();
@@ -83,7 +85,8 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.of(context).size;
+    final appbarSize = AppBar().preferredSize.height;
     return Scaffold(
       body: SafeArea(
         child: _isFirstLaunch
@@ -98,62 +101,86 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
             : CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    systemOverlayStyle: SystemUiOverlayStyle.dark,
                     automaticallyImplyLeading: false,
-                    expandedHeight: screenSize.height / 5,
+                    expandedHeight: appbarSize*3,
                     floating: true,
-                    flexibleSpace: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                'https://cdn.pixabay.com/photo/2017/06/09/10/40/colour-2386473_960_720.jpg'),
-                            fit: BoxFit.fill),
+                    snap: true,
+                    pinned: true,
+                    elevation: 0,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage('https://cdn.pixabay.com/photo/2017/06/09/10/40/colour-2386473_960_720.jpg'), fit: BoxFit.fill),
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20,),
+                            CupertinoSlidingSegmentedControl<int>(
+                              backgroundColor: CupertinoColors.white,
+                              thumbColor: Theme.of(context).colorScheme.primary,
+                              groupValue: groupValue,
+                              children: {
+                                0: Container(
+                                  child: Text(
+                                    "Aviation",
+                                    style: TextStyle(fontSize: 22, color: Colors.black),
+                                  ),
+                                ),
+                                1: Container(
+                                  child: Text(
+                                    "Army",
+                                    style: TextStyle(fontSize: 22, color: Colors.black),
+                                  ),
+                                ),
+                                2: Container(
+                                  child: Text(
+                                    "Ships",
+                                    style: TextStyle(fontSize: 22, color: Colors.black),
+                                  ),
+                                ),
+                              },
+                              onValueChanged: (value) {
+                                setState(() {
+                                  groupValue = value;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 20,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Planes: ',
+                                  style: TextStyle(color: Colors.white, fontSize: 30),
+                                ),
+                                Text(
+                                  '640',
+                                  style: TextStyle(color: Colors.white, fontSize: 30),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      height: 300,
-                      child: Column(
+                    ),
+                    bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(appbarSize),
+                      child: Row(
                         children: [
-                          CupertinoSlidingSegmentedControl<int>(
-                            backgroundColor: CupertinoColors.white,
-                            thumbColor: Theme.of(context).colorScheme.primary,
-                            groupValue: groupValue,
-                            children: {
-                              0: Container(
-                                child: Text(
-                                  "text",
-                                  style: TextStyle(fontSize: 22, color: Colors.black),
-                                ),
-                              ),
-                              1: Container(
-                                child: Text(
-                                  "text",
-                                  style: TextStyle(fontSize: 22, color: Colors.black),
-                                ),
-                              ),
-                              2: Container(
-                                child: Text(
-                                  "text",
-                                  style: TextStyle(fontSize: 22, color: Colors.black),
-                                ),
-                              ),
-                            },
-                            onValueChanged: (value) {
-                              setState(() {
-                                groupValue = value;
-                              });
-                            },
+                          SizedBox(width: 30),
+                          ElevatedButton(onPressed: () {}, child: Text('Filter',style: TextStyle(color: Colors.white),)),
+                          SizedBox(width: 30),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              onChanged: (value) {},
+                              decoration: const InputDecoration(labelText: 'Search', suffixIcon: Icon(Icons.search)),
+                              style: TextStyle(fontSize: 14),
+                            ),
                           ),
-                          Row(
-                            children: [
-                              ElevatedButton(onPressed: () {}, child: Text('Filter')),
-                              SizedBox(width: 30),
-                              Expanded(
-                                child: TextField(
-                                  controller: _searchController,
-                                  onChanged: (value) {},
-                                  decoration: const InputDecoration(labelText: 'Search', suffixIcon: Icon(Icons.search)),
-                                ),
-                              ),
-                            ],
-                          ),
+                          SizedBox(width: 30),
                         ],
                       ),
                     ),
