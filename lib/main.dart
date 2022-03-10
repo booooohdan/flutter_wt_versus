@@ -24,7 +24,10 @@ Future<void> main() async {
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.red,
           ),
-          //textTheme: GoogleFonts.oxygenTextTheme()
+          textTheme: TextTheme(
+            button: GoogleFonts.oxygen(
+                fontSize: 14, color: Colors.yellow, fontWeight: FontWeight.bold),
+          ),
           scaffoldBackgroundColor: Color(0xFFA5A5A5),
         ),
         darkTheme: ThemeData.dark(),

@@ -41,6 +41,7 @@ class BottomNavBar extends StatelessWidget {
         colorBehindNavBar: Colors.white,
       ),
       navBarStyle: NavBarStyle.style1,
+      resizeToAvoidBottomInset: true,
     );
   }
 }

@@ -1,21 +1,4 @@
 class Heli {
-  String link;
-  String name;
-  String image;
-  String nation;
-  String rank;
-  List<String> BRs;
-  bool isPremium;
-  List<String> heliClass;
-  List<String> features;
-  String maxAltitude;
-  String engineName;
-  String weight;
-  String crew;
-  String speed;
-  String flutterStructural;
-  List<String> repairCosts;
-
   Heli({
     required this.link,
     required this.name,
@@ -34,6 +17,23 @@ class Heli {
     required this.flutterStructural,
     required this.repairCosts,
   });
+
+  String link;
+  String name;
+  String image;
+  String nation;
+  String rank;
+  List<String> BRs;
+  bool isPremium;
+  List<String> heliClass;
+  List<String> features;
+  String maxAltitude;
+  String engineName;
+  String weight;
+  String crew;
+  String speed;
+  String flutterStructural;
+  List<String> repairCosts;
 
   Map<String, dynamic> toMap() {
     return {

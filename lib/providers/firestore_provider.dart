@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../models/plane.dart';
 
 class FirestoreProvider with ChangeNotifier {
+  // Provider Example
+  //
   // late int _intValue;
   //
   // int get intValue => _intValue;
@@ -42,7 +44,7 @@ class FirestoreProvider with ChangeNotifier {
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
             planeClass: doc['tankClass'].cast<String>(),
-            //FIX THIS TO planeClass
+            //TODO: FIX THIS TO planeClass
             features: doc['features'].cast<String>(),
             turnTime: doc['turnTime'],
             maxAltitude: doc['maxAltitude'],

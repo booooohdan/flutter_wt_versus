@@ -1,26 +1,4 @@
 class Tank {
-  String link;
-  String name;
-  String image;
-  String nation;
-  String rank;
-  List<String> BRs;
-  bool isPremium;
-  List<String> tankClass;
-  List<String> features;
-  String crew;
-  String weight;
-  List<String> vertGuidance;
-  List<String> armorHull;
-  List<String> armorTurret;
-  List<String> speeds;
-  List<String> reverseSpeeds;
-  List<String> enginePowers;
-  List<String> powerToWeights;
-  List<String> repairCosts;
-  String reloadTime;
-  String cannon;
-
   Tank({
     required this.link,
     required this.name,
@@ -44,6 +22,28 @@ class Tank {
     required this.reloadTime,
     required this.cannon,
   });
+
+  String link;
+  String name;
+  String image;
+  String nation;
+  String rank;
+  List<String> BRs;
+  bool isPremium;
+  List<String> tankClass;
+  List<String> features;
+  String crew;
+  String weight;
+  List<String> vertGuidance;
+  List<String> armorHull;
+  List<String> armorTurret;
+  List<String> speeds;
+  List<String> reverseSpeeds;
+  List<String> enginePowers;
+  List<String> powerToWeights;
+  List<String> repairCosts;
+  String reloadTime;
+  String cannon;
 
   Map<String, dynamic> toMap() {
     return {

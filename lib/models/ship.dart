@@ -1,21 +1,4 @@
 class Ship {
-  String link;
-  String name;
-  String image;
-  String nation;
-  String rank;
-  List<String> BRs;
-  bool isPremium;
-  List<String> shipClass;
-  List<String> features;
-  String numbOfSection;
-  String displacement;
-  String crew;
-  List<String> armors;
-  List<String> speeds;
-  List<String> repairCosts;
-  List<String> turrets;
-
   Ship({
     required this.link,
     required this.name,
@@ -34,6 +17,23 @@ class Ship {
     required this.repairCosts,
     required this.turrets,
   });
+
+  String link;
+  String name;
+  String image;
+  String nation;
+  String rank;
+  List<String> BRs;
+  bool isPremium;
+  List<String> shipClass;
+  List<String> features;
+  String numbOfSection;
+  String displacement;
+  String crew;
+  List<String> armors;
+  List<String> speeds;
+  List<String> repairCosts;
+  List<String> turrets;
 
   Map<String, dynamic> toMap() {
     return {
