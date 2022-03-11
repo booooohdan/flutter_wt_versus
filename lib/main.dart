@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await MobileAds.instance.initialize();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Color(0xFF0000FF)));
   runApp(
     MultiProvider(
       providers: [
@@ -25,17 +27,13 @@ Future<void> main() async {
             primarySwatch: Colors.red,
           ),
           textTheme: TextTheme(
-            button: GoogleFonts.oxygen(
-                fontSize: 14, color: Colors.yellow, fontWeight: FontWeight.bold),
+            button: GoogleFonts.oxygen(fontSize: 14, color: Colors.yellow, fontWeight: FontWeight.bold),
           ),
           scaffoldBackgroundColor: Color(0xFFA5A5A5),
         ),
         darkTheme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
         home: BottomNavBar(),
-        // routes: {
-        //   '/': (context) => const ComparisonScreen(),
-        // },
       ),
     ),
   );

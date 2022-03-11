@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:wt_versus/screens/comparison_screen.dart';
+import 'package:wt_versus/screens/select_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
   final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
 
   List<Widget> _buildScreens() {
     return [
-      ComparisonScreen(),
-      ComparisonScreen(),
+      SelectScreen(),
+      SelectScreen(),
     ];
   }
 

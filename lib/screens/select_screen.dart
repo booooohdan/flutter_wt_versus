@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:wt_versus/models/plane.dart';
 import 'package:wt_versus/providers/firestore_provider.dart';
+import 'package:wt_versus/screens/plane_comparison_screen.dart';
 import 'package:wt_versus/utilities/introduction_screen_list.dart';
 
-class ComparisonScreen extends StatefulWidget {
-  const ComparisonScreen({Key? key}) : super(key: key);
+class SelectScreen extends StatefulWidget {
+  const SelectScreen({Key? key}) : super(key: key);
 
   @override
-  _ComparisonScreenState createState() => _ComparisonScreenState();
+  _SelectScreenState createState() => _SelectScreenState();
 }
 
-class _ComparisonScreenState extends State<ComparisonScreen> {
+class _SelectScreenState extends State<SelectScreen> {
   bool _isFirstLaunch = false; //TODO: Change to shared preference (default is true)
   bool _isFirstInit = false;
   int? _groupValue = 0;
@@ -87,8 +87,6 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
             : CustomScrollView(
                 slivers: [
                   SliverAppBar(
-                    systemOverlayStyle: SystemUiOverlayStyle.dark,
-                    automaticallyImplyLeading: false,
                     expandedHeight: appbarSize * 3,
                     floating: true,
                     snap: true,
@@ -146,7 +144,7 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                                   style: TextStyle(color: Colors.white, fontSize: 30),
                                 ),
                                 Text(
-                                  _allResults.length.toString(),
+                                  _searchResult.length.toString(),
                                   style: TextStyle(color: Colors.white, fontSize: 30),
                                 ),
                               ],
@@ -174,7 +172,12 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
                             child: TextField(
                               controller: _searchController,
                               onChanged: (value) {},
-                              decoration: const InputDecoration(labelText: 'Search', suffixIcon: Icon(Icons.search)),
+                              decoration: const InputDecoration(
+                                labelText: 'Search',
+                                labelStyle: TextStyle(color: Colors.white),
+                                suffixIcon: Icon(Icons.search),
+                                suffixIconColor: Colors.white,
+                              ),
                               style: TextStyle(fontSize: 14),
                             ),
                           ),
@@ -225,7 +228,12 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
         elevation: 0,
         icon: Icon(Icons.image),
         label: Text('Compare'),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
+          );
+        },
       ),
     );
   }
