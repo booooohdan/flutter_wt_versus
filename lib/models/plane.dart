@@ -21,6 +21,8 @@ class Plane {
     required this.flutterStructural,
     required this.flutterGear,
     required this.repairCosts,
+    required this.weapons,
+    required this.turrets,
   });
 
   String link;
@@ -44,4 +46,6 @@ class Plane {
   String flutterStructural;
   String flutterGear;
   List<String> repairCosts;
+  List<String> weapons;
+  List<String> turrets;
 }

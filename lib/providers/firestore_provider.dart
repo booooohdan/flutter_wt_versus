@@ -43,8 +43,7 @@ class FirestoreProvider with ChangeNotifier {
             rank: doc['rank'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
-            planeClass: doc['tankClass'].cast<String>(),
-            //TODO: FIX THIS TO planeClass
+            planeClass: doc['planeClass'].cast<String>(),
             features: doc['features'].cast<String>(),
             turnTime: doc['turnTime'],
             maxAltitude: doc['maxAltitude'],
@@ -58,10 +57,12 @@ class FirestoreProvider with ChangeNotifier {
             flutterStructural: doc['flutterStructural'],
             flutterGear: doc['flutterGear'],
             repairCosts: doc['repairCosts'].cast<String>(),
+            weapons: doc['weapons'].cast<String>(),
+            turrets: doc['turrets'].cast<String>(),
           );
 
           planesList.add(plane);
-            }));
+        }));
 
     return planesList;
   }

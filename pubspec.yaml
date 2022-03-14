@@ -51,6 +51,7 @@ dependencies:
   firestore_cache: ^2.2.0
   introduction_screen: ^3.0.0
   persistent_bottom_nav_bar: ^4.0.2
+  truncate: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -122,5 +123,10 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Symbols
+      fonts:
+        - asset: assets/fonts/symbols_skyquake.ttf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

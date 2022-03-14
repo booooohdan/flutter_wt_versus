@@ -20,7 +20,7 @@ class _SelectScreenState extends State<SelectScreen> {
   bool _isFirstInit = false;
   int? _groupValue = 0;
 
-  List<String> _selectedVehicles = [];
+  List<Plane> _selectedVehicles = [];
   List<Plane> _allResults = [];
   List<Plane> _searchResult = [];
   final _searchController = TextEditingController();
@@ -157,7 +157,7 @@ class _SelectScreenState extends State<SelectScreen> {
                       preferredSize: Size.fromHeight(appbarSize),
                       child: Row(
                         children: [
-                          SizedBox(width: 30),
+                          SizedBox(width: 20),
                           ElevatedButton(
                             onPressed: () {
                               //TODO: Add filters
@@ -167,7 +167,7 @@ class _SelectScreenState extends State<SelectScreen> {
                               style: theme.textTheme.button,
                             ),
                           ),
-                          SizedBox(width: 30),
+                          SizedBox(width: 20),
                           Expanded(
                             child: TextField(
                               controller: _searchController,
@@ -181,7 +181,18 @@ class _SelectScreenState extends State<SelectScreen> {
                               style: TextStyle(fontSize: 14),
                             ),
                           ),
-                          SizedBox(width: 30),
+                          SizedBox(width: 20),
+                          ElevatedButton(
+                            onPressed: () {
+                              _selectedVehicles.clear();
+                              setState(() {});
+                            },
+                            child: Text(
+                              'Clear',
+                              style: theme.textTheme.button,
+                            ),
+                          ),
+                          SizedBox(width: 20),
                         ],
                       ),
                     ),
@@ -189,7 +200,7 @@ class _SelectScreenState extends State<SelectScreen> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        final _vehicleSelected = _selectedVehicles.contains(_searchResult[index].link);
+                        final _vehicleSelected = _selectedVehicles.contains(_searchResult[index]);
                         return Padding(
                           padding: const EdgeInsets.all(8),
                           child: ListTile(
@@ -208,9 +219,9 @@ class _SelectScreenState extends State<SelectScreen> {
                             onTap: () {
                               setState(() {
                                 if (_vehicleSelected) {
-                                  _selectedVehicles.remove(_searchResult[index].link);
+                                  _selectedVehicles.remove(_searchResult[index]);
                                 } else {
-                                  _selectedVehicles.add(_searchResult[index].link);
+                                  _selectedVehicles.add(_searchResult[index]);
                                 }
                               });
                             },

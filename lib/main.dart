@@ -28,8 +28,9 @@ Future<void> main() async {
           ),
           textTheme: TextTheme(
             button: GoogleFonts.oxygen(fontSize: 14, color: Colors.yellow, fontWeight: FontWeight.bold),
+            headline1: GoogleFonts.roboto(fontSize: 18, color: Colors.white),
           ),
-          scaffoldBackgroundColor: Color(0xFFA5A5A5),
+          scaffoldBackgroundColor: Color(0xFFDCDCDC),
         ),
         darkTheme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
