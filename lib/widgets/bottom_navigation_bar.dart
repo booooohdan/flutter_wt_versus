@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:wt_versus/screens/feedback_screen.dart';
 import 'package:wt_versus/screens/select_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -8,7 +9,7 @@ class BottomNavBar extends StatelessWidget {
   List<Widget> _buildScreens() {
     return [
       SelectScreen(),
-      SelectScreen(),
+      FeedbackScreen(),
     ];
   }
 
@@ -23,8 +24,8 @@ class BottomNavBar extends StatelessWidget {
           inactiveColorPrimary: Colors.grey,
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.settings),
-          title: 'Settings',
+          icon: Icon(Icons.feedback),
+          title: 'Feedback',
           activeColorPrimary: Theme.of(context).colorScheme.primary,
           inactiveColorPrimary: Colors.grey,
         ),

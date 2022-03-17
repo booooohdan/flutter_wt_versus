@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/providers/google_signin_provider.dart';
+import 'package:wt_versus/screens/signup_screen.dart';
 import 'package:wt_versus/widgets/bottom_navigation_bar.dart';
 
 import '../providers/firestore_provider.dart';
@@ -18,6 +21,9 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider<FirestoreProvider>(
           create: (_) => FirestoreProvider(),
+        ),
+        ChangeNotifierProvider<GoogleSignInProvider>(
+          create: (_) => GoogleSignInProvider(),
         ),
       ],
       child: MaterialApp(
@@ -34,7 +40,20 @@ Future<void> main() async {
         ),
         darkTheme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
-        home: BottomNavBar(),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData) {
+              return BottomNavBar();
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Something Went Wrong!'));
+            } else {
+              return SignUpScreen();
+            }
+          },
+        ), //BottomNavBar(),
       ),
     ),
   );
