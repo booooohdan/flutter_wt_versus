@@ -75,68 +75,49 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final picWidth = screenSize.width / 4;
-    final picHeight = picWidth / 1.5;
-    final appbarSize = AppBar().preferredSize.height;
     final theme = Theme.of(context);
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Planes'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: CupertinoSlidingSegmentedControl<int>(
+                backgroundColor: CupertinoColors.white,
+                thumbColor: theme.colorScheme.primary,
+                groupValue: _gameMode,
+                children: {
+                  0: Container(
+                    child: Text(
+                      'AB',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
-                  Text(
-                    'Planes',
-                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: CupertinoSlidingSegmentedControl<int>(
-                      backgroundColor: CupertinoColors.white,
-                      thumbColor: theme.colorScheme.primary,
-                      groupValue: _gameMode,
-                      children: {
-                        0: Container(
-                          child: Text(
-                            'AB',
-                            style: TextStyle(fontSize: 18, color: Colors.black),
-                          ),
-                        ),
-                        1: Container(
-                          child: Text(
-                            'RB',
-                            style: TextStyle(fontSize: 18, color: Colors.black),
-                          ),
-                        ),
-                        2: Container(
-                          child: Text(
-                            'SB',
-                            style: TextStyle(fontSize: 18, color: Colors.black),
-                          ),
-                        ),
-                      },
-                      onValueChanged: (value) {
-                        setState(() {
-                          _gameMode = value!;
-                        });
-                      },
+                  1: Container(
+                    child: Text(
+                      'RB',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
                     ),
-                  )
-                ],
+                  ),
+                  2: Container(
+                    child: Text(
+                      'SB',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ),
+                },
+                onValueChanged: (value) {
+                  setState(() {
+                    _gameMode = value!;
+                  });
+                },
               ),
-              height: appbarSize,
-              width: screenSize.width,
-              color: theme.colorScheme.primary,
             ),
+          ],
+        ),
+        body: Column(
+          children: [
             Container(
               height: screenSize.height / 7,
               child: Padding(
@@ -290,7 +271,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
             SizedBox(height: 20.0),
             ExpansionTile(
               title: Text(
-                "Flight characteristics",
+                'Flight characteristics',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
               children: <Widget>[
@@ -337,10 +318,13 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           separatorBuilder: (context, index) {
                             return Divider();
                           },
-                        shrinkWrap: true,
+                          shrinkWrap: true,
                           itemCount: widget.receivedData[indexController1].weapons.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController1].weapons[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController1].weapons[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                     Expanded(
@@ -351,7 +335,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           shrinkWrap: true,
                           itemCount: widget.receivedData[indexController2].weapons.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController2].weapons[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController2].weapons[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                     Expanded(
@@ -362,7 +349,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           shrinkWrap: true,
                           itemCount: widget.receivedData[indexController3].weapons.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController3].weapons[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController3].weapons[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                     Expanded(
@@ -373,7 +363,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           shrinkWrap: true,
                           itemCount: widget.receivedData[indexController4].weapons.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController4].weapons[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController4].weapons[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                   ],
@@ -390,7 +383,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           shrinkWrap: true,
                           itemCount: widget.receivedData[indexController1].turrets.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController1].turrets[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController1].turrets[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                     Expanded(
@@ -401,7 +397,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           shrinkWrap: true,
                           itemCount: widget.receivedData[indexController2].turrets.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController2].turrets[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController2].turrets[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                     Expanded(
@@ -412,7 +411,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           shrinkWrap: true,
                           itemCount: widget.receivedData[indexController3].turrets.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController3].turrets[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController3].turrets[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                     Expanded(
@@ -423,7 +425,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           shrinkWrap: true,
                           itemCount: widget.receivedData[indexController4].turrets.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Text(widget.receivedData[indexController4].turrets[index], style: TextStyle(fontSize: 12),);
+                            return Text(
+                              widget.receivedData[indexController4].turrets[index],
+                              style: TextStyle(fontSize: 12),
+                            );
                           }),
                     ),
                   ],

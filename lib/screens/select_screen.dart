@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:wt_versus/models/plane.dart';
-import 'package:wt_versus/providers/firestore_provider.dart';
-import 'package:wt_versus/screens/plane_comparison_screen.dart';
-import 'package:wt_versus/utilities/introduction_screen_list.dart';
+
+import '../models/plane.dart';
+import '../providers/firestore_provider.dart';
+import '../utilities/introduction_screen_list.dart';
+import 'plane_comparison_screen.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class SelectScreen extends StatefulWidget {
 }
 
 class _SelectScreenState extends State<SelectScreen> {
-  bool _isFirstLaunch = false; //TODO: Change to shared preference (default is true)
+  bool _isFirstLaunch = true; //TODO: Change to shared preference (default is true)
   bool _isFirstInit = false;
   int? _groupValue = 0;
 
@@ -71,9 +72,9 @@ class _SelectScreenState extends State<SelectScreen> {
     final screenSize = MediaQuery.of(context).size;
     final appbarSize = AppBar().preferredSize.height;
     final theme = Theme.of(context);
-    return Scaffold(
-      body: SafeArea(
-        child: _isFirstLaunch
+    return SafeArea(
+      child: Scaffold(
+        body: _isFirstLaunch
             ? IntroductionScreen(
                 pages: getIntroductionPages(),
                 showBackButton: true,
@@ -234,17 +235,17 @@ class _SelectScreenState extends State<SelectScreen> {
                   )
                 ],
               ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 0,
-        icon: Icon(Icons.image),
-        label: Text('Compare'),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
-          );
-        },
+        // floatingActionButton: FloatingActionButton.extended(
+        //   elevation: 0,
+        //   icon: Icon(Icons.image),
+        //   label: Text('Compare'),
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
+        //     );
+        //   },
+        // ),
       ),
     );
   }

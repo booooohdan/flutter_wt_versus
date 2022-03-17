@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:wt_versus/providers/google_signin_provider.dart';
 
-import '../providers/firestore_provider.dart';
+import '../providers/google_signin_provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -15,9 +14,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
           children: [
             Expanded(
               flex: 2,
@@ -30,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Hey There,\nWelcome back',
+                    'Hello there,\nWelcome back',
                     style: Theme.of(context).textTheme.headline4,
                   ),
                 ),
@@ -47,8 +46,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onPressed: () {
                         context.read<GoogleSignInProvider>().googleLogin();
                       },
-                      icon: FaIcon(FontAwesomeIcons.google),
+                      icon: FaIcon(FontAwesomeIcons.google, size: 20,),
                       label: Text('Sign Up with Google'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {},
+                      child: Text('Why do I need login?'),
                     ),
                     // ElevatedButton.icon(
                     //   onPressed: () {
