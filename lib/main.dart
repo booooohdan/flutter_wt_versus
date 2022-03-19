@@ -10,6 +10,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wt_versus/utilities/constants.dart';
 import 'package:wt_versus/utilities/introduction_screen_list.dart';
 
 import '../providers/firestore_provider.dart';
@@ -22,7 +23,13 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await MobileAds.instance.initialize();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Color(0xFF0000FF)));
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: kLightGreyColor,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
   final prefs = await SharedPreferences.getInstance();
   final _skipIntroduction = prefs.getBool('skipIntroduction') ?? false;
   runApp(
@@ -39,15 +46,15 @@ Future<void> main() async {
         title: 'WT Versus',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.red,
+            primarySwatch: Colors.blueGrey,
           ),
           textTheme: TextTheme(
-            button: GoogleFonts.oxygen(fontSize: 14, color: Colors.yellow, fontWeight: FontWeight.bold),
-            headline1: GoogleFonts.roboto(fontSize: 18, color: Colors.white),
+            caption: GoogleFonts.roboto(fontWeight: FontWeight.w600, color: kGreyColor), //SemiBold
           ),
-          scaffoldBackgroundColor: Color(0xFFDCDCDC),
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: AppBarTheme(color: kLightGreyColor)
         ),
-        darkTheme: ThemeData.dark(),
+        //darkTheme: ThemeData.dark(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
