@@ -70,14 +70,13 @@ class _SelectScreenState extends State<SelectScreen> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final appbarSize = AppBar().preferredSize.height;
-    final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: appbarSize * 3,
+              expandedHeight: appbarSize * 2.5,
               floating: true,
               snap: true,
               pinned: true,
@@ -91,33 +90,33 @@ class _SelectScreenState extends State<SelectScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: CupertinoSlidingSegmentedControl<int>(
-                          backgroundColor: kDarkGreyColor,
-                          thumbColor: kLightGreyColor,
+                          backgroundColor: kBlackColor,
+                          thumbColor: Color(0xfff39393),
                           groupValue: _groupValue,
                           padding: EdgeInsets.all(8),
                           children: {
                             0: Container(
                               child: Text(
                                 localizations.planes,
-                                style: TextStyle(fontSize: 18, color: Colors.black),
+                                style: roboto14whiteSemiBold,
                               ),
                             ),
                             1: Container(
                               child: Text(
                                 localizations.army,
-                                style: TextStyle(fontSize: 18, color: Colors.black),
+                                style: roboto14whiteSemiBold,
                               ),
                             ),
                             2: Container(
                               child: Text(
                                 localizations.heli,
-                                style: TextStyle(fontSize: 18, color: Colors.black),
+                                style: roboto14whiteSemiBold,
                               ),
                             ),
                             3: Container(
                               child: Text(
                                 localizations.fleet,
-                                style: TextStyle(fontSize: 18, color: Colors.black),
+                                style: roboto14whiteSemiBold,
                               ),
                             ),
                           },
@@ -130,15 +129,15 @@ class _SelectScreenState extends State<SelectScreen> {
                       ),
                       SizedBox(height: 8),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Planes: ',
-                            style: theme.textTheme.caption,
+                            '${localizations.planes}: ${_searchResult.length.toString()}',
+                            style: roboto12greySemiBold,
                           ),
                           Text(
-                            _searchResult.length.toString(),
-                            style: theme.textTheme.caption,
+                            '${localizations.selected_vehicles}: ${_selectedVehicles.length.toString()}',
+                            style: roboto12greySemiBold,
                           ),
                         ],
                       ),
@@ -152,35 +151,34 @@ class _SelectScreenState extends State<SelectScreen> {
                   color: kLightGreyColor,
                   child: Row(
                     children: [
-                      SizedBox(width: 16),
                       CupertinoButton(
-                        child: Icon(Icons.tune),
-                        onPressed: () {},
+                        child: Icon(Icons.tune, color: kIconGreyColor),
+                        onPressed: () {}, //TODO: Add filters
                       ),
                       Expanded(
-                        child: TextField(
+                        child: CupertinoTextField(
                           controller: _searchController,
                           onChanged: (value) {},
-                          decoration: const InputDecoration(
-                            labelText: 'Search',
-                            labelStyle: TextStyle(color: Colors.white),
-                            suffixIcon: Icon(Icons.search),
-                            suffixIconColor: Colors.white,
+                          prefix: Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Icon(
+                              Icons.search,
+                              color: kTextGreyColor,
+                            ),
                           ),
-                          style: TextStyle(fontSize: 14),
+                          placeholder: localizations.search,
+                          style: roboto14greyMedium,
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          _selectedVehicles.clear();
-                          setState(() {});
-                        },
-                        child: Text(
-                          'Clear',
-                          style: theme.textTheme.button,
-                        ),
-                      ),
-                      SizedBox(width: 16),
+                      _selectedVehicles.isNotEmpty
+                          ? CupertinoButton(
+                              child: Text(localizations.clear, style: roboto14darkGreyMedium),
+                              onPressed: () {
+                                _selectedVehicles.clear();
+                                setState(() {});
+                              },
+                            )
+                          : Container(width: 16),
                     ],
                   ),
                 ),
@@ -195,17 +193,24 @@ class _SelectScreenState extends State<SelectScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         child: ListTile(
-                          leading: Container(
-                            height: 50,
+                          dense: true,
+                          leading: SizedBox(
+                            width: 40,
                             child: SvgPicture.asset(
                               'assets/icons/${_searchResult[index].nation}.svg',
                               height: screenSize.height / 20,
                             ),
                           ),
-                          title: Text('[${_searchResult[index].BRs[1]}] ${_searchResult[index].name}'),
-                          subtitle: Text(_searchResult[index].nation),
-                          trailing: _vehicleSelected ? Icon(Icons.check) : Icon(Icons.check, size: 0),
-                          tileColor: Colors.white,
+                          title: Text(
+                            '[${_searchResult[index].BRs[1]}] ${getSpaceFont(_searchResult[index].name)}',
+                            style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            _searchResult[index].planeClass[0],
+                            style: roboto12greySemiBold,
+                          ),
+                          trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
+                          tileColor: _searchResult[index].isPremium ? kYellow : Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                           onTap: () {
                             setState(() {
@@ -217,6 +222,7 @@ class _SelectScreenState extends State<SelectScreen> {
                             });
                           },
                           selected: _vehicleSelected,
+                          selectedTileColor: kLightGreyColor,
                         ),
                       ),
                     ],
@@ -227,16 +233,18 @@ class _SelectScreenState extends State<SelectScreen> {
             )
           ],
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          elevation: 0,
-          icon: Icon(Icons.image),
-          label: Text(localizations.compare), //TODO: Add counter of selected vehicles
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
-            );
-          },
+        floatingActionButton: SizedBox(
+          height: 50,
+          child: FloatingActionButton.extended(
+            elevation: 0,
+            label: Text(localizations.compare), //TODO: Add counter of selected vehicles
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
+              );
+            },
+          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/plane.dart';
+import '../utilities/constants.dart';
 
 class PlaneComparisonScreen extends StatefulWidget {
   PlaneComparisonScreen({Key? key, required this.receivedData}) : super(key: key);
@@ -36,34 +37,6 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     viewportFraction: 0.6,
     initialPage: 1,
   );
-
-  String getSpaceFont(String text) {
-    if (text.contains('▃')) {
-      return text.replaceAll('▃', '▃     ');
-    }
-    if (text.contains('␠')) {
-      return text.replaceAll('␠', '␠    ');
-    }
-    if (text.contains('▀')) {
-      return text.replaceAll('▀', '▀    ');
-    }
-    if (text.contains('▂')) {
-      return text.replaceAll('▂', '▂    ');
-    }
-    if (text.contains('▄')) {
-      return text.replaceAll('▄', '▄     ');
-    }
-    if (text.contains('▅')) {
-      return text.replaceAll('▅', '▅      ');
-    }
-    if (text.contains('␗')) {
-      return text.replaceAll('␗', '␗     ');
-    }
-    if (text.contains('')) {
-      return text.replaceAll('', '    ');
-    }
-    return text;
-  }
 
   @override
   void dispose() {

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
@@ -45,15 +44,32 @@ Future<void> main() async {
       child: MaterialApp(
         title: 'WT Versus',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.blueGrey,
-          ),
-          textTheme: TextTheme(
-            caption: GoogleFonts.roboto(fontWeight: FontWeight.w600, color: kGreyColor), //SemiBold
-          ),
-          scaffoldBackgroundColor: Colors.white,
-          appBarTheme: AppBarTheme(color: kLightGreyColor)
-        ),
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.blueGrey,
+            ),
+            scaffoldBackgroundColor: Colors.white,
+            appBarTheme: AppBarTheme(
+              color: kLightGreyColor,
+              elevation: 0,
+              toolbarHeight: 76,
+              titleTextStyle: roboto22blackBold,
+            ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                primary: kBlackColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 0,
+              ),
+            ),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+              backgroundColor: kBlackColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 0,
+            )),
         //darkTheme: ThemeData.dark(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
