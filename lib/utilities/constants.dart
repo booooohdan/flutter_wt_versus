@@ -23,6 +23,7 @@ final roboto12greySemiBold = GoogleFonts.roboto(fontSize: 12, color: kTextGreyCo
 final roboto12blackMedium = GoogleFonts.roboto(fontSize: 12, color: kBlackColor, fontWeight: FontWeight.w500);
 final roboto10whiteRegular = GoogleFonts.roboto(fontSize: 10, color: Colors.white, fontWeight: FontWeight.w400);
 final roboto10blackRegular = GoogleFonts.roboto(fontSize: 10, color: kBlackColor, fontWeight: FontWeight.w400);
+final roboto10redRegular = GoogleFonts.roboto(fontSize: 10, color: kRed, fontWeight: FontWeight.w700);
 
 String getSpaceFont(String text) {
   if (text.contains('▃')) {

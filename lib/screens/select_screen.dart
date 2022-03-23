@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../models/plane.dart';
+import '../providers/comparison_provider.dart';
 import '../providers/firestore_provider.dart';
 import '../utilities/constants.dart';
 import 'plane_comparison_screen.dart';
@@ -28,7 +29,7 @@ class _SelectScreenState extends State<SelectScreen> {
   void _onSearchChanged() {
     List<Plane> showResult = [];
     if (_searchController.text != '') {
-      for (var item in _allResults) {
+      for (final item in _allResults) {
         final name = item.name.toLowerCase();
         if (name.contains(_searchController.text.toLowerCase())) {
           showResult.add(item);
@@ -239,10 +240,47 @@ class _SelectScreenState extends State<SelectScreen> {
             elevation: 0,
             label: Text(localizations.compare), //TODO: Add counter of selected vehicles
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
-              );
+              if (_selectedVehicles.length == 2) {
+                context.read<ComparisonProvider>().setInt1Value(0);
+                context.read<ComparisonProvider>().setInt2Value(0);
+                context.read<ComparisonProvider>().setInt3Value(1);
+                context.read<ComparisonProvider>().setInt4Value(1);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
+                );
+              } else if (_selectedVehicles.length == 3) {
+                context.read<ComparisonProvider>().setInt1Value(0);
+                context.read<ComparisonProvider>().setInt2Value(1);
+                context.read<ComparisonProvider>().setInt3Value(2);
+                context.read<ComparisonProvider>().setInt4Value(2);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
+                );
+              } else if (_selectedVehicles.length >= 4) {
+                context.read<ComparisonProvider>().setInt1Value(0);
+                context.read<ComparisonProvider>().setInt2Value(1);
+                context.read<ComparisonProvider>().setInt3Value(2);
+                context.read<ComparisonProvider>().setInt4Value(3);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
+                );
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text('Please select 2 or more vehicles'),
+                          elevation: 0,
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Center(child: const Text('OK')),
+                            ),
+                          ],
+                        ));
+              }
             },
           ),
         ),

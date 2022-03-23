@@ -9,6 +9,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wt_versus/providers/comparison_provider.dart';
 import 'package:wt_versus/utilities/constants.dart';
 import 'package:wt_versus/utilities/introduction_screen_list.dart';
 
@@ -40,36 +41,42 @@ Future<void> main() async {
         ChangeNotifierProvider<GoogleSignInProvider>(
           create: (_) => GoogleSignInProvider(),
         ),
+        ChangeNotifierProvider<ComparisonProvider>(
+          create: (_) => ComparisonProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'WT Versus',
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSwatch(
-              primarySwatch: Colors.blueGrey,
-            ),
-            scaffoldBackgroundColor: Colors.white,
-            appBarTheme: AppBarTheme(
-              color: kLightGreyColor,
-              elevation: 0,
-              toolbarHeight: 76,
-              titleTextStyle: roboto22blackBold,
-            ),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                primary: kBlackColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 0,
-              ),
-            ),
-            floatingActionButtonTheme: FloatingActionButtonThemeData(
-              backgroundColor: kBlackColor,
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.blueGrey,
+          ),
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: AppBarTheme(
+            color: kLightGreyColor,
+            elevation: 0,
+            toolbarHeight: 76,
+            titleTextStyle: roboto22blackBold,
+            iconTheme: IconThemeData(color: kIconGreyColor),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              primary: kBlackColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
               elevation: 0,
-            )),
+            ),
+          ),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: kBlackColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 0,
+          ),
+          dividerColor: Colors.transparent,
+        ),
         //darkTheme: ThemeData.dark(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
