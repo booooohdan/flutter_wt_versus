@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/screens/placeholder_screen.dart';
 
 import '../models/plane.dart';
 import '../providers/comparison_provider.dart';
@@ -69,7 +70,6 @@ class _SelectScreenState extends State<SelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     final appbarSize = AppBar().preferredSize.height;
     final localizations = AppLocalizations.of(context)!;
     return SafeArea(
@@ -153,8 +153,14 @@ class _SelectScreenState extends State<SelectScreen> {
                   child: Row(
                     children: [
                       CupertinoButton(
+                        //TODO: Add filters
                         child: Icon(Icons.tune, color: kIconGreyColor),
-                        onPressed: () {}, //TODO: Add filters
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PlaceholderScreen()),
+                          );
+                        },
                       ),
                       Expanded(
                         child: CupertinoTextField(
@@ -185,60 +191,14 @@ class _SelectScreenState extends State<SelectScreen> {
                 ),
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final _vehicleSelected = _selectedVehicles.contains(_searchResult[index]);
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: ListTile(
-                          dense: true,
-                          leading: SizedBox(
-                            width: 40,
-                            child: SvgPicture.asset(
-                              'assets/icons/${_searchResult[index].nation}.svg',
-                              height: screenSize.height / 20,
-                            ),
-                          ),
-                          title: Text(
-                            '[${_searchResult[index].BRs[1]}] ${getSpaceFont(_searchResult[index].name)}',
-                            style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            _searchResult[index].planeClass[0],
-                            style: roboto12greySemiBold,
-                          ),
-                          trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
-                          tileColor: _searchResult[index].isPremium ? kYellow : Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          onTap: () {
-                            setState(() {
-                              if (_vehicleSelected) {
-                                _selectedVehicles.remove(_searchResult[index]);
-                              } else {
-                                _selectedVehicles.add(_searchResult[index]);
-                              }
-                            });
-                          },
-                          selected: _vehicleSelected,
-                          selectedTileColor: kLightGreyColor,
-                        ),
-                      ),
-                    ],
-                  );
-                },
-                childCount: _searchResult.length,
-              ),
-            )
+            selectSliverList(_groupValue!)
           ],
         ),
         floatingActionButton: SizedBox(
           height: 50,
           child: FloatingActionButton.extended(
             elevation: 0,
-            label: Text(localizations.compare), //TODO: Add counter of selected vehicles
+            label: Text(localizations.compare),
             onPressed: () {
               if (_selectedVehicles.length == 2) {
                 context.read<ComparisonProvider>().setInt1Value(0);
@@ -286,5 +246,115 @@ class _SelectScreenState extends State<SelectScreen> {
         ),
       ),
     );
+  }
+
+  SliverList selectSliverList(int groupValue) {
+    final screenSize = MediaQuery.of(context).size;
+    if (_groupValue == 0) {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final _vehicleSelected = _selectedVehicles.contains(_searchResult[index]);
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    dense: true,
+                    leading: SizedBox(
+                      width: 40,
+                      child: SvgPicture.asset(
+                        'assets/icons/${_searchResult[index].nation}.svg',
+                        height: screenSize.height / 20,
+                      ),
+                    ),
+                    title: Text(
+                      '[${_searchResult[index].BRs[1]}] ${getSpaceFont(_searchResult[index].name)}',
+                      style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      _searchResult[index].planeClass[0],
+                      style: roboto12greySemiBold,
+                    ),
+                    trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
+                    tileColor: _searchResult[index].isPremium ? kYellow : Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    onTap: () {
+                      setState(() {
+                        if (_vehicleSelected) {
+                          _selectedVehicles.remove(_searchResult[index]);
+                        } else {
+                          _selectedVehicles.add(_searchResult[index]);
+                        }
+                      });
+                    },
+                    selected: _vehicleSelected,
+                    selectedTileColor: kLightGreyColor,
+                  ),
+                ),
+              ],
+            );
+          },
+          childCount: _searchResult.length,
+        ),
+      );
+    } else
+      if (_groupValue == 1) {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final _vehicleSelected = _selectedVehicles.contains(_searchResult[index]);
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    dense: true,
+                    leading: SizedBox(
+                      width: 40,
+                      child: SvgPicture.asset(
+                        'assets/icons/${_searchResult[index].nation}.svg',
+                        height: screenSize.height / 20,
+                      ),
+                    ),
+                    title: Text(
+                      '[${_searchResult[index].BRs[1]}] ${getSpaceFont(_searchResult[index].name)}',
+                      style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                      _searchResult[index].planeClass[0],
+                      style: roboto12greySemiBold,
+                    ),
+                    trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
+                    tileColor: _searchResult[index].isPremium ? kYellow : Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    onTap: () {
+                      setState(() {
+                        if (_vehicleSelected) {
+                          _selectedVehicles.remove(_searchResult[index]);
+                        } else {
+                          _selectedVehicles.add(_searchResult[index]);
+                        }
+                      });
+                    },
+                    selected: _vehicleSelected,
+                    selectedTileColor: kLightGreyColor,
+                  ),
+                ),
+              ],
+            );
+          },
+          childCount: _searchResult.length,
+        ),
+      );
+    } else {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate((context, index) {
+          return Center(
+            child: Text('Mock page'),
+          );
+        }, childCount: 1),
+      );
+    }
   }
 }

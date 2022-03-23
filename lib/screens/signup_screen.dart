@@ -76,7 +76,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 50,
                       width: 320,
                       child: ElevatedButton(
-                        onPressed: () {}, //TODO: Implement why login button
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(localizations.why_login),
+                                    content: Text(
+                                        'The security policies of the database we use require user authorization. We use a simple login system through a Google or Apple account, familiar to you from other programs'),
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.of(context).pop(),
+                                        child: Center(child: const Text('OK')),
+                                      ),
+                                    ],
+                                  ));
+                        },
                         child: Text(
                           localizations.why_login,
                           style: roboto14blackBold,
