@@ -16,6 +16,8 @@ class Heli {
     required this.speed,
     required this.flutterStructural,
     required this.repairCosts,
+    required this.weapons,
+    required this.turrets,
   });
 
   String link;
@@ -34,25 +36,6 @@ class Heli {
   String speed;
   String flutterStructural;
   List<String> repairCosts;
-
-  Map<String, dynamic> toMap() {
-    return {
-      'link': link,
-      'name': name,
-      'image': image,
-      'nation': nation,
-      'rank': rank,
-      'BRs': BRs,
-      'isPremium': isPremium,
-      'heliClass': heliClass,
-      'features': features,
-      'maxAltitude': maxAltitude,
-      'engineName': engineName,
-      'weight': weight,
-      'crew': crew,
-      'speed': speed,
-      'flutterStructural': flutterStructural,
-      'repairCosts': repairCosts,
-    };
-  }
+  List<String> weapons;
+  List<String> turrets;
 }

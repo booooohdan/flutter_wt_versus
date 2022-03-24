@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wt_versus/utilities/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../utilities/constants.dart';
 
 class PlaceholderScreen extends StatefulWidget {
   const PlaceholderScreen({Key? key}) : super(key: key);
@@ -11,13 +13,14 @@ class PlaceholderScreen extends StatefulWidget {
 class _PlaceholderScreenState extends State<PlaceholderScreen> {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
             child: Text(
-              'Page under development',
+              localizations.placeholder_title,
               style: roboto22blackBold,
             ),
           ),
@@ -35,7 +38,7 @@ class _PlaceholderScreenState extends State<PlaceholderScreen> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('Back'),
+            child: Text(localizations.placeholder_button),
           ),
         ],
       ),

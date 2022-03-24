@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:wt_versus/screens/placeholder_screen.dart';
 
 import '../models/plane.dart';
+import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../providers/firestore_provider.dart';
+import '../screens/placeholder_screen.dart';
 import '../utilities/constants.dart';
 import 'plane_comparison_screen.dart';
 
@@ -20,27 +21,27 @@ class SelectScreen extends StatefulWidget {
 
 class _SelectScreenState extends State<SelectScreen> {
   bool _isFirstInit = false;
-  int? _groupValue = 0;
+  int? _vehicleTypeValue = 0;
 
-  List<Plane> _selectedVehicles = [];
-  List<Plane> _allResults = [];
-  List<Plane> _searchResult = [];
+  List<Vehicle> _selectedVehicles = [];
+  List<Vehicle> _allVehiclesResults = [];
+  List<Vehicle> _searchVehiclesResult = [];
   final _searchController = TextEditingController();
 
   void _onSearchChanged() {
-    List<Plane> showResult = [];
+    List<Vehicle> showResult = [];
     if (_searchController.text != '') {
-      for (final item in _allResults) {
+      for (final item in _allVehiclesResults) {
         final name = item.name.toLowerCase();
         if (name.contains(_searchController.text.toLowerCase())) {
           showResult.add(item);
         }
       }
     } else {
-      showResult = _allResults;
+      showResult = _allVehiclesResults;
     }
     setState(() {
-      _searchResult = showResult;
+      _searchVehiclesResult = showResult;
     });
   }
 
@@ -55,8 +56,9 @@ class _SelectScreenState extends State<SelectScreen> {
     super.didChangeDependencies();
     if (!_isFirstInit) {
       _isFirstInit = true;
-      _allResults = await context.watch<FirestoreProvider>().getPlanes();
-      _searchResult = _allResults;
+
+      _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedPlanes();
+      _searchVehiclesResult = _allVehiclesResults;
       setState(() {});
     }
   }
@@ -70,8 +72,10 @@ class _SelectScreenState extends State<SelectScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     final appbarSize = AppBar().preferredSize.height;
     final localizations = AppLocalizations.of(context)!;
+    var vehicleName = localizations.planes;
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -93,7 +97,7 @@ class _SelectScreenState extends State<SelectScreen> {
                         child: CupertinoSlidingSegmentedControl<int>(
                           backgroundColor: kBlackColor,
                           thumbColor: Color(0xfff39393),
-                          groupValue: _groupValue,
+                          groupValue: _vehicleTypeValue,
                           padding: EdgeInsets.all(8),
                           children: {
                             0: Container(
@@ -121,9 +125,28 @@ class _SelectScreenState extends State<SelectScreen> {
                               ),
                             ),
                           },
-                          onValueChanged: (value) {
+                          onValueChanged: (value) async {
+                            if (value == 0) {
+                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedPlanes();
+                              vehicleName = localizations.planes;
+                            }
+                            if (value == 1) {
+                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedTanks();
+                              vehicleName = localizations.army;
+                            }
+                            if (value == 2) {
+                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedHelis();
+                              vehicleName = localizations.helicopters;
+                            }
+                            if (value == 3) {
+                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedShips();
+                              vehicleName = localizations.fleet;
+                            }
+                            _searchVehiclesResult = _allVehiclesResults;
+                            _selectedVehicles.clear();
+
                             setState(() {
-                              _groupValue = value;
+                              _vehicleTypeValue = value;
                             });
                           },
                         ),
@@ -133,7 +156,7 @@ class _SelectScreenState extends State<SelectScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${localizations.planes}: ${_searchResult.length.toString()}',
+                            '$vehicleName: ${_searchVehiclesResult.length.toString()}',
                             style: roboto12greySemiBold,
                           ),
                           Text(
@@ -191,7 +214,53 @@ class _SelectScreenState extends State<SelectScreen> {
                 ),
               ),
             ),
-            selectSliverList(_groupValue!)
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final _vehicleSelected = _selectedVehicles.contains(_searchVehiclesResult[index]);
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: ListTile(
+                          dense: true,
+                          leading: SizedBox(
+                            width: 40,
+                            child: SvgPicture.asset(
+                              'assets/icons/${_searchVehiclesResult[index].nation}.svg',
+                              height: screenSize.height / 20,
+                            ),
+                          ),
+                          title: Text(
+                            '[${_searchVehiclesResult[index].BRs[1]}] ${getSpaceFont(_searchVehiclesResult[index].name)}',
+                            style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            _searchVehiclesResult[index].vehicleClass[0],
+                            style: roboto12greySemiBold,
+                          ),
+                          trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
+                          tileColor: _searchVehiclesResult[index].isPremium ? kYellow : Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          onTap: () {
+                            setState(() {
+                              if (_vehicleSelected) {
+                                _selectedVehicles.remove(_searchVehiclesResult[index]);
+                              } else {
+                                _selectedVehicles.add(_searchVehiclesResult[index]);
+                              }
+                            });
+                          },
+                          selected: _vehicleSelected,
+                          selectedTileColor: kLightGreyColor,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                childCount: _searchVehiclesResult.length,
+              ),
+            ),
           ],
         ),
         floatingActionButton: SizedBox(
@@ -199,47 +268,41 @@ class _SelectScreenState extends State<SelectScreen> {
           child: FloatingActionButton.extended(
             elevation: 0,
             label: Text(localizations.compare),
-            onPressed: () {
-              if (_selectedVehicles.length == 2) {
-                context.read<ComparisonProvider>().setInt1Value(0);
-                context.read<ComparisonProvider>().setInt2Value(0);
-                context.read<ComparisonProvider>().setInt3Value(1);
-                context.read<ComparisonProvider>().setInt4Value(1);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
-                );
-              } else if (_selectedVehicles.length == 3) {
-                context.read<ComparisonProvider>().setInt1Value(0);
-                context.read<ComparisonProvider>().setInt2Value(1);
-                context.read<ComparisonProvider>().setInt3Value(2);
-                context.read<ComparisonProvider>().setInt4Value(2);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
-                );
-              } else if (_selectedVehicles.length >= 4) {
-                context.read<ComparisonProvider>().setInt1Value(0);
-                context.read<ComparisonProvider>().setInt2Value(1);
-                context.read<ComparisonProvider>().setInt3Value(2);
-                context.read<ComparisonProvider>().setInt4Value(3);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: _selectedVehicles)),
-                );
-              } else {
-                showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          title: Text('Please select 2 or more vehicles'),
-                          elevation: 0,
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Center(child: const Text('OK')),
-                            ),
-                          ],
-                        ));
+            onPressed: () async {
+              switch (_selectedVehicles.length) {
+                case 0:
+                case 1:
+                  buildShowDialog(context);
+                  return;
+                case 2:
+                  setInitValueForComparison(0, 0, 1, 1);
+                  break;
+                case 3:
+                  setInitValueForComparison(0, 1, 2, 2);
+                  break;
+                default:
+                  setInitValueForComparison(0, 1, 2, 3);
+                  break;
+              }
+
+              switch (_vehicleTypeValue) {
+                case 0:
+                  final List<Plane> vehiclesForComparison = [];
+                  final vehiclesFromFirebase = await context.read<FirestoreProvider>().getPlanes();
+                  for (final item in _selectedVehicles) {
+                    vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+                  }
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
+                  break;
+
+                case 1: //TODO: Add tanks comparison
+                case 2: //TODO: Add helicopters comparison
+                case 3: //TODO: Add ships comparison
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PlaceholderScreen()),
+                  );
+                  break;
               }
             },
           ),
@@ -248,113 +311,27 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
-  SliverList selectSliverList(int groupValue) {
-    final screenSize = MediaQuery.of(context).size;
-    if (_groupValue == 0) {
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final _vehicleSelected = _selectedVehicles.contains(_searchResult[index]);
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    dense: true,
-                    leading: SizedBox(
-                      width: 40,
-                      child: SvgPicture.asset(
-                        'assets/icons/${_searchResult[index].nation}.svg',
-                        height: screenSize.height / 20,
-                      ),
-                    ),
-                    title: Text(
-                      '[${_searchResult[index].BRs[1]}] ${getSpaceFont(_searchResult[index].name)}',
-                      style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      _searchResult[index].planeClass[0],
-                      style: roboto12greySemiBold,
-                    ),
-                    trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
-                    tileColor: _searchResult[index].isPremium ? kYellow : Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    onTap: () {
-                      setState(() {
-                        if (_vehicleSelected) {
-                          _selectedVehicles.remove(_searchResult[index]);
-                        } else {
-                          _selectedVehicles.add(_searchResult[index]);
-                        }
-                      });
-                    },
-                    selected: _vehicleSelected,
-                    selectedTileColor: kLightGreyColor,
-                  ),
-                ),
-              ],
-            );
-          },
-          childCount: _searchResult.length,
-        ),
-      );
-    } else
-      if (_groupValue == 1) {
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final _vehicleSelected = _selectedVehicles.contains(_searchResult[index]);
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    dense: true,
-                    leading: SizedBox(
-                      width: 40,
-                      child: SvgPicture.asset(
-                        'assets/icons/${_searchResult[index].nation}.svg',
-                        height: screenSize.height / 20,
-                      ),
-                    ),
-                    title: Text(
-                      '[${_searchResult[index].BRs[1]}] ${getSpaceFont(_searchResult[index].name)}',
-                      style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      _searchResult[index].planeClass[0],
-                      style: roboto12greySemiBold,
-                    ),
-                    trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
-                    tileColor: _searchResult[index].isPremium ? kYellow : Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    onTap: () {
-                      setState(() {
-                        if (_vehicleSelected) {
-                          _selectedVehicles.remove(_searchResult[index]);
-                        } else {
-                          _selectedVehicles.add(_searchResult[index]);
-                        }
-                      });
-                    },
-                    selected: _vehicleSelected,
-                    selectedTileColor: kLightGreyColor,
-                  ),
-                ),
-              ],
-            );
-          },
-          childCount: _searchResult.length,
-        ),
-      );
-    } else {
-      return SliverList(
-        delegate: SliverChildBuilderDelegate((context, index) {
-          return Center(
-            child: Text('Mock page'),
-          );
-        }, childCount: 1),
-      );
-    }
+  Future<dynamic> buildShowDialog(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(localizations.please_select_2_vehicles),
+        elevation: 0,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Center(child: const Text('OK')),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void setInitValueForComparison(int i, int j, int k, int l) {
+    context.read<ComparisonProvider>().setInt1Value(i);
+    context.read<ComparisonProvider>().setInt2Value(j);
+    context.read<ComparisonProvider>().setInt3Value(k);
+    context.read<ComparisonProvider>().setInt4Value(l);
   }
 }

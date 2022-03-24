@@ -9,13 +9,13 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wt_versus/providers/comparison_provider.dart';
-import 'package:wt_versus/utilities/constants.dart';
-import 'package:wt_versus/utilities/introduction_screen_list.dart';
 
+import '../providers/comparison_provider.dart';
 import '../providers/firestore_provider.dart';
 import '../providers/google_signin_provider.dart';
 import '../screens/signup_screen.dart';
+import '../utilities/constants.dart';
+import '../utilities/introduction_screen_list.dart';
 import '../widgets/bottom_navigation_bar.dart';
 
 Future<void> main() async {
@@ -100,7 +100,7 @@ Future<void> main() async {
               return _skipIntroduction
                   ? BottomNavBar()
                   : IntroductionScreen(
-                      pages: getIntroductionPages(),
+                      pages: getIntroductionPages(context),
                       showBackButton: true,
                       back: const Icon(Icons.navigate_before),
                       next: const Icon(Icons.navigate_next),

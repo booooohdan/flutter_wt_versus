@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:wt_versus/utilities/constants.dart';
+
 import '../providers/google_signin_provider.dart';
 import '../utilities/constants.dart';
 
@@ -82,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               builder: (context) => AlertDialog(
                                     title: Text(localizations.why_login),
                                     content: Text(
-                                        'The security policies of the database we use require user authorization. We use a simple login system through a Google or Apple account, familiar to you from other programs'),
+                                        'The security policies of the database we use require user authorization. We use a simple login system via Google or Apple account, familiar to you from other programs'),
                                     elevation: 0,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(16),

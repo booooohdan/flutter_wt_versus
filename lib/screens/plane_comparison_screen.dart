@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -59,12 +58,13 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     final indexController3 = context.watch<ComparisonProvider>().indexController3;
     final indexController4 = context.watch<ComparisonProvider>().indexController4;
     final screenSize = MediaQuery.of(context).size;
+    final localizations = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           leadingWidth: 48,
           titleSpacing: 0,
-          title: Text('Comparison'),
+          title: Text(localizations.comparison),
           leading: CupertinoButton(
             child: Icon(Icons.chevron_left),
             onPressed: () => Navigator.pop(context),
@@ -79,19 +79,19 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                 children: {
                   0: Container(
                     child: Text(
-                      'AB',
+                      localizations.ab,
                       style: roboto14greyMedium,
                     ),
                   ),
                   1: Container(
                     child: Text(
-                      'RB',
+                      localizations.rb,
                       style: roboto14greyMedium,
                     ),
                   ),
                   2: Container(
                     child: Text(
-                      'SB',
+                      localizations.sb,
                       style: roboto14greyMedium,
                     ),
                   ),

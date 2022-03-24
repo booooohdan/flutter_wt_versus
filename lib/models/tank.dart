@@ -44,30 +44,4 @@ class Tank {
   List<String> repairCosts;
   String reloadTime;
   String cannon;
-
-  Map<String, dynamic> toMap() {
-    return {
-      'link': link,
-      'name': name,
-      'image': image,
-      'nation': nation,
-      'rank': rank,
-      'BRs': BRs,
-      'isPremium': isPremium,
-      'tankClass': tankClass,
-      'features': features,
-      'crew': crew,
-      'weight': weight,
-      'vertGuidance': vertGuidance,
-      'armorHull': armorHull,
-      'armorTurret': armorTurret,
-      'speeds': speeds,
-      'reverseSpeeds': reverseSpeeds,
-      'enginePowers': enginePowers,
-      'powerToWeights': powerToWeights,
-      'repairCosts': repairCosts,
-      'reloadTime': reloadTime,
-      'cannon': cannon,
-    };
-  }
 }
