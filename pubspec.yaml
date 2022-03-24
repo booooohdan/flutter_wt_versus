@@ -27,7 +27,7 @@ dependencies:
   sign_in_with_apple: ^3.3.0
   crypto: ^3.0.1
   #Ads
-  google_mobile_ads: ^0.13.6
+  google_mobile_ads: ^1.1.0
   app_tracking_transparency: ^2.0.2+1
   #Icons
   cupertino_icons: ^1.0.2

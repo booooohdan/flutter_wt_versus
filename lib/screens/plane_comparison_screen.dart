@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../models/plane.dart';
 import '../providers/comparison_provider.dart';
+import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
 import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
@@ -29,12 +31,15 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
   late PageController _controller3;
   late PageController _controller4;
   bool isFirstInit = false;
+  BannerAd? _bannerAd;
+  bool _isBannerAdReady = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!isFirstInit) {
       isFirstInit = true;
+      bannerAdLoad();
       _controller1 = PageController(viewportFraction: 0.6, initialPage: context.watch<ComparisonProvider>().indexController1);
       _controller2 = PageController(viewportFraction: 0.6, initialPage: context.watch<ComparisonProvider>().indexController2);
       _controller3 = PageController(viewportFraction: 0.6, initialPage: context.watch<ComparisonProvider>().indexController3);
@@ -48,6 +53,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     _controller2.dispose();
     _controller3.dispose();
     _controller4.dispose();
+    _bannerAd!.dispose();
     super.dispose();
   }
 
@@ -561,10 +567,44 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                   ],
                 ),
               ),
-            )
+            ),
+            _isBannerAdReady
+                ? Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: _bannerAd!.size.width.toDouble(),
+                      height: _bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
     );
+  }
+
+  void bannerAdLoad() {
+    final adsCollection = AdsCollection();
+    //FIXME: Comment code above, and uncomment below if dart file isn't found
+    // final adsCollection = DebugAdsCollection();
+    _bannerAd = BannerAd(
+      adUnitId: adsCollection.bannerAdUnitId(),
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+    _bannerAd!.load();
   }
 }
