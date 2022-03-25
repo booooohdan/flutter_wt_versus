@@ -1,6 +1,16 @@
 import 'dart:io';
 
 class DebugAdsCollection {
+  String bannerAdUnitId() {
+    if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/6300978111';
+    } else if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/2934735716';
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
+  }
+
   String interstitialAdUnitId() {
     if (Platform.isAndroid) {
       return 'ca-app-pub-3940256099942544/1033173712';
@@ -11,17 +21,7 @@ class DebugAdsCollection {
     }
   }
 
-  String doublePointRewardAdUnitId() {
-    if (Platform.isAndroid) {
-      return 'ca-app-pub-3940256099942544/5224354917';
-    } else if (Platform.isIOS) {
-      return 'ca-app-pub-3940256099942544/1712485313';
-    } else {
-      throw UnsupportedError('Unsupported platform');
-    }
-  }
-
-  String extraLifeRewardAdUnitId() {
+  String rewardedAdUnitId() {
     if (Platform.isAndroid) {
       return 'ca-app-pub-3940256099942544/5224354917';
     } else if (Platform.isIOS) {
