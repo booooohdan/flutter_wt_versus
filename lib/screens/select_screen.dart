@@ -299,20 +299,6 @@ class _SelectScreenState extends State<SelectScreen> {
         final List<Plane> vehiclesForComparison = [];
         final vehiclesFromFirebase = await context.read<FirestoreProvider>().getPlanes();
 
-        // List<String> testList = [];
-        // for(final i in vehiclesFromFirebase){
-        //   if(!testList.contains(i.engineName)){
-        //     testList.add(i.engineName);
-        //   }
-        // }
-        // List<String> testListList = [];
-        // for(final i in vehiclesFromFirebase){
-        //   for(final k in i.features){
-        //     if(!testList.contains(k)){
-        //       testList.add(k);
-        //     }
-        //   }
-
         for (final item in _selectedVehicles) {
           vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
         }
@@ -327,6 +313,23 @@ class _SelectScreenState extends State<SelectScreen> {
           MaterialPageRoute(builder: (context) => PlaceholderScreen()),
         );
         break;
+
+        // final vehiclesFromFirebaseTest = await context.read<FirestoreProvider>().getShips();
+        //
+        // List<String> testList = [];
+        // for(final i in vehiclesFromFirebaseTest){
+        //   if(!testList.contains(i.crew)){
+        //     testList.add(i.crew);
+        //   }
+        // }
+        // List<String> testListList = [];
+        // for(final i in vehiclesFromFirebaseTest){
+        //   for(final k in i.features){
+        //     if(!testListList.contains(k)){
+        //       testListList.add(k);
+        //     }
+        //   }
+        // }
     }
   }
 

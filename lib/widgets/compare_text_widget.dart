@@ -50,100 +50,41 @@ class _CompareTextWidgetState extends State<CompareTextWidget> {
           key: _globalKey,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: widget.list[0].isEmpty
-                  ? Center(
-                      child: Text(
-                        widget.noTitle,
-                        style: roboto10redBold,
-                      ),
-                    )
-                  : ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return Divider(height: 2);
-                      },
-                      shrinkWrap: true,
-                      itemCount: widget.list[0].length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          widget.list[0][index],
-                          style: widget.textStyle,
-                          textAlign: TextAlign.center,
-                        );
-                      }),
-            ),
+            buildListView(0),
             Container(height: _height, width: 1, color: kButtonGreyColor),
-            Expanded(
-              child: widget.list[1].isEmpty
-                  ? Center(
-                      child: Text(
-                        widget.noTitle,
-                        style: roboto10redBold,
-                      ),
-                    )
-                  : ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return Divider(height: 2);
-                      },
-                      shrinkWrap: true,
-                      itemCount: widget.list[1].length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          widget.list[1][index],
-                          style: widget.textStyle,
-                          textAlign: TextAlign.center,
-                        );
-                      }),
-            ),
+            buildListView(1),
             Container(height: _height, width: 1, color: kButtonGreyColor),
-            Expanded(
-              child: widget.list[2].isEmpty
-                  ? Center(
-                      child: Text(
-                        widget.noTitle,
-                        style: roboto10redBold,
-                      ),
-                    )
-                  : ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return Divider(height: 2);
-                      },
-                      shrinkWrap: true,
-                      itemCount: widget.list[2].length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          widget.list[2][index],
-                          style: widget.textStyle,
-                          textAlign: TextAlign.center,
-                        );
-                      }),
-            ),
+            buildListView(2),
             Container(height: _height, width: 1, color: kButtonGreyColor),
-            Expanded(
-              child: widget.list[3].isEmpty
-                  ? Center(
-                      child: Text(
-                        widget.noTitle,
-                        style: roboto10redBold,
-                      ),
-                    )
-                  : ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return Divider(height: 2);
-                      },
-                      shrinkWrap: true,
-                      itemCount: widget.list[3].length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          widget.list[3][index],
-                          style: widget.textStyle,
-                          textAlign: TextAlign.center,
-                        );
-                      }),
-            ),
+            buildListView(3),
           ],
         ),
       ],
+    );
+  }
+
+  Expanded buildListView(paramIndex) {
+    return Expanded(
+      child: widget.list[paramIndex].isEmpty
+          ? Center(
+              child: Text(
+                widget.noTitle,
+                style: roboto10redBold,
+              ),
+            )
+          : ListView.separated(
+              separatorBuilder: (context, index) {
+                return Divider(height: 2);
+              },
+              shrinkWrap: true,
+              itemCount: widget.list[paramIndex].length,
+              itemBuilder: (BuildContext context, int index) {
+                return Text(
+                  widget.list[paramIndex][index],
+                  style: widget.textStyle,
+                  textAlign: TextAlign.center,
+                );
+              }),
     );
   }
 }

@@ -79,69 +79,34 @@ class CompareTilesWidget extends StatelessWidget {
         Row(
           children: [
             SizedBox(width: 5),
-            Expanded(
-              child: Container(
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: colors[0],
-                ),
-                child: Text(
-                  data[0].toString().replaceAll('.0', ''),
-                  style: roboto12blackMedium,
-                ),
-              ),
-            ),
+            buildColoredTile(colors, 0),
             SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: colors[1],
-                ),
-                child: Text(
-                  data[1].toString().replaceAll('.0', ''),
-                  style: roboto12blackMedium,
-                ),
-              ),
-            ),
+            buildColoredTile(colors, 1),
             SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: colors[2],
-                ),
-                child: Text(
-                  data[2].toString().replaceAll('.0', ''),
-                  style: roboto12blackMedium,
-                ),
-              ),
-            ),
+            buildColoredTile(colors, 2),
             SizedBox(width: 10),
-            Expanded(
-              child: Container(
-                height: 40,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: colors[3],
-                ),
-                child: Text(
-                  data[3].toString().replaceAll('.0', ''),
-                  style: roboto12blackMedium,
-                ),
-              ),
-            ),
+            buildColoredTile(colors, 3),
             SizedBox(width: 5),
           ],
         ),
       ],
+    );
+  }
+
+  Expanded buildColoredTile(List<Color> colors, paramIndex) {
+    return Expanded(
+      child: Container(
+        height: 40,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: colors[paramIndex],
+        ),
+        child: Text(
+          data[paramIndex].toString().replaceAll('.0', ''),
+          style: roboto12blackMedium,
+        ),
+      ),
     );
   }
 }

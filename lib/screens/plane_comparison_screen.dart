@@ -9,6 +9,7 @@ import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
 import '../widgets/compare_icon_widget.dart';
+import '../widgets/compare_images_widget.dart';
 import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
@@ -205,18 +206,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           noTitle: 'No rank',
                           textStyle: roboto12blackMedium,
                           list: [
-                            [
-                              widget.receivedData[indexController1].rank,
-                            ],
-                            [
-                              widget.receivedData[indexController2].rank,
-                            ],
-                            [
-                              widget.receivedData[indexController3].rank,
-                            ],
-                            [
-                              widget.receivedData[indexController4].rank,
-                            ],
+                            [widget.receivedData[indexController1].rank],
+                            [widget.receivedData[indexController2].rank],
+                            [widget.receivedData[indexController3].rank],
+                            [widget.receivedData[indexController4].rank],
                           ],
                         ),
                         SizedBox(height: 8),
@@ -337,10 +330,20 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].flutterGear.replaceAll(' ', '')),
                           ],
                         ),
-                        CompareTextWidget(
+                        // CompareTextWidget(
+                        //   title: 'Features',
+                        //   noTitle: 'No features',
+                        //   textStyle: roboto10blackRegular,
+                        //   list: [
+                        //     widget.receivedData[indexController1].features,
+                        //     widget.receivedData[indexController2].features,
+                        //     widget.receivedData[indexController3].features,
+                        //     widget.receivedData[indexController4].features,
+                        //   ],
+                        // ),
+                        CompareImagesWidget(
                           title: 'Features',
                           noTitle: 'No features',
-                          textStyle: roboto10blackRegular,
                           list: [
                             widget.receivedData[indexController1].features,
                             widget.receivedData[indexController2].features,
@@ -442,10 +445,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           noTitle: 'No crew',
                           textStyle: roboto10blackRegular,
                           list: [
-                            [widget.receivedData[indexController1].crew],
-                            [widget.receivedData[indexController2].crew],
-                            [widget.receivedData[indexController3].crew],
-                            [widget.receivedData[indexController4].crew],
+                            ['${widget.receivedData[indexController1].crew} people'],
+                            ['${widget.receivedData[indexController2].crew} people'],
+                            ['${widget.receivedData[indexController3].crew} people'],
+                            ['${widget.receivedData[indexController4].crew} people'],
                           ],
                         ),
                       ],
