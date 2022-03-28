@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
-import '../models/plane.dart';
+import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../utilities/constants.dart';
 
 class ScrollVehiclesWidget extends StatefulWidget {
   const ScrollVehiclesWidget(this.controller, this.receivedData, this.widgetPosition, {Key? key}) : super(key: key);
   final PageController controller;
-  final List<Plane> receivedData;
+  final List<Vehicle> receivedData;
   final int widgetPosition;
 
   @override

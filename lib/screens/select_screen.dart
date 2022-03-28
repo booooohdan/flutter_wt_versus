@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/screens/tank_comparison_screen.dart';
 
 import '../models/plane.dart';
+import '../models/tank.dart';
 import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../providers/firestore_provider.dart';
@@ -302,34 +304,41 @@ class _SelectScreenState extends State<SelectScreen> {
         for (final item in _selectedVehicles) {
           vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
         }
+
         Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
-      case 1: //TODO: Add tanks comparison
-      case 2: //TODO: Add helicopters comparison
-      case 3: //TODO: Add ships comparison
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => PlaceholderScreen()),
-        );
+      case 1:
+        final List<Tank> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getTanks();
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TankComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
-        // final vehiclesFromFirebaseTest = await context.read<FirestoreProvider>().getShips();
-        //
-        // List<String> testList = [];
-        // for(final i in vehiclesFromFirebaseTest){
-        //   if(!testList.contains(i.crew)){
-        //     testList.add(i.crew);
-        //   }
-        // }
-        // List<String> testListList = [];
-        // for(final i in vehiclesFromFirebaseTest){
-        //   for(final k in i.features){
-        //     if(!testListList.contains(k)){
-        //       testListList.add(k);
-        //     }
-        //   }
-        // }
+      case 2: //TODO: Add helicopters comparison
+      case 3: //TODO: Add ships comparison
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceholderScreen()));
+        break;
+
+      // final vehiclesFromFirebaseTest = await context.read<FirestoreProvider>().getShips();
+      //
+      // List<String> testList = [];
+      // for(final i in vehiclesFromFirebaseTest){
+      //   if(!testList.contains(i.crew)){
+      //     testList.add(i.crew);
+      //   }
+      // }
+      // List<String> testListList = [];
+      // for(final i in vehiclesFromFirebaseTest){
+      //   for(final k in i.features){
+      //     if(!testListList.contains(k)){
+      //       testListList.add(k);
+      //     }
+      //   }
+      // }
     }
   }
 

@@ -72,19 +72,22 @@ class _CompareTextWidgetState extends State<CompareTextWidget> {
                 style: roboto10redBold,
               ),
             )
-          : ListView.separated(
-              separatorBuilder: (context, index) {
-                return Divider(height: 2);
-              },
-              shrinkWrap: true,
-              itemCount: widget.list[paramIndex].length,
-              itemBuilder: (BuildContext context, int index) {
-                return Text(
-                  widget.list[paramIndex][index],
-                  style: widget.textStyle,
-                  textAlign: TextAlign.center,
-                );
-              }),
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return Divider(height: 2);
+                  },
+                  shrinkWrap: true,
+                  itemCount: widget.list[paramIndex].length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Text(
+                      widget.list[paramIndex][index],
+                      style: widget.textStyle,
+                      textAlign: TextAlign.center,
+                    );
+                  }),
+            ),
     );
   }
 }

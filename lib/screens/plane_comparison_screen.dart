@@ -5,9 +5,11 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../models/plane.dart';
+import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
+import '../utilities/debug_ads_collection.dart';
 import '../widgets/compare_icon_widget.dart';
 import '../widgets/compare_images_widget.dart';
 import '../widgets/compare_text_widget.dart';
@@ -15,13 +17,17 @@ import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
 
 class PlaneComparisonScreen extends StatefulWidget {
-  PlaneComparisonScreen({Key? key, required this.receivedData}) : super(key: key);
+  PlaneComparisonScreen({
+    required this.receivedData,
+    //required this.receivedSimplifiedData,
+    Key? key,
+  }) : super(key: key);
   final List<Plane> receivedData;
 
+  //final List<Vehicle> receivedSimplifiedData;
+
   @override
-  _PlaneComparisonScreenState createState() {
-    return _PlaneComparisonScreenState();
-  }
+  _PlaneComparisonScreenState createState() => _PlaneComparisonScreenState();
 }
 
 class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
@@ -34,6 +40,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
   bool isFirstInit = false;
   BannerAd? _bannerAd;
   bool _isBannerAdReady = false;
+  final List<Vehicle> simplifiedVehicle = [];
 
   @override
   void didChangeDependencies() {
@@ -41,6 +48,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     if (!isFirstInit) {
       isFirstInit = true;
       bannerAdLoad();
+      convertToVehicle(); //this one need for PageView scroll widget
       _controller1 = PageController(viewportFraction: 0.6, initialPage: context.watch<ComparisonProvider>().indexController1);
       _controller2 = PageController(viewportFraction: 0.6, initialPage: context.watch<ComparisonProvider>().indexController2);
       _controller3 = PageController(viewportFraction: 0.6, initialPage: context.watch<ComparisonProvider>().indexController3);
@@ -66,6 +74,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     final indexController4 = context.watch<ComparisonProvider>().indexController4;
     final screenSize = MediaQuery.of(context).size;
     final localizations = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -120,22 +129,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                 padding: EdgeInsets.all(0),
                 child: Row(
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: ScrollVehiclesWidget(_controller1, widget.receivedData, 1),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: ScrollVehiclesWidget(_controller2, widget.receivedData, 2),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: ScrollVehiclesWidget(_controller3, widget.receivedData, 3),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: ScrollVehiclesWidget(_controller4, widget.receivedData, 4),
-                    ),
+                    Expanded(child: ScrollVehiclesWidget(_controller1, simplifiedVehicle, 1)),
+                    Expanded(child: ScrollVehiclesWidget(_controller2, simplifiedVehicle, 2)),
+                    Expanded(child: ScrollVehiclesWidget(_controller3, simplifiedVehicle, 3)),
+                    Expanded(child: ScrollVehiclesWidget(_controller4, simplifiedVehicle, 4)),
                   ],
                 ),
               ),
@@ -147,21 +144,13 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                     SizedBox(height: 8),
                     CompareTextWidget(
                       title: '',
-                      noTitle: 'No BR',
+                      noTitle: localizations.no_data,
                       textStyle: roboto14blackBold,
                       list: [
-                        [
-                          widget.receivedData[indexController1].BRs[_gameMode],
-                        ],
-                        [
-                          widget.receivedData[indexController2].BRs[_gameMode],
-                        ],
-                        [
-                          widget.receivedData[indexController3].BRs[_gameMode],
-                        ],
-                        [
-                          widget.receivedData[indexController4].BRs[_gameMode],
-                        ],
+                        [widget.receivedData[indexController1].BRs[_gameMode]],
+                        [widget.receivedData[indexController2].BRs[_gameMode]],
+                        [widget.receivedData[indexController3].BRs[_gameMode]],
+                        [widget.receivedData[indexController4].BRs[_gameMode]],
                       ],
                     ),
                     SizedBox(height: 8),
@@ -203,7 +192,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
-                          noTitle: 'No rank',
+                          noTitle: localizations.no_data,
                           textStyle: roboto12blackMedium,
                           list: [
                             [widget.receivedData[indexController1].rank],
@@ -215,7 +204,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
-                          noTitle: 'No class',
+                          noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
                             widget.receivedData[indexController1].planeClass,
@@ -332,7 +321,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         ),
                         // CompareTextWidget(
                         //   title: 'Features',
-                        //   noTitle: 'No features',
+                        //   noTitle: localizations.no_data,
                         //   textStyle: roboto10blackRegular,
                         //   list: [
                         //     widget.receivedData[indexController1].features,
@@ -343,7 +332,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         // ),
                         CompareImagesWidget(
                           title: 'Features',
-                          noTitle: 'No features',
+                          noTitle: localizations.no_data,
                           list: [
                             widget.receivedData[indexController1].features,
                             widget.receivedData[indexController2].features,
@@ -353,7 +342,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         ),
                         CompareTextWidget(
                           title: 'Engine name',
-                          noTitle: 'No engine',
+                          noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
                             [widget.receivedData[indexController1].engineName],
@@ -442,7 +431,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         ),
                         CompareTextWidget(
                           title: 'Crew',
-                          noTitle: 'No crew',
+                          noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
                             ['${widget.receivedData[indexController1].crew} people'],
@@ -466,7 +455,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       children: [
                         CompareTextWidget(
                           title: 'Offensive armament',
-                          noTitle: 'No armament',
+                          noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
                             widget.receivedData[indexController1].weapons,
@@ -477,7 +466,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         ),
                         CompareTextWidget(
                           title: 'Defensive armament',
-                          noTitle: 'No armament',
+                          noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
                             widget.receivedData[indexController1].turrets,
@@ -506,6 +495,20 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
         ),
       ),
     );
+  }
+
+  void convertToVehicle() {
+    for (final i in widget.receivedData) {
+      simplifiedVehicle.add(Vehicle(
+        link: i.link,
+        name: i.name,
+        image: i.image,
+        nation: i.nation,
+        isPremium: i.isPremium,
+        BRs: i.BRs,
+        vehicleClass: i.planeClass,
+      ));
+    }
   }
 
   void bannerAdLoad() {

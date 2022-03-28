@@ -43,6 +43,7 @@ class FirestoreProvider with ChangeNotifier {
           final plane = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
@@ -111,6 +112,7 @@ class FirestoreProvider with ChangeNotifier {
           final tank = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
@@ -177,6 +179,7 @@ class FirestoreProvider with ChangeNotifier {
           final heli = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
@@ -240,6 +243,7 @@ class FirestoreProvider with ChangeNotifier {
           final ship = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
