@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +8,7 @@ import '../models/plane.dart';
 import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
+import '../widgets/compare_icon_widget.dart';
 import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
@@ -144,28 +144,23 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                 child: Column(
                   children: [
                     SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
+                    CompareTextWidget(
+                      title: '',
+                      noTitle: 'No BR',
+                      textStyle: roboto14blackBold,
+                      list: [
+                        [
                           widget.receivedData[indexController1].BRs[_gameMode],
-                          style: roboto14blackBold,
-                        ),
-                        Container(height: 20, width: 1, color: kButtonGreyColor),
-                        Text(
+                        ],
+                        [
                           widget.receivedData[indexController2].BRs[_gameMode],
-                          style: roboto14blackBold,
-                        ),
-                        Container(height: 20, width: 1, color: kButtonGreyColor),
-                        Text(
+                        ],
+                        [
                           widget.receivedData[indexController3].BRs[_gameMode],
-                          style: roboto14blackBold,
-                        ),
-                        Container(height: 20, width: 1, color: kButtonGreyColor),
-                        Text(
+                        ],
+                        [
                           widget.receivedData[indexController4].BRs[_gameMode],
-                          style: roboto14blackBold,
-                        ),
+                        ],
                       ],
                     ),
                     SizedBox(height: 8),
@@ -178,74 +173,64 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       iconColor: kTextGreyColor,
                       collapsedIconColor: kTextGreyColor,
                       children: [
-                        Text(
-                          'Repair Cost',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTilesWidget([
-                          double.parse(widget.receivedData[indexController1].repairCosts[_gameMode].replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController2].repairCosts[_gameMode].replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController3].repairCosts[_gameMode].replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController4].repairCosts[_gameMode].replaceAll(' ', '')),
-                        ], true),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/${widget.receivedData[indexController1].nation}.svg',
-                              height: screenSize.height / 20,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            SvgPicture.asset(
-                              'assets/icons/${widget.receivedData[indexController2].nation}.svg',
-                              height: screenSize.height / 20,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            SvgPicture.asset(
-                              'assets/icons/${widget.receivedData[indexController3].nation}.svg',
-                              height: screenSize.height / 20,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            SvgPicture.asset(
-                              'assets/icons/${widget.receivedData[indexController4].nation}.svg',
-                              height: screenSize.height / 20,
-                            ),
+                        CompareTilesWidget(
+                          title: 'Repair cost',
+                          moreIsBetter: true,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].repairCosts[_gameMode].replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].repairCosts[_gameMode].replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].repairCosts[_gameMode].replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].repairCosts[_gameMode].replaceAll(' ', '')),
                           ],
                         ),
                         SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
+                        CompareIconWidget(
+                          title: '',
+                          data: [
+                            'assets/icons/${widget.receivedData[indexController1].nation}.svg',
+                            'assets/icons/${widget.receivedData[indexController2].nation}.svg',
+                            'assets/icons/${widget.receivedData[indexController3].nation}.svg',
+                            'assets/icons/${widget.receivedData[indexController4].nation}.svg',
+                          ],
+                          tooltipData: [
+                            widget.receivedData[indexController1].nation,
+                            widget.receivedData[indexController2].nation,
+                            widget.receivedData[indexController3].nation,
+                            widget.receivedData[indexController4].nation,
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        CompareTextWidget(
+                          title: '',
+                          noTitle: 'No rank',
+                          textStyle: roboto12blackMedium,
+                          list: [
+                            [
                               widget.receivedData[indexController1].rank,
-                              style: roboto12blackMedium,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            Text(
+                            ],
+                            [
                               widget.receivedData[indexController2].rank,
-                              style: roboto12blackMedium,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            Text(
+                            ],
+                            [
                               widget.receivedData[indexController3].rank,
-                              style: roboto12blackMedium,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            Text(
+                            ],
+                            [
                               widget.receivedData[indexController4].rank,
-                              style: roboto12blackMedium,
-                            ),
+                            ],
                           ],
                         ),
                         SizedBox(height: 8),
-                        CompareTextWidget([
-                          widget.receivedData[indexController1].planeClass,
-                          widget.receivedData[indexController2].planeClass,
-                          widget.receivedData[indexController3].planeClass,
-                          widget.receivedData[indexController4].planeClass,
-                        ], 'No class'),
+                        CompareTextWidget(
+                          title: '',
+                          noTitle: 'No class',
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            widget.receivedData[indexController1].planeClass,
+                            widget.receivedData[indexController2].planeClass,
+                            widget.receivedData[indexController3].planeClass,
+                            widget.receivedData[indexController4].planeClass,
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(height: 8),
@@ -259,162 +244,127 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       collapsedIconColor: kTextGreyColor,
                       initiallyExpanded: true,
                       children: [
-                        Text(
-                          'Max Speed (km/h)',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTilesWidget([
-                          double.parse(widget.receivedData[indexController1].speed.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController2].speed.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController3].speed.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController4].speed.replaceAll(' ', '')),
-                        ], true),
-                        SizedBox(height: 8),
-                        Text(
-                          'at altitude (m)',
-                          style: roboto12greySemiBold,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              widget.receivedData[indexController1].altitudeForSpeed,
-                              style: roboto12greySemiBold,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            Text(
-                              widget.receivedData[indexController2].altitudeForSpeed,
-                              style: roboto12greySemiBold,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            Text(
-                              widget.receivedData[indexController3].altitudeForSpeed,
-                              style: roboto12greySemiBold,
-                            ),
-                            Container(height: 20, width: 1, color: kButtonGreyColor),
-                            Text(
-                              widget.receivedData[indexController4].altitudeForSpeed,
-                              style: roboto12greySemiBold,
-                            ),
+                        CompareTilesWidget(
+                          title: 'Max Speed (km/h)',
+                          moreIsBetter: true,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].speed.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].speed.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].speed.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].speed.replaceAll(' ', '')),
                           ],
                         ),
-                        Text(
-                          'Max Altitude (m)',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTilesWidget([
-                          double.parse(widget.receivedData[indexController1].altitudeForSpeed.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController2].altitudeForSpeed.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController3].altitudeForSpeed.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController4].altitudeForSpeed.replaceAll(' ', '')),
-                        ], true),
-                        SizedBox(height: 8),
-                        Text(
-                          'Turn Time (s)',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTilesWidget([
-                          double.parse(widget.receivedData[indexController1].turnTime.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController2].turnTime.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController3].turnTime.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController4].turnTime.replaceAll(' ', '')),
-                        ], false),
-                        SizedBox(height: 8),
-                        Text(
-                          'Weight (t)',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTilesWidget([
-                          double.parse(widget.receivedData[indexController1].weight.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController2].weight.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController3].weight.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController4].weight.replaceAll(' ', '')),
-                        ], false),
-                        SizedBox(height: 8),
-                        Text(
-                          'Structural destruction (km/h)',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTilesWidget([
-                          double.parse(widget.receivedData[indexController1].flutterStructural.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController2].flutterStructural.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController3].flutterStructural.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController4].flutterStructural.replaceAll(' ', '')),
-                        ], true),
-                        SizedBox(height: 8),
-                        Text(
-                          'Gear destruction (km/h)',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTilesWidget([
-                          double.parse(widget.receivedData[indexController1].flutterGear.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController2].flutterGear.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController3].flutterGear.replaceAll(' ', '')),
-                          double.parse(widget.receivedData[indexController4].flutterGear.replaceAll(' ', '')),
-                        ], true),
-                        SizedBox(height: 8),
-                        Text(
-                          'Features',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        CompareTextWidget([
-                          widget.receivedData[indexController1].features,
-                          widget.receivedData[indexController2].features,
-                          widget.receivedData[indexController3].features,
-                          widget.receivedData[indexController4].features,
-                        ], 'No features'),
-                        SizedBox(height: 8),
-                        Text(
-                          'Engine name',
-                          style: roboto12greySemiBold,
-                        ),
                         SizedBox(height: 8),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Expanded(
                               child: Text(
-                                widget.receivedData[indexController1].engineName,
-                                style: roboto10blackRegular,
+                                '${'at'} ${widget.receivedData[indexController1].altitudeForSpeed} ${'m'}',
+                                style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                widget.receivedData[indexController2].engineName,
-                                style: roboto10blackRegular,
+                                '${'at'} ${widget.receivedData[indexController2].altitudeForSpeed} ${'m'}',
+                                style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                widget.receivedData[indexController3].engineName,
-                                style: roboto10blackRegular,
+                                '${'at'} ${widget.receivedData[indexController3].altitudeForSpeed} ${'m'}',
+                                style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                widget.receivedData[indexController4].engineName,
-                                style: roboto10blackRegular,
+                                '${'at'} ${widget.receivedData[indexController4].altitudeForSpeed} ${'m'}',
+                                style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                           ],
                         ),
+                        CompareTilesWidget(
+                          title: 'Max Altitude (m)',
+                          moreIsBetter: true,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].altitudeForSpeed.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].altitudeForSpeed.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].altitudeForSpeed.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].altitudeForSpeed.replaceAll(' ', '')),
+                          ],
+                        ),
+                        CompareTilesWidget(
+                          title: 'Turn Time (s)',
+                          moreIsBetter: false,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].turnTime.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].turnTime.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].turnTime.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].turnTime.replaceAll(' ', '')),
+                          ],
+                        ),
+                        CompareTilesWidget(
+                          title: 'Weight (t)',
+                          moreIsBetter: false,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].weight.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].weight.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].weight.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].weight.replaceAll(' ', '')),
+                          ],
+                        ),
+                        CompareTilesWidget(
+                          title: 'Structural destruction (km/h)',
+                          moreIsBetter: true,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].flutterStructural.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].flutterStructural.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].flutterStructural.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].flutterStructural.replaceAll(' ', '')),
+                          ],
+                        ),
+                        CompareTilesWidget(
+                          title: 'Gear destruction (km/h)',
+                          moreIsBetter: true,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].flutterGear.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].flutterGear.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].flutterGear.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].flutterGear.replaceAll(' ', '')),
+                          ],
+                        ),
+                        CompareTextWidget(
+                          title: 'Features',
+                          noTitle: 'No features',
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            widget.receivedData[indexController1].features,
+                            widget.receivedData[indexController2].features,
+                            widget.receivedData[indexController3].features,
+                            widget.receivedData[indexController4].features,
+                          ],
+                        ),
+                        CompareTextWidget(
+                          title: 'Engine name',
+                          noTitle: 'No engine',
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            [widget.receivedData[indexController1].engineName],
+                            [widget.receivedData[indexController2].engineName],
+                            [widget.receivedData[indexController3].engineName],
+                            [widget.receivedData[indexController4].engineName],
+                          ],
+                        ),
+                        //TODO Add icons
                         SizedBox(height: 8),
                         Text(
                           'Cooling system',
                           style: roboto12greySemiBold,
                         ),
-                        SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -448,12 +398,12 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             ),
                           ],
                         ),
+                        //TODO Add icons
                         SizedBox(height: 8),
                         Text(
                           'Engine type',
                           style: roboto12greySemiBold,
                         ),
-                        SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -487,43 +437,15 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Crew',
-                          style: roboto12greySemiBold,
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController1].crew,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController2].crew,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController3].crew,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController4].crew,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                        CompareTextWidget(
+                          title: 'Crew',
+                          noTitle: 'No crew',
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            [widget.receivedData[indexController1].crew],
+                            [widget.receivedData[indexController2].crew],
+                            [widget.receivedData[indexController3].crew],
+                            [widget.receivedData[indexController4].crew],
                           ],
                         ),
                       ],
@@ -539,29 +461,28 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       collapsedIconColor: kTextGreyColor,
                       initiallyExpanded: true,
                       children: [
-                        Text(
-                          'Offensive armament',
-                          style: roboto12greySemiBold,
+                        CompareTextWidget(
+                          title: 'Offensive armament',
+                          noTitle: 'No armament',
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            widget.receivedData[indexController1].weapons,
+                            widget.receivedData[indexController2].weapons,
+                            widget.receivedData[indexController3].weapons,
+                            widget.receivedData[indexController4].weapons,
+                          ],
                         ),
-                        SizedBox(height: 8),
-                        CompareTextWidget([
-                          widget.receivedData[indexController1].weapons,
-                          widget.receivedData[indexController2].weapons,
-                          widget.receivedData[indexController3].weapons,
-                          widget.receivedData[indexController4].weapons,
-                        ], 'No armament'),
-                        SizedBox(height: 8),
-                        Text(
-                          'Defensive armament',
-                          style: roboto12greySemiBold,
+                        CompareTextWidget(
+                          title: 'Defensive armament',
+                          noTitle: 'No armament',
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            widget.receivedData[indexController1].turrets,
+                            widget.receivedData[indexController2].turrets,
+                            widget.receivedData[indexController3].turrets,
+                            widget.receivedData[indexController4].turrets,
+                          ],
                         ),
-                        SizedBox(height: 8),
-                        CompareTextWidget([
-                          widget.receivedData[indexController1].turrets,
-                          widget.receivedData[indexController2].turrets,
-                          widget.receivedData[indexController3].turrets,
-                          widget.receivedData[indexController4].turrets,
-                        ], 'No armament'),
                       ],
                     ),
                   ],
@@ -589,7 +510,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     //FIXME: Comment code above, and uncomment below if dart file isn't found
     // final adsCollection = DebugAdsCollection();
     _bannerAd = BannerAd(
-      adUnitId: adsCollection.bannerAdUnitId(),
+      adUnitId: adsCollection.bannerPlaneAdUnitId(),
       request: AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(

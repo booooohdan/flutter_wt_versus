@@ -25,10 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               flex: 3,
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Image.asset(
-                  'assets/icons/icon.png',
-                  width: 144,
-                ),
+                child: Image.asset('assets/icons/icon.png', width: 144),
               ),
             ),
             Expanded(
@@ -56,19 +53,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: 320,
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          context.read<GoogleSignInProvider>().googleLogin();
+                          context.read<GoogleSignInProvider>().googleLogin(); //TODO: Add Apple signup
                         },
                         icon: FaIcon(FontAwesomeIcons.google, size: 20),
                         label: Text(
                           localizations.sign_up,
                           style: roboto14whiteSemiBold,
                         ),
-                        // style: ElevatedButton.styleFrom(
-                        //   primary: kBlackColor,
-                        //   shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(16), // <-- Radius
-                        //   ),
-                        // ),
                       ),
                     ),
                     SizedBox(height: 24),
@@ -97,7 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         child: Text(
                           localizations.why_login,
-                          style: roboto14blackBold,
+                          style: roboto14blackBold
                         ),
                         style: ElevatedButton.styleFrom(
                           primary: kButtonGreyColor,

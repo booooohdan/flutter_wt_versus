@@ -1,104 +1,147 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../utilities/constants.dart';
 
-class CompareTextWidget extends StatelessWidget {
-  const CompareTextWidget(this.list, this.noTitle, {Key? key}) : super(key: key);
-  final List<List<String>> list;
+class CompareTextWidget extends StatefulWidget {
+  const CompareTextWidget({
+    required this.title,
+    required this.noTitle,
+    required this.textStyle,
+    required this.list,
+    Key? key,
+  }) : super(key: key);
+  final String title;
   final String noTitle;
+  final TextStyle textStyle;
+  final List<List<String>> list;
+
+  @override
+  State<CompareTextWidget> createState() => _CompareTextWidgetState();
+}
+
+class _CompareTextWidgetState extends State<CompareTextWidget> {
+  double _height = 0.0;
+  final _globalKey = GlobalKey();
+
+  @override
+  void initState() {
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+      _height = _globalKey.currentContext!.size!.height;
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
       children: [
-        Expanded(
-          child: list[0].isEmpty
-              ? Center(
-                  child: Text(
-                    noTitle,
-                    style: roboto10redRegular,
-                  ),
-                )
-              : ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider(height: 2);
-                  },
-                  shrinkWrap: true,
-                  itemCount: list[0].length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Text(
-                      list[0][index],
-                      style: roboto10blackRegular,
-                      textAlign: TextAlign.center,
-                    );
-                  }),
-        ),
-        Expanded(
-          child: list[1].isEmpty
-              ? Center(
-                  child: Text(
-                    noTitle,
-                    style: roboto10redRegular,
-                  ),
-                )
-              : ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider(height: 2);
-                  },
-                  shrinkWrap: true,
-                  itemCount: list[1].length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Text(
-                      list[1][index],
-                      style: roboto10blackRegular,
-                      textAlign: TextAlign.center,
-                    );
-                  }),
-        ),
-        Expanded(
-          child: list[2].isEmpty
-              ? Center(
-                  child: Text(
-                    noTitle,
-                    style: roboto10redRegular,
-                  ),
-                )
-              : ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider(height: 2);
-                  },
-                  shrinkWrap: true,
-                  itemCount: list[2].length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Text(
-                      list[2][index],
-                      style: roboto10blackRegular,
-                      textAlign: TextAlign.center,
-                    );
-                  }),
-        ),
-        Expanded(
-          child: list[3].isEmpty
-              ? Center(
-                  child: Text(
-                    noTitle,
-                    style: roboto10redRegular,
-                  ),
-                )
-              : ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider(height: 2);
-                  },
-                  shrinkWrap: true,
-                  itemCount: list[3].length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Text(
-                      list[3][index],
-                      style: roboto10blackRegular,
-                      textAlign: TextAlign.center,
-                    );
-                  }),
+        widget.title.isNotEmpty
+            ? Column(
+                children: [
+                  SizedBox(height: 8),
+                  Text(widget.title, style: roboto12greySemiBold),
+                  SizedBox(height: 8),
+                ],
+              )
+            : SizedBox(height: 0),
+        Row(
+          key: _globalKey,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: widget.list[0].isEmpty
+                  ? Center(
+                      child: Text(
+                        widget.noTitle,
+                        style: roboto10redBold,
+                      ),
+                    )
+                  : ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Divider(height: 2);
+                      },
+                      shrinkWrap: true,
+                      itemCount: widget.list[0].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text(
+                          widget.list[0][index],
+                          style: widget.textStyle,
+                          textAlign: TextAlign.center,
+                        );
+                      }),
+            ),
+            Container(height: _height, width: 1, color: kButtonGreyColor),
+            Expanded(
+              child: widget.list[1].isEmpty
+                  ? Center(
+                      child: Text(
+                        widget.noTitle,
+                        style: roboto10redBold,
+                      ),
+                    )
+                  : ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Divider(height: 2);
+                      },
+                      shrinkWrap: true,
+                      itemCount: widget.list[1].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text(
+                          widget.list[1][index],
+                          style: widget.textStyle,
+                          textAlign: TextAlign.center,
+                        );
+                      }),
+            ),
+            Container(height: _height, width: 1, color: kButtonGreyColor),
+            Expanded(
+              child: widget.list[2].isEmpty
+                  ? Center(
+                      child: Text(
+                        widget.noTitle,
+                        style: roboto10redBold,
+                      ),
+                    )
+                  : ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Divider(height: 2);
+                      },
+                      shrinkWrap: true,
+                      itemCount: widget.list[2].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text(
+                          widget.list[2][index],
+                          style: widget.textStyle,
+                          textAlign: TextAlign.center,
+                        );
+                      }),
+            ),
+            Container(height: _height, width: 1, color: kButtonGreyColor),
+            Expanded(
+              child: widget.list[3].isEmpty
+                  ? Center(
+                      child: Text(
+                        widget.noTitle,
+                        style: roboto10redBold,
+                      ),
+                    )
+                  : ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return Divider(height: 2);
+                      },
+                      shrinkWrap: true,
+                      itemCount: widget.list[3].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text(
+                          widget.list[3][index],
+                          style: widget.textStyle,
+                          textAlign: TextAlign.center,
+                        );
+                      }),
+            ),
+          ],
         ),
       ],
     );

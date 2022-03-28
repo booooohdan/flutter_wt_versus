@@ -285,30 +285,49 @@ class _SelectScreenState extends State<SelectScreen> {
                   break;
               }
 
-              switch (_vehicleTypeValue) {
-                case 0:
-                  final List<Plane> vehiclesForComparison = [];
-                  final vehiclesFromFirebase = await context.read<FirestoreProvider>().getPlanes();
-                  for (final item in _selectedVehicles) {
-                    vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
-                  }
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
-                  break;
-
-                case 1: //TODO: Add tanks comparison
-                case 2: //TODO: Add helicopters comparison
-                case 3: //TODO: Add ships comparison
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PlaceholderScreen()),
-                  );
-                  break;
-              }
+              await floatingButtonNavigation(context);
             },
           ),
         ),
       ),
     );
+  }
+
+  Future<void> floatingButtonNavigation(BuildContext context) async {
+    switch (_vehicleTypeValue) {
+      case 0:
+        final List<Plane> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getPlanes();
+
+        // List<String> testList = [];
+        // for(final i in vehiclesFromFirebase){
+        //   if(!testList.contains(i.engineName)){
+        //     testList.add(i.engineName);
+        //   }
+        // }
+        // List<String> testListList = [];
+        // for(final i in vehiclesFromFirebase){
+        //   for(final k in i.features){
+        //     if(!testList.contains(k)){
+        //       testList.add(k);
+        //     }
+        //   }
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
+        break;
+
+      case 1: //TODO: Add tanks comparison
+      case 2: //TODO: Add helicopters comparison
+      case 3: //TODO: Add ships comparison
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PlaceholderScreen()),
+        );
+        break;
+    }
   }
 
   Future<dynamic> buildShowDialog(BuildContext context) {
