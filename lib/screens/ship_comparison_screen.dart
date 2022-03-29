@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/models/ship.dart';
 
 import '../models/tank.dart';
 import '../models/vehicles.dart';
@@ -15,18 +16,18 @@ import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
 
-class TankComparisonScreen extends StatefulWidget {
-  const TankComparisonScreen({
+class ShipComparisonScreen extends StatefulWidget {
+  const ShipComparisonScreen({
     required this.receivedData,
     Key? key,
   }) : super(key: key);
-  final List<Tank> receivedData;
+  final List<Ship> receivedData;
 
   @override
-  State<TankComparisonScreen> createState() => _TankComparisonScreenState();
+  State<ShipComparisonScreen> createState() => _ShipComparisonScreenState();
 }
 
-class _TankComparisonScreenState extends State<TankComparisonScreen> {
+class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
   int _gameMode = 1;
 
   late PageController _controller1;
@@ -98,12 +99,6 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                   1: Container(
                     child: Text(
                       localizations.rb,
-                      style: roboto14greyMedium,
-                    ),
-                  ),
-                  2: Container(
-                    child: Text(
-                      localizations.sb,
                       style: roboto14greyMedium,
                     ),
                   ),
@@ -203,10 +198,10 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
-                            widget.receivedData[indexController1].tankClass,
-                            widget.receivedData[indexController2].tankClass,
-                            widget.receivedData[indexController3].tankClass,
-                            widget.receivedData[indexController4].tankClass,
+                            widget.receivedData[indexController1].shipClass,
+                            widget.receivedData[indexController2].shipClass,
+                            widget.receivedData[indexController3].shipClass,
+                            widget.receivedData[indexController4].shipClass,
                           ],
                         ),
                       ],
@@ -215,7 +210,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Cannon and guns',
+                        'Cannons',
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -223,111 +218,14 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: 'Main cannon',
+                          title: 'Turrets',
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
-                            [widget.receivedData[indexController1].cannon],
-                            [widget.receivedData[indexController2].cannon],
-                            [widget.receivedData[indexController3].cannon],
-                            [widget.receivedData[indexController4].cannon],
-                          ],
-                        ),
-                        CompareTilesWidget(
-                          title: 'Reload time (s)',
-                          moreIsBetter: false,
-                          data: [
-                            double.parse(widget.receivedData[indexController1].reloadTime.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].reloadTime.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].reloadTime.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].reloadTime.replaceAll(' ', '')),
-                          ],
-                        ),
-                        CompareTilesWidget(
-                          title: 'Gun depression (°)',
-                          moreIsBetter: true,
-                          data: [
-                            double.parse(widget.receivedData[indexController1].vertGuidance[0].replaceAll('-', '').replaceAll('°', '')),
-                            double.parse(widget.receivedData[indexController2].vertGuidance[0].replaceAll('-', '').replaceAll('°', '')),
-                            double.parse(widget.receivedData[indexController3].vertGuidance[0].replaceAll('-', '').replaceAll('°', '')),
-                            double.parse(widget.receivedData[indexController4].vertGuidance[0].replaceAll('-', '').replaceAll('°', '')),
-                          ],
-                        ),
-                        CompareTilesWidget(
-                          title: 'Gun happiness (°)',
-                          moreIsBetter: true,
-                          data: [
-                            double.parse(widget.receivedData[indexController1].vertGuidance[1].replaceAll('-', '').replaceAll('°', '')),
-                            double.parse(widget.receivedData[indexController2].vertGuidance[1].replaceAll('-', '').replaceAll('°', '')),
-                            double.parse(widget.receivedData[indexController3].vertGuidance[1].replaceAll('-', '').replaceAll('°', '')),
-                            double.parse(widget.receivedData[indexController4].vertGuidance[1].replaceAll('-', '').replaceAll('°', '')),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    ExpansionTile(
-                      collapsedBackgroundColor: kLightGreyColor,
-                      title: Text(
-                        'Armor and defense',
-                        style: roboto12greySemiBold,
-                      ),
-                      iconColor: kTextGreyColor,
-                      collapsedIconColor: kTextGreyColor,
-                      initiallyExpanded: true,
-                      children: [
-                        CompareTextWidget(
-                          title: 'Features',
-                          noTitle: localizations.no_data,
-                          textStyle: roboto10blackRegular,
-                          list: [
-                            widget.receivedData[indexController1].features,
-                            widget.receivedData[indexController2].features,
-                            widget.receivedData[indexController3].features,
-                            widget.receivedData[indexController4].features,
-                          ],
-                        ),
-                        //TODO: Uncomment whe icons will be added
-                        // CompareImagesWidget(
-                        //   title: 'Features',
-                        //   noTitle: localizations.no_data,
-                        //   list: [
-                        //     widget.receivedData[indexController1].features,
-                        //     widget.receivedData[indexController2].features,
-                        //     widget.receivedData[indexController3].features,
-                        //     widget.receivedData[indexController4].features,
-                        //   ],
-                        // ),
-                        CompareTextWidget(
-                          title: 'Turret armor (front/side/back) (mm)',
-                          noTitle: localizations.no_data,
-                          textStyle: roboto10blackRegular,
-                          list: [
-                            widget.receivedData[indexController1].armorTurret,
-                            widget.receivedData[indexController2].armorTurret,
-                            widget.receivedData[indexController3].armorTurret,
-                            widget.receivedData[indexController4].armorTurret,
-                          ],
-                        ),
-                        CompareTextWidget(
-                          title: 'Hull armor (front/side/back) (mm)',
-                          noTitle: localizations.no_data,
-                          textStyle: roboto10blackRegular,
-                          list: [
-                            widget.receivedData[indexController1].armorHull,
-                            widget.receivedData[indexController2].armorHull,
-                            widget.receivedData[indexController3].armorHull,
-                            widget.receivedData[indexController4].armorHull,
-                          ],
-                        ),
-                        CompareTilesWidget(
-                          title: 'Crew (people)',
-                          moreIsBetter: true,
-                          data: [
-                            double.parse(widget.receivedData[indexController1].crew.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].crew.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].crew.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].crew.replaceAll(' ', '')),
+                            widget.receivedData[indexController1].turrets,
+                            widget.receivedData[indexController2].turrets,
+                            widget.receivedData[indexController3].turrets,
+                            widget.receivedData[indexController4].turrets,
                           ],
                         ),
                       ],
@@ -364,33 +262,79 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Engine power (h.p)',
+                          title: 'Displacement',
                           moreIsBetter: true,
                           data: [
-                            double.parse(widget.receivedData[indexController1].enginePowers[_gameMode].replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].enginePowers[_gameMode].replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].enginePowers[_gameMode].replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].enginePowers[_gameMode].replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController1].displacement.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].displacement.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].displacement.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].displacement.replaceAll(' ', '')),
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Weight (t)',
-                          moreIsBetter: false,
+                          title: 'Crew (people)',
+                          moreIsBetter: true,
                           data: [
-                            double.parse(widget.receivedData[indexController1].weight.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].weight.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].weight.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].weight.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController1].crew.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].crew.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].crew.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].crew.replaceAll(' ', '')),
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Power to weight ratio (h.p/t)',
+                          title: 'Number of sections',
                           moreIsBetter: true,
                           data: [
-                            double.parse(widget.receivedData[indexController1].powerToWeights[_gameMode].replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].powerToWeights[_gameMode].replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].powerToWeights[_gameMode].replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].powerToWeights[_gameMode].replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController1].numbOfSection.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].numbOfSection.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].numbOfSection.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].numbOfSection.replaceAll(' ', '')),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    ExpansionTile(
+                      collapsedBackgroundColor: kLightGreyColor,
+                      title: Text(
+                        'Armor and defense',
+                        style: roboto12greySemiBold,
+                      ),
+                      iconColor: kTextGreyColor,
+                      collapsedIconColor: kTextGreyColor,
+                      initiallyExpanded: true,
+                      children: [
+                        // CompareTextWidget(
+                        //   title: 'Features',
+                        //   noTitle: localizations.no_data,
+                        //   textStyle: roboto10blackRegular,
+                        //   list: [
+                        //     widget.receivedData[indexController1].features,
+                        //     widget.receivedData[indexController2].features,
+                        //     widget.receivedData[indexController3].features,
+                        //     widget.receivedData[indexController4].features,
+                        //   ],
+                        // ),
+                        //TODO: Uncomment whe icons will be added
+                        // CompareImagesWidget(
+                        //   title: 'Features',
+                        //   noTitle: localizations.no_data,
+                        //   list: [
+                        //     widget.receivedData[indexController1].features,
+                        //     widget.receivedData[indexController2].features,
+                        //     widget.receivedData[indexController3].features,
+                        //     widget.receivedData[indexController4].features,
+                        //   ],
+                        // ),
+                        CompareTextWidget(
+                          title: 'Armor (front/side/back) (mm)',
+                          noTitle: localizations.no_data,
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            widget.receivedData[indexController1].armors,
+                            widget.receivedData[indexController2].armors,
+                            widget.receivedData[indexController3].armors,
+                            widget.receivedData[indexController4].armors,
                           ],
                         ),
                       ],
@@ -425,7 +369,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
         nation: i.nation,
         isPremium: i.isPremium,
         BRs: i.BRs,
-        vehicleClass: i.tankClass,
+        vehicleClass: i.shipClass,
       ));
     }
   }
@@ -435,7 +379,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
     //FIXME: Comment code above, and uncomment below if dart file isn't found
     // final adsCollection = DebugAdsCollection();
     _bannerAd = BannerAd(
-      adUnitId: adsCollection.bannerTankAdUnitId(),
+      adUnitId: adsCollection.bannerShipAdUnitId(),
       request: AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/models/heli.dart';
 
-import '../models/plane.dart';
 import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
@@ -16,18 +16,18 @@ import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
 
-class PlaneComparisonScreen extends StatefulWidget {
-  PlaneComparisonScreen({
+class HeliComparisonScreen extends StatefulWidget {
+  const HeliComparisonScreen({
     required this.receivedData,
     Key? key,
   }) : super(key: key);
-  final List<Plane> receivedData;
+  final List<Heli> receivedData;
 
   @override
-  _PlaneComparisonScreenState createState() => _PlaneComparisonScreenState();
+  State<HeliComparisonScreen> createState() => _HeliComparisonScreenState();
 }
 
-class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
+class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
   int _gameMode = 1;
 
   late PageController _controller1;
@@ -123,7 +123,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
             Container(
               height: screenSize.height / 7,
               child: Padding(
-                padding: EdgeInsets.all(0),
+                padding: EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
                   children: [
                     Expanded(child: ScrollVehiclesWidget(_controller1, simplifiedVehicle, 1)),
@@ -204,10 +204,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
-                            widget.receivedData[indexController1].planeClass,
-                            widget.receivedData[indexController2].planeClass,
-                            widget.receivedData[indexController3].planeClass,
-                            widget.receivedData[indexController4].planeClass,
+                            widget.receivedData[indexController1].heliClass,
+                            widget.receivedData[indexController2].heliClass,
+                            widget.receivedData[indexController3].heliClass,
+                            widget.receivedData[indexController4].heliClass,
                           ],
                         ),
                       ],
@@ -223,6 +223,28 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       collapsedIconColor: kTextGreyColor,
                       initiallyExpanded: true,
                       children: [
+                        CompareTextWidget(
+                          title: 'Features',
+                          noTitle: localizations.no_data,
+                          textStyle: roboto10blackRegular,
+                          list: [
+                            widget.receivedData[indexController1].features,
+                            widget.receivedData[indexController2].features,
+                            widget.receivedData[indexController3].features,
+                            widget.receivedData[indexController4].features,
+                          ],
+                        ),
+                        //TODO Add icons
+                        // CompareImagesWidget(
+                        //   title: 'Features',
+                        //   noTitle: localizations.no_data,
+                        //   list: [
+                        //     widget.receivedData[indexController1].features,
+                        //     widget.receivedData[indexController2].features,
+                        //     widget.receivedData[indexController3].features,
+                        //     widget.receivedData[indexController4].features,
+                        //   ],
+                        // ),
                         CompareTilesWidget(
                           title: 'Max Speed (km/h)',
                           moreIsBetter: true,
@@ -231,59 +253,6 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController2].speed.replaceAll(' ', '')),
                             double.parse(widget.receivedData[indexController3].speed.replaceAll(' ', '')),
                             double.parse(widget.receivedData[indexController4].speed.replaceAll(' ', '')),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '${'at'} ${widget.receivedData[indexController1].altitudeForSpeed} ${'m'}',
-                                style: roboto10greyRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${'at'} ${widget.receivedData[indexController2].altitudeForSpeed} ${'m'}',
-                                style: roboto10greyRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${'at'} ${widget.receivedData[indexController3].altitudeForSpeed} ${'m'}',
-                                style: roboto10greyRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                '${'at'} ${widget.receivedData[indexController4].altitudeForSpeed} ${'m'}',
-                                style: roboto10greyRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                        CompareTilesWidget(
-                          title: 'Max Altitude (m)',
-                          moreIsBetter: true,
-                          data: [
-                            double.parse(widget.receivedData[indexController1].maxAltitude.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].maxAltitude.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].maxAltitude.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].maxAltitude.replaceAll(' ', '')),
-                          ],
-                        ),
-                        CompareTilesWidget(
-                          title: 'Turn Time (s)',
-                          moreIsBetter: false,
-                          data: [
-                            double.parse(widget.receivedData[indexController1].turnTime.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].turnTime.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].turnTime.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].turnTime.replaceAll(' ', '')),
                           ],
                         ),
                         CompareTilesWidget(
@@ -297,6 +266,16 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
+                          title: 'Max altitude (m)',
+                          moreIsBetter: true,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].maxAltitude.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].maxAltitude.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].maxAltitude.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].maxAltitude.replaceAll(' ', '')),
+                          ],
+                        ),
+                        CompareTilesWidget(
                           title: 'Structural destruction (km/h)',
                           moreIsBetter: true,
                           data: [
@@ -304,37 +283,6 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController2].flutterStructural.replaceAll(' ', '')),
                             double.parse(widget.receivedData[indexController3].flutterStructural.replaceAll(' ', '')),
                             double.parse(widget.receivedData[indexController4].flutterStructural.replaceAll(' ', '')),
-                          ],
-                        ),
-                        CompareTilesWidget(
-                          title: 'Gear destruction (km/h)',
-                          moreIsBetter: true,
-                          data: [
-                            double.parse(widget.receivedData[indexController1].flutterGear.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController2].flutterGear.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController3].flutterGear.replaceAll(' ', '')),
-                            double.parse(widget.receivedData[indexController4].flutterGear.replaceAll(' ', '')),
-                          ],
-                        ),
-                        // CompareTextWidget(
-                        //   title: 'Features',
-                        //   noTitle: localizations.no_data,
-                        //   textStyle: roboto10blackRegular,
-                        //   list: [
-                        //     widget.receivedData[indexController1].features,
-                        //     widget.receivedData[indexController2].features,
-                        //     widget.receivedData[indexController3].features,
-                        //     widget.receivedData[indexController4].features,
-                        //   ],
-                        // ),
-                        CompareImagesWidget(
-                          title: 'Features',
-                          noTitle: localizations.no_data,
-                          list: [
-                            widget.receivedData[indexController1].features,
-                            widget.receivedData[indexController2].features,
-                            widget.receivedData[indexController3].features,
-                            widget.receivedData[indexController4].features,
                           ],
                         ),
                         CompareTextWidget(
@@ -346,84 +294,6 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             [widget.receivedData[indexController2].engineName],
                             [widget.receivedData[indexController3].engineName],
                             [widget.receivedData[indexController4].engineName],
-                          ],
-                        ),
-                        //TODO Add icons
-                        SizedBox(height: 8),
-                        Text(
-                          'Cooling system',
-                          style: roboto12greySemiBold,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController1].coolingSystem,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController2].coolingSystem,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController3].coolingSystem,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController4].coolingSystem,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                        //TODO Add icons
-                        SizedBox(height: 8),
-                        Text(
-                          'Engine type',
-                          style: roboto12greySemiBold,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController1].engineType,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController2].engineType,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController3].engineType,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                widget.receivedData[indexController4].engineType,
-                                style: roboto10blackRegular,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
                           ],
                         ),
                         CompareTextWidget(
@@ -503,7 +373,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
         nation: i.nation,
         isPremium: i.isPremium,
         BRs: i.BRs,
-        vehicleClass: i.planeClass,
+        vehicleClass: i.heliClass,
       ));
     }
   }
@@ -513,7 +383,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     //FIXME: Comment code above, and uncomment below if dart file isn't found
     // final adsCollection = DebugAdsCollection();
     _bannerAd = BannerAd(
-      adUnitId: adsCollection.bannerPlaneAdUnitId(),
+      adUnitId: adsCollection.bannerHeliAdUnitId(),
       request: AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(

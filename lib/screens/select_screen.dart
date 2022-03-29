@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:wt_versus/screens/tank_comparison_screen.dart';
 
+import '../models/heli.dart';
 import '../models/plane.dart';
+import '../models/ship.dart';
 import '../models/tank.dart';
 import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../providers/firestore_provider.dart';
 import '../screens/placeholder_screen.dart';
 import '../utilities/constants.dart';
+import 'heli_comparison_screen.dart';
 import 'plane_comparison_screen.dart';
+import 'ship_comparison_screen.dart';
+import 'tank_comparison_screen.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({Key? key}) : super(key: key);
@@ -23,7 +27,7 @@ class SelectScreen extends StatefulWidget {
 
 class _SelectScreenState extends State<SelectScreen> {
   bool _isFirstInit = false;
-  int? _vehicleTypeValue = 0;
+  int? _vehicleTypeValue = 1;
 
   List<Vehicle> _selectedVehicles = [];
   List<Vehicle> _allVehiclesResults = [];
@@ -59,7 +63,7 @@ class _SelectScreenState extends State<SelectScreen> {
     if (!_isFirstInit) {
       _isFirstInit = true;
 
-      _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedPlanes();
+      _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedTanks();
       _searchVehiclesResult = _allVehiclesResults;
       setState(() {});
     }
@@ -77,7 +81,7 @@ class _SelectScreenState extends State<SelectScreen> {
     final screenSize = MediaQuery.of(context).size;
     final appbarSize = AppBar().preferredSize.height;
     final localizations = AppLocalizations.of(context)!;
-    var vehicleName = localizations.planes;
+    var vehicleName = localizations.army;
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -304,7 +308,6 @@ class _SelectScreenState extends State<SelectScreen> {
         for (final item in _selectedVehicles) {
           vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
         }
-
         Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
@@ -318,9 +321,24 @@ class _SelectScreenState extends State<SelectScreen> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => TankComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
-      case 2: //TODO: Add helicopters comparison
-      case 3: //TODO: Add ships comparison
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceholderScreen()));
+      case 2:
+        final List<Heli> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getHelis();
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HeliComparisonScreen(receivedData: vehiclesForComparison)));
+        break;
+
+      case 3:
+        final List<Ship> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getShips();
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ShipComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
       // final vehiclesFromFirebaseTest = await context.read<FirestoreProvider>().getShips();
