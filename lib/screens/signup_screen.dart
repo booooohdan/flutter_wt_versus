@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/providers/apple_signin_provider.dart';
 
 import '../providers/google_signin_provider.dart';
 import '../utilities/constants.dart';
@@ -51,16 +54,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       height: 50,
                       width: 320,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          context.read<GoogleSignInProvider>().googleLogin(); //TODO: Add Apple signup
-                        },
-                        icon: FaIcon(FontAwesomeIcons.google, size: 20),
-                        label: Text(
-                          localizations.sign_up,
-                          style: roboto14whiteSemiBold,
-                        ),
-                      ),
+                      child: Platform.isAndroid
+                          ? ElevatedButton.icon(
+                              onPressed: () {
+                                context.read<GoogleSignInProvider>().googleLogin();
+                              },
+                              icon: FaIcon(FontAwesomeIcons.google, size: 20),
+                              label: Text(
+                                localizations.sign_up,
+                                style: roboto14whiteSemiBold,
+                              ),
+                            )
+                          : ElevatedButton.icon(
+                              onPressed: () {
+                                context.read<AppleSignInProvider>().signInWithApple();
+                              },
+                              icon: FaIcon(FontAwesomeIcons.apple, size: 20),
+                              label: Text(
+                                localizations.sign_up_apple,
+                                style: roboto14whiteSemiBold,
+                              ),
+                            ),
                     ),
                     SizedBox(height: 24),
                     SizedBox(
@@ -86,10 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ],
                                   ));
                         },
-                        child: Text(
-                          localizations.why_login,
-                          style: roboto14blackBold
-                        ),
+                        child: Text(localizations.why_login, style: roboto14blackBold),
                         style: ElevatedButton.styleFrom(
                           primary: kButtonGreyColor,
                         ),

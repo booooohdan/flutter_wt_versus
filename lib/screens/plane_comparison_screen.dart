@@ -77,6 +77,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
         appBar: AppBar(
           leadingWidth: 48,
           titleSpacing: 0,
+          centerTitle: false,
           title: Text(localizations.comparison),
           leading: CupertinoButton(
             child: Icon(Icons.chevron_left),

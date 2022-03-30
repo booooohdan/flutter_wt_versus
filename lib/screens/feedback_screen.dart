@@ -10,6 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wt_versus/providers/apple_signin_provider.dart';
 
 import '../providers/google_signin_provider.dart';
 import '../utilities/constants.dart';
@@ -82,7 +83,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     color: kTextGreyColor,
                   ),
                   onPressed: () {
-                    context.read<GoogleSignInProvider>().googleLogOut();
+                    if (Platform.isAndroid) {
+                      context.read<GoogleSignInProvider>().googleLogOut();
+                    }
+                    if (Platform.isIOS) {
+                      context.read<AppleSignInProvider>().signOutWithApple();
+                    }
                   },
                   style: ElevatedButton.styleFrom(primary: kLightGreyColor, splashFactory: NoSplash.splashFactory),
                 ),

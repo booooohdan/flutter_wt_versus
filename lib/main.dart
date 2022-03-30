@@ -17,6 +17,7 @@ import '../screens/signup_screen.dart';
 import '../utilities/constants.dart';
 import '../utilities/introduction_screen_list.dart';
 import '../widgets/bottom_navigation_bar.dart';
+import 'providers/apple_signin_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,11 +39,14 @@ Future<void> main() async {
         ChangeNotifierProvider<FirestoreProvider>(
           create: (_) => FirestoreProvider(),
         ),
+        ChangeNotifierProvider<ComparisonProvider>(
+          create: (_) => ComparisonProvider(),
+        ),
         ChangeNotifierProvider<GoogleSignInProvider>(
           create: (_) => GoogleSignInProvider(),
         ),
-        ChangeNotifierProvider<ComparisonProvider>(
-          create: (_) => ComparisonProvider(),
+        ChangeNotifierProvider<AppleSignInProvider>(
+          create: (_) => AppleSignInProvider(),
         ),
       ],
       child: MaterialApp(
@@ -93,9 +97,9 @@ Future<void> main() async {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            //FirebaseCrashlytics.instance.crash();
+            // FirebaseCrashlytics.instance.crash();
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator.adaptive());
             } else if (snapshot.hasData) {
               return _skipIntroduction
                   ? BottomNavBar()
