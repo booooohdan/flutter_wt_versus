@@ -38,6 +38,10 @@ class _CompareImagesWidgetState extends State<CompareImagesWidget> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width-40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
 
     return Column(
       children: [
@@ -68,6 +72,11 @@ class _CompareImagesWidgetState extends State<CompareImagesWidget> {
   }
 
   Expanded buildGridView(Size screenSize, paramIndex) {
+    double tabletScreenWidth = screenSize.width-40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     return Expanded(
       child: widget.list[paramIndex].isEmpty
           ? Center(
@@ -77,7 +86,7 @@ class _CompareImagesWidgetState extends State<CompareImagesWidget> {
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: screenSize.width / 8,
+                    maxCrossAxisExtent: tabletScreenWidth / 8,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
                   ),

@@ -20,6 +20,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width - 40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -53,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     SizedBox(
                       height: 50,
-                      width: 320,
+                      width: tabletScreenWidth,
                       child: Platform.isAndroid
                           ? ElevatedButton.icon(
                               onPressed: () {
@@ -79,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(height: 24),
                     SizedBox(
                       height: 50,
-                      width: 320,
+                      width: tabletScreenWidth,
                       child: ElevatedButton(
                         onPressed: () {
                           showDialog(

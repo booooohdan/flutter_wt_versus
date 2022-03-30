@@ -63,6 +63,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width - 40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -159,7 +165,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   const SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
-                    width: 500,
+                    width: tabletScreenWidth,
                     child: Text(
                       localizations.versus_description,
                       style: roboto12blackMedium,
@@ -175,7 +181,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: 320,
+                    width: tabletScreenWidth,
                     height: 50,
                     child: ElevatedButton.icon(
                       //context: context,
@@ -196,12 +202,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     ),
                   ),
                   Container(
-                    width: 320,
+                    width: tabletScreenWidth,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(
-                          width: 100,
+                          width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
                             icon: Icon(Icons.star_border, color: kBlackColor),
@@ -219,7 +225,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
                             icon: Icon(Icons.share_outlined, color: kBlackColor),
@@ -239,7 +245,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
                             icon: Icon(Icons.email_outlined, color: kBlackColor),

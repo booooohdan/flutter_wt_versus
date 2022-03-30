@@ -17,6 +17,12 @@ class CompareTilesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     final maxVal = data.reduce(max);
     final List<Color> colors = [
       Colors.white,
@@ -78,15 +84,15 @@ class CompareTilesWidget extends StatelessWidget {
             : SizedBox(height: 0),
         Row(
           children: [
-            SizedBox(width: 4),
+            SizedBox(width: tabletScreenWidth/100),
             buildColoredTile(colors, 0),
-            SizedBox(width: 8),
+            SizedBox(width: tabletScreenWidth/50),
             buildColoredTile(colors, 1),
-            SizedBox(width: 8),
+            SizedBox(width: tabletScreenWidth/50),
             buildColoredTile(colors, 2),
-            SizedBox(width: 8),
+            SizedBox(width: tabletScreenWidth/50),
             buildColoredTile(colors, 3),
-            SizedBox(width: 4),
+            SizedBox(width: tabletScreenWidth/100),
           ],
         ),
       ],

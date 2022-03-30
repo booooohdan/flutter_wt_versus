@@ -19,6 +19,12 @@ class ScrollVehiclesWidget extends StatefulWidget {
 class _ScrollVehiclesWidgetState extends State<ScrollVehiclesWidget> {
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width-40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     return ShaderMask(
       shaderCallback: (Rect bounds) {
         return LinearGradient(
@@ -56,26 +62,27 @@ class _ScrollVehiclesWidgetState extends State<ScrollVehiclesWidget> {
               Image.network(widget.receivedData[index].image),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 35,
-                  left: 8,
-                  right: 8,
+                  top: tabletScreenWidth / 8,
                 ),
-                child: Container(
-                  height: 16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    color: widget.receivedData[index].isPremium ? kYellow : kBlackColor,
-                  ),
-                  child: Marquee(
-                    text: getSpaceFont(widget.receivedData[index].name),
-                    velocity: 10,
-                    blankSpace: 20.0,
-                    pauseAfterRound: Duration(seconds: 1),
-                    startPadding: 10,
-                    style: TextStyle(
-                      color: widget.receivedData[index].isPremium ? kBlackColor : Colors.white,
-                      fontFamily: 'Symbols',
-                      fontSize: 10,
+                child: SizedBox(
+                  width: tabletScreenWidth/4,
+                  child: Container(
+                    height: 16,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      color: widget.receivedData[index].isPremium ? kYellow : kBlackColor,
+                    ),
+                    child: Marquee(
+                      text: getSpaceFont(widget.receivedData[index].name),
+                      velocity: 10,
+                      blankSpace: 20.0,
+                      pauseAfterRound: Duration(seconds: 1),
+                      startPadding: 10,
+                      style: TextStyle(
+                        color: widget.receivedData[index].isPremium ? kBlackColor : Colors.white,
+                        fontFamily: 'Symbols',
+                        fontSize: 10,
+                      ),
                     ),
                   ),
                 ),

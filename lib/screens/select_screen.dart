@@ -82,6 +82,8 @@ class _SelectScreenState extends State<SelectScreen> {
     final appbarSize = AppBar().preferredSize.height;
     final localizations = AppLocalizations.of(context)!;
     var vehicleName = localizations.army;
+    double tabletScreenWidth = 600;
+
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -99,7 +101,7 @@ class _SelectScreenState extends State<SelectScreen> {
                   child: Column(
                     children: [
                       SizedBox(
-                        width: double.infinity,
+                        width: tabletScreenWidth,
                         child: CupertinoSlidingSegmentedControl<int>(
                           backgroundColor: kBlackColor,
                           thumbColor: Color(0xfff39393),
@@ -158,18 +160,21 @@ class _SelectScreenState extends State<SelectScreen> {
                         ),
                       ),
                       SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '$vehicleName: ${_searchVehiclesResult.length.toString()}',
-                            style: roboto12greySemiBold,
-                          ),
-                          Text(
-                            '${localizations.selected_vehicles}: ${_selectedVehicles.length.toString()}',
-                            style: roboto12greySemiBold,
-                          ),
-                        ],
+                      SizedBox(
+                        width: tabletScreenWidth,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '$vehicleName: ${_searchVehiclesResult.length.toString()}',
+                              style: roboto12greySemiBold,
+                            ),
+                            Text(
+                              '${localizations.selected_vehicles}: ${_selectedVehicles.length.toString()}',
+                              style: roboto12greySemiBold,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -179,43 +184,46 @@ class _SelectScreenState extends State<SelectScreen> {
                 preferredSize: Size.fromHeight(appbarSize),
                 child: Container(
                   color: kLightGreyColor,
-                  child: Row(
-                    children: [
-                      CupertinoButton(
-                        //TODO: Add filters
-                        child: Icon(Icons.tune, color: kIconGreyColor),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => PlaceholderScreen()),
-                          );
-                        },
-                      ),
-                      Expanded(
-                        child: CupertinoTextField(
-                          controller: _searchController,
-                          onChanged: (value) {},
-                          prefix: Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Icon(
-                              Icons.search,
-                              color: kTextGreyColor,
-                            ),
-                          ),
-                          placeholder: localizations.search,
-                          style: roboto14greyMedium,
+                  child: SizedBox(
+                    width: tabletScreenWidth,
+                    child: Row(
+                      children: [
+                        CupertinoButton(
+                          //TODO: Add filters
+                          child: Icon(Icons.tune, color: kIconGreyColor),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => PlaceholderScreen()),
+                            );
+                          },
                         ),
-                      ),
-                      _selectedVehicles.isNotEmpty
-                          ? CupertinoButton(
-                              child: Text(localizations.clear, style: roboto14darkGreyMedium),
-                              onPressed: () {
-                                _selectedVehicles.clear();
-                                setState(() {});
-                              },
-                            )
-                          : Container(width: 16),
-                    ],
+                        Expanded(
+                          child: CupertinoTextField(
+                            controller: _searchController,
+                            onChanged: (value) {},
+                            prefix: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Icons.search,
+                                color: kTextGreyColor,
+                              ),
+                            ),
+                            placeholder: localizations.search,
+                            style: roboto14greyMedium,
+                          ),
+                        ),
+                        _selectedVehicles.isNotEmpty
+                            ? CupertinoButton(
+                                child: Text(localizations.clear, style: roboto14darkGreyMedium),
+                                onPressed: () {
+                                  _selectedVehicles.clear();
+                                  setState(() {});
+                                },
+                              )
+                            : Container(width: 16),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -228,37 +236,40 @@ class _SelectScreenState extends State<SelectScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: ListTile(
-                          dense: true,
-                          leading: SizedBox(
-                            width: 40,
-                            child: SvgPicture.asset(
-                              'assets/icons/${_searchVehiclesResult[index].nation}.svg',
-                              height: screenSize.height / 20,
+                        child: SizedBox(
+                          width: tabletScreenWidth,
+                          child: ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 40,
+                              child: SvgPicture.asset(
+                                'assets/icons/${_searchVehiclesResult[index].nation}.svg',
+                                height: screenSize.height / 20,
+                              ),
                             ),
+                            title: Text(
+                              '[${_searchVehiclesResult[index].BRs[1]}] ${getSpaceFont(_searchVehiclesResult[index].name)}',
+                              style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              _searchVehiclesResult[index].vehicleClass[0],
+                              style: roboto12greySemiBold,
+                            ),
+                            trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
+                            tileColor: _searchVehiclesResult[index].isPremium ? kYellow : Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            onTap: () {
+                              setState(() {
+                                if (_vehicleSelected) {
+                                  _selectedVehicles.remove(_searchVehiclesResult[index]);
+                                } else {
+                                  _selectedVehicles.add(_searchVehiclesResult[index]);
+                                }
+                              });
+                            },
+                            selected: _vehicleSelected,
+                            selectedTileColor: kLightGreyColor,
                           ),
-                          title: Text(
-                            '[${_searchVehiclesResult[index].BRs[1]}] ${getSpaceFont(_searchVehiclesResult[index].name)}',
-                            style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            _searchVehiclesResult[index].vehicleClass[0],
-                            style: roboto12greySemiBold,
-                          ),
-                          trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
-                          tileColor: _searchVehiclesResult[index].isPremium ? kYellow : Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          onTap: () {
-                            setState(() {
-                              if (_vehicleSelected) {
-                                _selectedVehicles.remove(_searchVehiclesResult[index]);
-                              } else {
-                                _selectedVehicles.add(_searchVehiclesResult[index]);
-                              }
-                            });
-                          },
-                          selected: _vehicleSelected,
-                          selectedTileColor: kLightGreyColor,
                         ),
                       ),
                     ],
