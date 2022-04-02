@@ -238,7 +238,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               if (Platform.isAndroid) {
                                 url = 'https://play.google.com/store/apps/details?id=com.wave.wtversus';
                               } else if (Platform.isIOS) {
-                                url = 'https://apps.apple.com/us/app/thunder-quiz/id1606469760'; //TODO: AppStore ID
+                                url = ''; //TODO: AppStore ID
                               }
                               Share.share('Check this cool comparison app for War Thunder: $url');
                             },

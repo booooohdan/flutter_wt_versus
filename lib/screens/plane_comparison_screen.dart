@@ -297,6 +297,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].weight.replaceAll(' ', '')),
                           ],
                         ),
+                        //TODO: Add power to weight ratio
                         CompareTilesWidget(
                           title: 'Structural destruction (km/h)',
                           moreIsBetter: true,
