@@ -155,14 +155,14 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Game Data',
+                        localizations.game_data,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
                       collapsedIconColor: kTextGreyColor,
                       children: [
                         CompareTilesWidget(
-                          title: 'Repair cost',
+                          title: localizations.repair_cost,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
@@ -217,7 +217,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Flight characteristics',
+                        localizations.flight_characteristics,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -225,7 +225,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTilesWidget(
-                          title: 'Max Speed (km/h)',
+                          title: localizations.max_speed_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].speed.replaceAll(' ', '')),
@@ -239,28 +239,28 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                '${'at'} ${widget.receivedData[indexController1].altitudeForSpeed} ${'m'}',
+                                '${localizations.at} ${widget.receivedData[indexController1].altitudeForSpeed} ${localizations.m}',
                                 style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                '${'at'} ${widget.receivedData[indexController2].altitudeForSpeed} ${'m'}',
+                                '${localizations.at} ${widget.receivedData[indexController1].altitudeForSpeed} ${localizations.m}',
                                 style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                '${'at'} ${widget.receivedData[indexController3].altitudeForSpeed} ${'m'}',
+                                '${localizations.at} ${widget.receivedData[indexController1].altitudeForSpeed} ${localizations.m}',
                                 style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                '${'at'} ${widget.receivedData[indexController4].altitudeForSpeed} ${'m'}',
+                                '${localizations.at} ${widget.receivedData[indexController1].altitudeForSpeed} ${localizations.m}',
                                 style: roboto10greyRegular,
                                 textAlign: TextAlign.center,
                               ),

@@ -41,5 +41,11 @@
   "introd_body3": "Another comparison will be add some later, in the next update",
   "introd_title4": "It's not final data",
   "introd_body4": "Another characteristics will be add some later, approximately at this spring",
-  "no_data": "No data"
+  "no_data": "No data",
+  "game_data": "Game Data",
+  "repair_cost": "Repair cost",
+  "flight_characteristics": "Flight characteristics",
+  "max_speed_km_h": "Max Speed (km/h)",
+  "at": "at",
+  "m": "m"
 }
