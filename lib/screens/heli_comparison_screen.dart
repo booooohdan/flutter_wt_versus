@@ -155,14 +155,14 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Game Data',
+                        localizations.game_data,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
                       collapsedIconColor: kTextGreyColor,
                       children: [
                         CompareTilesWidget(
-                          title: 'Repair cost',
+                          title: localizations.repair_cost,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
@@ -217,7 +217,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Flight characteristics',
+                        localizations.flight_characteristics,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -247,7 +247,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                         //   ],
                         // ),
                         CompareTilesWidget(
-                          title: 'Max Speed (km/h)',
+                          title: localizations.max_speed_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].speed.replaceAll(' ', '')),
@@ -257,7 +257,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Weight (t)',
+                          title: localizations.weight_t,
                           moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].weight.replaceAll(' ', '')),
@@ -267,7 +267,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Max altitude (m)',
+                          title: localizations.max_altitude_m,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].maxAltitude.replaceAll(' ', '')),
@@ -277,7 +277,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Structural destruction (km/h)',
+                          title: localizations.structural_destruction_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].flutterStructural.replaceAll(' ', '')),
@@ -287,7 +287,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                           ],
                         ),
                         CompareTextWidget(
-                          title: 'Engine name',
+                          title: localizations.engine_name,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -298,7 +298,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                           ],
                         ),
                         CompareTextWidget(
-                          title: 'Crew',
+                          title: localizations.crew_people,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -314,7 +314,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Weapons & Turrets',
+                        localizations.weapon_and_turret,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -322,7 +322,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: 'Offensive armament',
+                          title: localizations.offensive_armament,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -333,7 +333,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                           ],
                         ),
                         CompareTextWidget(
-                          title: 'Defensive armament',
+                          title: localizations.defensive_armament,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [

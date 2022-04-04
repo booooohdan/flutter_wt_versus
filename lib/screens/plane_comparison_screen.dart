@@ -268,7 +268,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Max Altitude (m)',
+                          title: localizations.max_altitude_m,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].maxAltitude.replaceAll(' ', '')),
@@ -278,7 +278,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Turn Time (s)',
+                          title: localizations.turn_time_s,
                           moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].turnTime.replaceAll(' ', '')),
@@ -288,7 +288,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Weight (t)',
+                          title: localizations.weight_t,
                           moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].weight.replaceAll(' ', '')),
@@ -299,7 +299,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         ),
                         //TODO: Add power to weight ratio
                         CompareTilesWidget(
-                          title: 'Structural destruction (km/h)',
+                          title: localizations.structural_destruction_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].flutterStructural.replaceAll(' ', '')),
@@ -309,7 +309,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Gear destruction (km/h)',
+                          title: localizations.gear_destruction_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].flutterGear.replaceAll(' ', '')),
@@ -319,7 +319,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         // CompareTextWidget(
-                        //   title: 'Features',
+                        //   localizations.features,
                         //   noTitle: localizations.no_data,
                         //   textStyle: roboto10blackRegular,
                         //   list: [
@@ -330,7 +330,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         //   ],
                         // ),
                         CompareImagesWidget(
-                          title: 'Features',
+                          title: localizations.features,
                           noTitle: localizations.no_data,
                           list: [
                             widget.receivedData[indexController1].features,
@@ -340,7 +340,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         CompareTextWidget(
-                          title: 'Engine name',
+                          title: localizations.engine_name,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -353,7 +353,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         //TODO Add icons
                         SizedBox(height: 8),
                         Text(
-                          'Cooling system',
+                          localizations.cooling_system,
                           style: roboto12greySemiBold,
                         ),
                         Row(
@@ -392,7 +392,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         //TODO Add icons
                         SizedBox(height: 8),
                         Text(
-                          'Engine type',
+                          localizations.engine_type,
                           style: roboto12greySemiBold,
                         ),
                         Row(
@@ -445,7 +445,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Weapons & Turrets',
+                        localizations.weapon_and_turret,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -453,7 +453,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: 'Offensive armament',
+                          title: localizations.offensive_armament,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -464,7 +464,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         CompareTextWidget(
-                          title: 'Defensive armament',
+                          title: localizations.defensive_armament,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [

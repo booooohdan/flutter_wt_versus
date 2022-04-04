@@ -154,14 +154,14 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Game Data',
+                        localizations.game_data,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
                       collapsedIconColor: kTextGreyColor,
                       children: [
                         CompareTilesWidget(
-                          title: 'Repair cost',
+                          title: localizations.repair_cost,
                           moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
@@ -216,7 +216,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Cannon and guns',
+                        localizations.cannon_and_guns,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -224,7 +224,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: 'Main cannon',
+                          title: localizations.main_cannon,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -235,7 +235,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Reload time (s)',
+                          title: localizations.reload_time_s,
                           moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].reloadTime.replaceAll(' ', '')),
@@ -245,7 +245,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Gun depression (°)',
+                          title: localizations.gun_depression,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].vertGuidance[0].replaceAll('-', '').replaceAll('°', '')),
@@ -255,7 +255,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Gun happiness (°)',
+                          title: localizations.gun_increase,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].vertGuidance[1].replaceAll('-', '').replaceAll('°', '')),
@@ -270,7 +270,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Armor and defense',
+                        localizations.armor_and_defense,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -278,7 +278,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: 'Features',
+                          title: localizations.features,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -290,7 +290,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                         ),
                         //TODO: Uncomment whe icons will be added
                         // CompareImagesWidget(
-                        //   title: 'Features',
+                        //   title: localizations.features,
                         //   noTitle: localizations.no_data,
                         //   list: [
                         //     widget.receivedData[indexController1].features,
@@ -300,7 +300,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                         //   ],
                         // ),
                         CompareTextWidget(
-                          title: 'Turret armor (front/side/back) (mm)',
+                          title: localizations.turret_armor_mm,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -311,7 +311,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTextWidget(
-                          title: 'Hull armor (front/side/back) (mm)',
+                          title: localizations.hull_armor_mm,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -322,7 +322,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Crew (people)',
+                          title: localizations.crew_people,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].crew.replaceAll(' ', '')),
@@ -337,7 +337,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Vehicle characteristics',
+                        localizations.vehicle_characteristics,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -345,7 +345,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTilesWidget(
-                          title: 'Max Speed (km/h)',
+                          title: localizations.max_speed_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].speeds[_gameMode].replaceAll(' ', '')),
@@ -355,7 +355,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Reverse Speed (km/h)',
+                          title: localizations.reverse_speed_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].reverseSpeeds[_gameMode].replaceAll(' ', '')),
@@ -365,7 +365,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Engine power (h.p)',
+                          title: localizations.engine_power_h_p,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].enginePowers[_gameMode].replaceAll(' ', '')),
@@ -375,7 +375,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Weight (t)',
+                          title: localizations.weight_t,
                           moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].weight.replaceAll(' ', '')),
@@ -385,7 +385,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Power to weight ratio (h.p/t)',
+                          title: localizations.power_to_weight_ratio_h_p_t,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].powerToWeights[_gameMode].replaceAll(' ', '')),

@@ -149,14 +149,14 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Game Data',
+                        localizations.game_data,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
                       collapsedIconColor: kTextGreyColor,
                       children: [
                         CompareTilesWidget(
-                          title: 'Repair cost',
+                          title: localizations.repair_cost,
                           moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
@@ -211,7 +211,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Cannons',
+                        localizations.cannons,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -219,7 +219,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: 'Turrets',
+                          title: localizations.turrets,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -235,7 +235,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Vehicle characteristics',
+                        localizations.vehicle_characteristics,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
@@ -243,7 +243,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTilesWidget(
-                          title: 'Max Speed (km/h)',
+                          title: localizations.max_speed_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].speeds[_gameMode].replaceAll(' ', '')),
@@ -253,7 +253,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Reverse Speed (km/h)',
+                          title: localizations.reverse_speed_km_h,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].reverseSpeeds[_gameMode].replaceAll(' ', '')),
@@ -263,7 +263,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Displacement',
+                          title: localizations.displacement,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].displacement.replaceAll(' ', '')),
@@ -273,7 +273,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Crew (people)',
+                          title: localizations.crew_people,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].crew.replaceAll(' ', '')),
@@ -283,7 +283,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                           ],
                         ),
                         CompareTilesWidget(
-                          title: 'Number of sections',
+                          title: localizations.number_of_sections,
                           moreIsBetter: true,
                           data: [
                             double.parse(widget.receivedData[indexController1].numbOfSection.replaceAll(' ', '')),
@@ -298,37 +298,15 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
-                        'Armor and defense',
+                        localizations.armor_and_defense,
                         style: roboto12greySemiBold,
                       ),
                       iconColor: kTextGreyColor,
                       collapsedIconColor: kTextGreyColor,
                       initiallyExpanded: true,
                       children: [
-                        // CompareTextWidget(
-                        //   title: 'Features',
-                        //   noTitle: localizations.no_data,
-                        //   textStyle: roboto10blackRegular,
-                        //   list: [
-                        //     widget.receivedData[indexController1].features,
-                        //     widget.receivedData[indexController2].features,
-                        //     widget.receivedData[indexController3].features,
-                        //     widget.receivedData[indexController4].features,
-                        //   ],
-                        // ),
-                        //TODO: Uncomment whe icons will be added
-                        // CompareImagesWidget(
-                        //   title: 'Features',
-                        //   noTitle: localizations.no_data,
-                        //   list: [
-                        //     widget.receivedData[indexController1].features,
-                        //     widget.receivedData[indexController2].features,
-                        //     widget.receivedData[indexController3].features,
-                        //     widget.receivedData[indexController4].features,
-                        //   ],
-                        // ),
                         CompareTextWidget(
-                          title: 'Armor (front/side/back) (mm)',
+                          title: localizations.armor_front_side_back_mm,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
