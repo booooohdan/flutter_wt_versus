@@ -37,5 +37,6 @@ List<PageViewModel> getIntroductionPages(BuildContext context) {
       title: localizations.introd_title4,
       body: localizations.introd_body4,
     ),
+    //TODO: Update introduction screens.
   ];
 }
