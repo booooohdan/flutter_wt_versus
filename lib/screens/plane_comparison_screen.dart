@@ -163,7 +163,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                       children: [
                         CompareTilesWidget(
                           title: localizations.repair_cost,
-                          moreIsBetter: true,
+                          moreIsBetter: false,
                           data: [
                             double.parse(widget.receivedData[indexController1].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
                             double.parse(widget.receivedData[indexController2].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
@@ -428,15 +428,14 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             ),
                           ],
                         ),
-                        CompareTextWidget(
-                          title: 'Crew',
-                          noTitle: localizations.no_data,
-                          textStyle: roboto10blackRegular,
-                          list: [
-                            ['${widget.receivedData[indexController1].crew} people'],
-                            ['${widget.receivedData[indexController2].crew} people'],
-                            ['${widget.receivedData[indexController3].crew} people'],
-                            ['${widget.receivedData[indexController4].crew} people'],
+                        CompareTilesWidget(
+                          title: localizations.crew_people,
+                          moreIsBetter: true,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].crew.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].crew.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].crew.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].crew.replaceAll(' ', '')),
                           ],
                         ),
                       ],

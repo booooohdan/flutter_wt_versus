@@ -219,7 +219,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: localizations.turrets,
+                          title: '',
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [

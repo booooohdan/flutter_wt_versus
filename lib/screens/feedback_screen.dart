@@ -186,7 +186,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     child: ElevatedButton.icon(
                       //context: context,
                       icon: FaIcon(FontAwesomeIcons.github),
-                      label: Text('GitHub'),
+                      label: Text(localizations.github),
                       onPressed: () async {
                         const url = 'https://github.com/booooohdan/flutter_wt_versus/issues';
                         if (await canLaunch(url)) {
