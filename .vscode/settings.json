@@ -1,4 +1,15 @@
 {
     "dart.previewFlutterUiGuidesCustomTracking": false,
-    "dart.previewFlutterUiGuides": true
+    "dart.previewFlutterUiGuides": true,
+    "cSpell.words": [
+        "ABCDEFGHIJKLMNOPQRSTUVXYZ",
+        "appbar",
+        "Helis",
+        "signin",
+        "signup",
+        "statusheli",
+        "statusplane",
+        "statusship",
+        "statustank"
+    ]
 }

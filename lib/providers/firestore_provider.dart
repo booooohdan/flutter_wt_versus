@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firestore_cache/firestore_cache.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getPlanesDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statusplane/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('planes');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
@@ -95,7 +97,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getTanksDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statustank/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('tanks');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
@@ -162,7 +164,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getHelisDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statusheli/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('helis');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
@@ -226,7 +228,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getShipsDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statusship/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('ships');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,

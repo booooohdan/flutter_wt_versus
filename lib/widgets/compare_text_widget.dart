@@ -40,12 +40,12 @@ class _CompareTextWidgetState extends State<CompareTextWidget> {
         widget.title.isNotEmpty
             ? Column(
                 children: [
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(widget.title, style: roboto12greySemiBold),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               )
-            : SizedBox(height: 0),
+            : const SizedBox(height: 0),
         Row(
           key: _globalKey,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -76,7 +76,7 @@ class _CompareTextWidgetState extends State<CompareTextWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: ListView.separated(
                   separatorBuilder: (context, index) {
-                    return Divider(height: 2);
+                    return const Divider(height: 2);
                   },
                   shrinkWrap: true,
                   itemCount: widget.list[paramIndex].length,

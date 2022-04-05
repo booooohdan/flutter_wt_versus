@@ -41,12 +41,12 @@ class _CompareIconWidgetState extends State<CompareIconWidget> {
         widget.title.isNotEmpty
             ? Column(
                 children: [
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(widget.title, style: roboto12greySemiBold),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               )
-            : SizedBox(height: 0),
+            : const SizedBox(height: 0),
         Row(
           key: _globalKey,
           children: [

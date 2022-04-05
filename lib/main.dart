@@ -25,14 +25,14 @@ Future<void> main() async {
   await MobileAds.instance.initialize();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
+    const SystemUiOverlayStyle(
       statusBarColor: kLightGreyColor,
       statusBarBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  final prefs = await SharedPreferences.getInstance();
-  final _skipIntroduction = prefs.getBool('skipIntroduction') ?? false;
+  final preferences = await SharedPreferences.getInstance();
+  final _skipIntroduction = preferences.getBool('skipIntroduction') ?? false;
   runApp(
     MultiProvider(
       providers: [
@@ -61,7 +61,7 @@ Future<void> main() async {
             elevation: 0,
             toolbarHeight: 76,
             titleTextStyle: roboto22blackBold,
-            iconTheme: IconThemeData(color: kIconGreyColor),
+            iconTheme: const IconThemeData(color: kIconGreyColor),
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -82,16 +82,16 @@ Future<void> main() async {
           dividerColor: Colors.transparent,
         ),
         //darkTheme: ThemeData.dark(),
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           AppLocalizations.delegate,
         ],
-        supportedLocales: [
-          const Locale('en', ''),
-          const Locale('ru', ''),
-          const Locale('uk', ''),
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('ru', ''),
+          Locale('uk', ''),
         ],
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(
@@ -99,7 +99,7 @@ Future<void> main() async {
           builder: (context, snapshot) {
             // FirebaseCrashlytics.instance.crash();
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator.adaptive());
+              return const Center(child: CircularProgressIndicator.adaptive());
             } else if (snapshot.hasData) {
               return _skipIntroduction
                   ? BottomNavBar()
@@ -110,7 +110,7 @@ Future<void> main() async {
                       next: const Icon(Icons.navigate_next),
                       done: Text(AppLocalizations.of(context)!.done),
                       onDone: () {
-                        prefs.setBool('skipIntroduction', true);
+                        preferences.setBool('skipIntroduction', true);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => BottomNavBar()),
@@ -119,9 +119,9 @@ Future<void> main() async {
                     );
               // Main entry point
             } else if (snapshot.hasError) {
-              return Center(child: Text('Something Went Wrong!'));
+              return const Center(child: Text('Something Went Wrong!'));
             } else {
-              return SignUpScreen();
+              return const SignUpScreen();
             }
           },
         ),

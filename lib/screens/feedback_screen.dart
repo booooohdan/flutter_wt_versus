@@ -81,9 +81,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 child: ElevatedButton.icon(
                   label: Text(
                     localizations.logout,
-                    style: TextStyle(color: kTextGreyColor),
+                    style: const TextStyle(color: kTextGreyColor),
                   ),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.logout,
                     size: 20,
                     color: kTextGreyColor,
@@ -185,7 +185,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     height: 50,
                     child: ElevatedButton.icon(
                       //context: context,
-                      icon: FaIcon(FontAwesomeIcons.github),
+                      icon: const FaIcon(FontAwesomeIcons.github),
                       label: Text(localizations.github),
                       onPressed: () async {
                         const url = 'https://github.com/booooohdan/flutter_wt_versus/issues';
@@ -210,7 +210,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
-                            icon: Icon(Icons.star_border, color: kBlackColor),
+                            icon: const Icon(Icons.star_border, color: kBlackColor),
                             label: Text(localizations.rate, style: roboto12blackMedium),
                             style: ElevatedButton.styleFrom(
                               primary: kButtonGreyColor,
@@ -228,7 +228,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
-                            icon: Icon(Icons.share_outlined, color: kBlackColor),
+                            icon: const Icon(Icons.share_outlined, color: kBlackColor),
                             label: Text(localizations.share, style: roboto12blackMedium),
                             style: ElevatedButton.styleFrom(
                               primary: kButtonGreyColor,
@@ -248,7 +248,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
-                            icon: Icon(Icons.email_outlined, color: kBlackColor),
+                            icon: const Icon(Icons.email_outlined, color: kBlackColor),
                             label: Text(localizations.email, style: roboto12blackMedium),
                             style: ElevatedButton.styleFrom(
                               primary: kButtonGreyColor,
@@ -274,7 +274,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     ),
                   ),
                   ElevatedButton.icon(
-                    icon: Icon(Icons.policy_outlined, color: kTextGreyColor),
+                    icon: const Icon(Icons.policy_outlined, color: kTextGreyColor),
                     label: Text(localizations.privacy, style: roboto14greyMedium),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,

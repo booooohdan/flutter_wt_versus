@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () {
                                 context.read<GoogleSignInProvider>().googleLogin();
                               },
-                              icon: FaIcon(FontAwesomeIcons.google, size: 20),
+                              icon: const FaIcon(FontAwesomeIcons.google, size: 20),
                               label: Text(
                                 localizations.sign_up,
                                 style: roboto14whiteSemiBold,
@@ -86,14 +86,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () {
                                 context.read<AppleSignInProvider>().signInWithApple();
                               },
-                              icon: FaIcon(FontAwesomeIcons.apple, size: 20),
+                              icon: const FaIcon(FontAwesomeIcons.apple, size: 20),
                               label: Text(
                                 localizations.sign_up_apple,
                                 style: roboto14whiteSemiBold,
                               ),
                             ),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     SizedBox(
                       height: 50,
                       width: tabletScreenWidth,
@@ -103,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context: context,
                               builder: (context) => AlertDialog(
                                     title: Text(localizations.why_login),
-                                    content: Text(
+                                    content: const Text(
                                         'The security policies of the database we use require user authorization. We use a simple login system via Google or Apple account, familiar to you from other programs'),
                                     elevation: 0,
                                     shape: RoundedRectangleBorder(
@@ -112,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.of(context).pop(),
-                                        child: Center(child: const Text('OK')),
+                                        child: const Center(child: Text('OK')),
                                       ),
                                     ],
                                   ));

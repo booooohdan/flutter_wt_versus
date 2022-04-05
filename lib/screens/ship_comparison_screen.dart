@@ -5,12 +5,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wt_versus/models/ship.dart';
 
-import '../models/tank.dart';
 import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
-import '../utilities/debug_ads_collection.dart';
 import '../widgets/compare_icon_widget.dart';
 import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
@@ -80,7 +78,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
           centerTitle: false,
           title: Text(localizations.comparison),
           leading: CupertinoButton(
-            child: Icon(Icons.chevron_left),
+            child: const Icon(Icons.chevron_left),
             onPressed: () => Navigator.pop(context),
           ),
           actions: [
@@ -118,7 +116,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
             Container(
               height: screenSize.height / 7,
               child: Padding(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 child: Row(
                   children: [
                     Expanded(flex: 1, child: ScrollVehiclesWidget(_controller1, simplifiedVehicle, 1)),
@@ -133,7 +131,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     CompareTextWidget(
                       title: '',
                       noTitle: localizations.no_data,
@@ -145,7 +143,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                         [widget.receivedData[indexController4].BRs[_gameMode]],
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -165,7 +163,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareIconWidget(
                           title: '',
                           data: [
@@ -181,7 +179,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                             widget.receivedData[indexController4].nation,
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
                           noTitle: localizations.no_data,
@@ -193,7 +191,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                             [widget.receivedData[indexController4].rank],
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
                           noTitle: localizations.no_data,
@@ -207,7 +205,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -231,7 +229,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -294,7 +292,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -318,7 +316,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -359,7 +357,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
     // final adsCollection = DebugAdsCollection();
     _bannerAd = BannerAd(
       adUnitId: adsCollection.bannerShipAdUnitId(),
-      request: AdRequest(),
+      request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {

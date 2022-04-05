@@ -59,7 +59,6 @@ linter:
     - prefer_for_elements_to_map_fromIterable
     - prefer_foreach
     - prefer_generic_function_type_aliases
-    - prefer_if_elements_to_conditional_expressions
     - prefer_if_null_operators
     - prefer_initializing_formals
     - prefer_inlined_adds

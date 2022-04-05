@@ -11,8 +11,8 @@ class BottomNavBar extends StatelessWidget {
 
   List<Widget> _buildScreens() {
     return [
-      SelectScreen(),
-      FeedbackScreen(),
+      const SelectScreen(),
+      const FeedbackScreen(),
     ];
   }
 
@@ -22,13 +22,13 @@ class BottomNavBar extends StatelessWidget {
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.compare_arrows),
+          icon: const Icon(Icons.compare_arrows),
           title: localizations.compare,
           activeColorPrimary: Colors.redAccent,
           inactiveColorPrimary: Colors.grey,
         ),
         PersistentBottomNavBarItem(
-          icon: Icon(Icons.chat_bubble_outline),
+          icon: const Icon(Icons.chat_bubble_outline),
           title: localizations.feedback,
           activeColorPrimary: Colors.redAccent,
           inactiveColorPrimary: Colors.grey,

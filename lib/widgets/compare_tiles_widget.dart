@@ -76,12 +76,12 @@ class CompareTilesWidget extends StatelessWidget {
         title.isNotEmpty
             ? Column(
                 children: [
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(title, style: roboto12greySemiBold),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               )
-            : SizedBox(height: 0),
+            : const SizedBox(height: 0),
         Row(
           children: [
             SizedBox(width: tabletScreenWidth/100),
@@ -105,7 +105,7 @@ class CompareTilesWidget extends StatelessWidget {
         height: 40,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: colors[paramIndex],
         ),
         child: Text(

@@ -1,8 +1,11 @@
+// ignore_for_file: avoid_void_async
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/screens/filter_screen.dart';
 
 import '../models/heli.dart';
 import '../models/plane.dart';
@@ -11,7 +14,6 @@ import '../models/tank.dart';
 import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../providers/firestore_provider.dart';
-import '../screens/placeholder_screen.dart';
 import '../utilities/constants.dart';
 import 'heli_comparison_screen.dart';
 import 'plane_comparison_screen.dart';
@@ -29,6 +31,7 @@ class _SelectScreenState extends State<SelectScreen> {
   bool _isFirstInit = false;
   int? _vehicleTypeValue = 1;
 
+  // ignore: prefer_final_fields
   List<Vehicle> _selectedVehicles = [];
   List<Vehicle> _allVehiclesResults = [];
   List<Vehicle> _searchVehiclesResult = [];
@@ -82,7 +85,7 @@ class _SelectScreenState extends State<SelectScreen> {
     final appbarSize = AppBar().preferredSize.height;
     final localizations = AppLocalizations.of(context)!;
     var vehicleName = localizations.army;
-    double tabletScreenWidth = 600;
+    const double tabletScreenWidth = 600;
 
     return SafeArea(
       child: Scaffold(
@@ -96,7 +99,7 @@ class _SelectScreenState extends State<SelectScreen> {
               elevation: 0,
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   color: kLightGreyColor,
                   child: Column(
                     children: [
@@ -104,9 +107,9 @@ class _SelectScreenState extends State<SelectScreen> {
                         width: tabletScreenWidth,
                         child: CupertinoSlidingSegmentedControl<int>(
                           backgroundColor: kBlackColor,
-                          thumbColor: Color(0xfff39393),
+                          thumbColor: const Color(0xfff39393),
                           groupValue: _vehicleTypeValue,
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           children: {
                             0: Container(
                               child: Text(
@@ -159,7 +162,7 @@ class _SelectScreenState extends State<SelectScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       SizedBox(
                         width: tabletScreenWidth,
                         child: Row(
@@ -189,12 +192,11 @@ class _SelectScreenState extends State<SelectScreen> {
                     child: Row(
                       children: [
                         CupertinoButton(
-                          //TODO: Add filters
-                          child: Icon(Icons.tune, color: kIconGreyColor),
+                          child: const Icon(Icons.tune, color: kIconGreyColor),
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => PlaceholderScreen()),
+                              MaterialPageRoute(builder: (context) => const FilterScreen()),
                             );
                           },
                         ),
@@ -202,8 +204,8 @@ class _SelectScreenState extends State<SelectScreen> {
                           child: CupertinoTextField(
                             controller: _searchController,
                             onChanged: (value) {},
-                            prefix: Padding(
-                              padding: const EdgeInsets.only(left: 8),
+                            prefix: const Padding(
+                              padding: EdgeInsets.only(left: 8),
                               child: Icon(
                                 Icons.search,
                                 color: kTextGreyColor,
@@ -249,13 +251,13 @@ class _SelectScreenState extends State<SelectScreen> {
                             ),
                             title: Text(
                               '[${_searchVehiclesResult[index].BRs[1]}] ${getSpaceFont(_searchVehiclesResult[index].name)}',
-                              style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                              style: const TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
                               _searchVehiclesResult[index].vehicleClass[0],
                               style: roboto12greySemiBold,
                             ),
-                            trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
+                            trailing: _vehicleSelected ? const Icon(Icons.check, size: 24) : const Icon(Icons.check, size: 0),
                             tileColor: _searchVehiclesResult[index].isPremium ? kYellow : Colors.white,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             onTap: () {
@@ -381,7 +383,7 @@ class _SelectScreenState extends State<SelectScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Center(child: const Text('OK')),
+            child: const Center(child: Text('OK')),
           ),
         ],
       ),

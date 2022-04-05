@@ -9,9 +9,7 @@ import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
-import '../utilities/debug_ads_collection.dart';
 import '../widgets/compare_icon_widget.dart';
-import '../widgets/compare_images_widget.dart';
 import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
@@ -80,7 +78,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
           centerTitle: false,
           title: Text(localizations.comparison),
           leading: CupertinoButton(
-            child: Icon(Icons.chevron_left),
+            child: const Icon(Icons.chevron_left),
             onPressed: () => Navigator.pop(context),
           ),
           actions: [
@@ -124,7 +122,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
             Container(
               height: screenSize.height / 7,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
                   children: [
                     Expanded(child: ScrollVehiclesWidget(_controller1, simplifiedVehicle, 1)),
@@ -139,7 +137,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     CompareTextWidget(
                       title: '',
                       noTitle: localizations.no_data,
@@ -151,7 +149,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                         [widget.receivedData[indexController4].BRs[_gameMode]],
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -171,7 +169,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareIconWidget(
                           title: '',
                           data: [
@@ -187,7 +185,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                             widget.receivedData[indexController4].nation,
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
                           noTitle: localizations.no_data,
@@ -199,7 +197,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                             [widget.receivedData[indexController4].rank],
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
                           noTitle: localizations.no_data,
@@ -213,7 +211,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -309,7 +307,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -384,7 +382,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
     // final adsCollection = DebugAdsCollection();
     _bannerAd = BannerAd(
       adUnitId: adsCollection.bannerHeliAdUnitId(),
-      request: AdRequest(),
+      request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {

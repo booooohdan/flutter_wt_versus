@@ -38,9 +38,7 @@ class _CompareImagesWidgetState extends State<CompareImagesWidget> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    double tabletScreenWidth = screenSize.width-40;
     if (screenSize.width > 600) {
-      tabletScreenWidth = 600;
     }
 
     return Column(
@@ -48,12 +46,12 @@ class _CompareImagesWidgetState extends State<CompareImagesWidget> {
         widget.title.isNotEmpty
             ? Column(
                 children: [
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(widget.title, style: roboto12greySemiBold),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               )
-            : SizedBox(height: 0),
+            : const SizedBox(height: 0),
         Row(
           key: _globalKey,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

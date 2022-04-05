@@ -12,7 +12,7 @@ List<PageViewModel> getIntroductionPages(BuildContext context) {
         ),
         title: localizations.introduction_title1,
         body: localizations.introduction_body1,
-        decoration: PageDecoration()),
+        decoration: const PageDecoration()),
     PageViewModel(
       image: Image.asset(
         'assets/icons/icon.png',

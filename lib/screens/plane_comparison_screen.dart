@@ -9,7 +9,6 @@ import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
-import '../utilities/debug_ads_collection.dart';
 import '../widgets/compare_icon_widget.dart';
 import '../widgets/compare_images_widget.dart';
 import '../widgets/compare_text_widget.dart';
@@ -17,7 +16,7 @@ import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
 
 class PlaneComparisonScreen extends StatefulWidget {
-  PlaneComparisonScreen({
+  const PlaneComparisonScreen({
     required this.receivedData,
     Key? key,
   }) : super(key: key);
@@ -80,7 +79,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
           centerTitle: false,
           title: Text(localizations.comparison),
           leading: CupertinoButton(
-            child: Icon(Icons.chevron_left),
+            child: const Icon(Icons.chevron_left),
             onPressed: () => Navigator.pop(context),
           ),
           actions: [
@@ -124,7 +123,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
             Container(
               height: screenSize.height / 7,
               child: Padding(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 child: Row(
                   children: [
                     Expanded(child: ScrollVehiclesWidget(_controller1, simplifiedVehicle, 1)),
@@ -139,7 +138,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     CompareTextWidget(
                       title: '',
                       noTitle: localizations.no_data,
@@ -151,7 +150,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         [widget.receivedData[indexController4].BRs[_gameMode]],
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -171,7 +170,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].repairCosts[_gameMode].replaceAll(' ', '').replaceAll('free', '0')),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareIconWidget(
                           title: '',
                           data: [
@@ -187,7 +186,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             widget.receivedData[indexController4].nation,
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
                           noTitle: localizations.no_data,
@@ -199,7 +198,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             [widget.receivedData[indexController4].rank],
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         CompareTextWidget(
                           title: '',
                           noTitle: localizations.no_data,
@@ -213,7 +212,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -234,7 +233,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].speed.replaceAll(' ', '')),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
                             Expanded(
@@ -297,7 +296,16 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].weight.replaceAll(' ', '')),
                           ],
                         ),
-                        //TODO: Add power to weight ratio
+                        CompareTilesWidget(
+                          title: localizations.weight_t,
+                          moreIsBetter: false,
+                          data: [
+                            double.parse(widget.receivedData[indexController1].weight.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController2].weight.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController3].weight.replaceAll(' ', '')),
+                            double.parse(widget.receivedData[indexController4].weight.replaceAll(' ', '')),
+                          ],
+                        ),
                         CompareTilesWidget(
                           title: localizations.structural_destruction_km_h,
                           moreIsBetter: true,
@@ -351,7 +359,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         //TODO Add icons
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           localizations.cooling_system,
                           style: roboto12greySemiBold,
@@ -390,7 +398,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                           ],
                         ),
                         //TODO Add icons
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           localizations.engine_type,
                           style: roboto12greySemiBold,
@@ -440,7 +448,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     ExpansionTile(
                       collapsedBackgroundColor: kLightGreyColor,
                       title: Text(
@@ -515,7 +523,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
     // final adsCollection = DebugAdsCollection();
     _bannerAd = BannerAd(
       adUnitId: adsCollection.bannerPlaneAdUnitId(),
-      request: AdRequest(),
+      request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {

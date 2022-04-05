@@ -31,7 +31,7 @@ class _ScrollVehiclesWidgetState extends State<ScrollVehiclesWidget> {
           begin: Alignment.center,
           end: Alignment.bottomCenter,
           colors: [Colors.white, Colors.white.withOpacity(0.01)],
-          stops: [0.5, 1],
+          stops: const [0.5, 1],
           tileMode: TileMode.mirror,
         ).createShader(bounds);
       },
@@ -69,14 +69,14 @@ class _ScrollVehiclesWidgetState extends State<ScrollVehiclesWidget> {
                   child: Container(
                     height: 16,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
                       color: widget.receivedData[index].isPremium ? kYellow : kBlackColor,
                     ),
                     child: Marquee(
                       text: getSpaceFont(widget.receivedData[index].name),
                       velocity: 10,
                       blankSpace: 20.0,
-                      pauseAfterRound: Duration(seconds: 1),
+                      pauseAfterRound: const Duration(seconds: 1),
                       startPadding: 10,
                       style: TextStyle(
                         color: widget.receivedData[index].isPremium ? kBlackColor : Colors.white,
