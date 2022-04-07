@@ -25,6 +25,38 @@ class _FilterScreenState extends State<FilterScreen> {
     final screenSize = MediaQuery.of(context).size;
     final localizations = AppLocalizations.of(context)!;
 
+    final _nations = [];
+    for (final i in widget.receivedData) {
+      if (!_nations.contains(i.nation)) {
+        _nations.add(i.nation);
+      }
+    }
+
+    final _isPremium = [];
+    for (final i in widget.receivedData) {
+      if (!_isPremium.contains(i.isPremium)) {
+        _isPremium.add(i.nation);
+      }
+    }
+
+    final List<String> _class = [];
+    for (final i in widget.receivedData) {
+      for (final k in i.vehicleClass) {
+        if (!_class.contains(k)) {
+          _class.add(k);
+        }
+      }
+    }
+
+    final List<String> _br = [];
+    for (final i in widget.receivedData) {
+      for (final k in i.BRs) {
+        if (!_br.contains(k)) {
+          _br.add(k);
+        }
+      }
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -48,10 +80,8 @@ class _FilterScreenState extends State<FilterScreen> {
                 min: 1.0,
                 max: 12.0,
                 divisions: 110,
-                labels: RangeLabels(
-                    '${selectedRange.start}', '${selectedRange.end}'),
+                labels: RangeLabels('${selectedRange.start}', '${selectedRange.end}'),
               ),
-              
             ],
           ),
         ),

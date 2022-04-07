@@ -423,6 +423,7 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
         name: i.name,
         image: i.image,
         nation: i.nation,
+        rank: i.rank,
         isPremium: i.isPremium,
         BRs: i.BRs,
         vehicleClass: i.tankClass,

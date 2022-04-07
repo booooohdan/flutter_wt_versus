@@ -344,6 +344,7 @@ class _ShipComparisonScreenState extends State<ShipComparisonScreen> {
         name: i.name,
         image: i.image,
         nation: i.nation,
+        rank: i.rank,
         isPremium: i.isPremium,
         BRs: i.BRs,
         vehicleClass: i.shipClass,

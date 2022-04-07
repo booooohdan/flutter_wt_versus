@@ -50,12 +50,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(children: [
-                    TextSpan(
-                        text: localizations.hello_there,
-                        style: roboto22blackBold),
-                    TextSpan(
-                        text: localizations.welcome_back,
-                        style: roboto14greyMedium),
+                    TextSpan(text: localizations.hello_there, style: roboto22blackBold),
+                    TextSpan(text: localizations.welcome_back, style: roboto14greyMedium),
                   ]),
                 ),
               ),
@@ -73,12 +69,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Platform.isAndroid
                           ? ElevatedButton.icon(
                               onPressed: () {
-                                context
-                                    .read<GoogleSignInProvider>()
-                                    .googleLogin();
+                                context.read<GoogleSignInProvider>().googleLogin();
                               },
-                              icon: const FaIcon(FontAwesomeIcons.google,
-                                  size: 20),
+                              icon: const FaIcon(FontAwesomeIcons.google, size: 20),
                               label: Text(
                                 localizations.sign_up,
                                 style: roboto14whiteSemiBold,
@@ -86,12 +79,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             )
                           : ElevatedButton.icon(
                               onPressed: () {
-                                context
-                                    .read<AppleSignInProvider>()
-                                    .signInWithApple();
+                                context.read<AppleSignInProvider>().signInWithApple();
                               },
-                              icon: const FaIcon(FontAwesomeIcons.apple,
-                                  size: 20),
+                              icon: const FaIcon(FontAwesomeIcons.apple, size: 20),
                               label: Text(
                                 localizations.sign_up_apple,
                                 style: roboto14whiteSemiBold,
@@ -116,15 +106,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     actions: [
                                       TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
+                                        onPressed: () => Navigator.of(context).pop(),
                                         child: const Center(child: Text('OK')),
                                       ),
                                     ],
                                   ));
                         },
-                        child: Text(localizations.why_login,
-                            style: roboto14blackBold),
+                        child: Text(localizations.why_login, style: roboto14blackBold),
                         style: ElevatedButton.styleFrom(
                           primary: kButtonGreyColor,
                         ),

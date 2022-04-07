@@ -20,7 +20,7 @@ class _ScrollVehiclesWidgetState extends State<ScrollVehiclesWidget> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    double tabletScreenWidth = screenSize.width-40;
+    double tabletScreenWidth = screenSize.width - 40;
     if (screenSize.width > 600) {
       tabletScreenWidth = 600;
     }
@@ -65,7 +65,7 @@ class _ScrollVehiclesWidgetState extends State<ScrollVehiclesWidget> {
                   top: tabletScreenWidth / 8,
                 ),
                 child: SizedBox(
-                  width: tabletScreenWidth/4,
+                  width: tabletScreenWidth / 4,
                   child: Container(
                     height: 16,
                     decoration: BoxDecoration(

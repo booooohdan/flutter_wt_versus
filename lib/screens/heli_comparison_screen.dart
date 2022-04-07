@@ -369,6 +369,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
         name: i.name,
         image: i.image,
         nation: i.nation,
+        rank: i.rank,
         isPremium: i.isPremium,
         BRs: i.BRs,
         vehicleClass: i.heliClass,

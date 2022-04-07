@@ -510,6 +510,7 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
         name: i.name,
         image: i.image,
         nation: i.nation,
+        rank: i.rank,
         isPremium: i.isPremium,
         BRs: i.BRs,
         vehicleClass: i.planeClass,

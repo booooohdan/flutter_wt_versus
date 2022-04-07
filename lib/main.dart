@@ -121,8 +121,7 @@ Future<void> main() async {
                         preferences.setBool('skipIntroduction', true);
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => BottomNavBar()),
+                          MaterialPageRoute(builder: (context) => BottomNavBar()),
                         );
                       },
                     );
