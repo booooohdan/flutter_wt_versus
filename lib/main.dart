@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -24,6 +25,13 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await MobileAds.instance.initialize();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+  final preferences = await SharedPreferences.getInstance();
+  final _skipIntroduction = preferences.getBool('skipIntroduction') ?? false;
+  Future<void> initAppTrackingTransparency() async {
+    await AppTrackingTransparency.requestTrackingAuthorization();
+  }
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: kLightGreyColor,
@@ -31,8 +39,7 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  final preferences = await SharedPreferences.getInstance();
-  final _skipIntroduction = preferences.getBool('skipIntroduction') ?? false;
+
   runApp(
     MultiProvider(
       providers: [
@@ -98,6 +105,7 @@ Future<void> main() async {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             // FirebaseCrashlytics.instance.crash();
+            initAppTrackingTransparency();
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator.adaptive());
             } else if (snapshot.hasData) {
@@ -113,7 +121,8 @@ Future<void> main() async {
                         preferences.setBool('skipIntroduction', true);
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => BottomNavBar()),
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()),
                         );
                       },
                     );
