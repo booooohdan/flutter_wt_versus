@@ -66,7 +66,8 @@ class _SelectScreenState extends State<SelectScreen> {
     if (!_isFirstInit) {
       _isFirstInit = true;
 
-      _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedTanks();
+      _allVehiclesResults =
+          await context.read<FirestoreProvider>().getSimplifiedTanks();
       _searchVehiclesResult = _allVehiclesResults;
       setState(() {});
     }
@@ -138,19 +139,27 @@ class _SelectScreenState extends State<SelectScreen> {
                           },
                           onValueChanged: (value) async {
                             if (value == 0) {
-                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedPlanes();
+                              _allVehiclesResults = await context
+                                  .read<FirestoreProvider>()
+                                  .getSimplifiedPlanes();
                               vehicleName = localizations.planes;
                             }
                             if (value == 1) {
-                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedTanks();
+                              _allVehiclesResults = await context
+                                  .read<FirestoreProvider>()
+                                  .getSimplifiedTanks();
                               vehicleName = localizations.army;
                             }
                             if (value == 2) {
-                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedHelis();
+                              _allVehiclesResults = await context
+                                  .read<FirestoreProvider>()
+                                  .getSimplifiedHelis();
                               vehicleName = localizations.helicopters;
                             }
                             if (value == 3) {
-                              _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedShips();
+                              _allVehiclesResults = await context
+                                  .read<FirestoreProvider>()
+                                  .getSimplifiedShips();
                               vehicleName = localizations.fleet;
                             }
                             _searchVehiclesResult = _allVehiclesResults;
@@ -193,11 +202,17 @@ class _SelectScreenState extends State<SelectScreen> {
                       children: [
                         CupertinoButton(
                           child: const Icon(Icons.tune, color: kIconGreyColor),
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            final result = await Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const FilterScreen()),
+                              MaterialPageRoute(
+                                builder: (context) => FilterScreen(
+                                  receivedData: _allVehiclesResults,
+                                  vehicleType: _vehicleTypeValue,
+                                ),
+                              ),
                             );
+                            await newMethod();
                           },
                         ),
                         Expanded(
@@ -217,7 +232,8 @@ class _SelectScreenState extends State<SelectScreen> {
                         ),
                         _selectedVehicles.isNotEmpty
                             ? CupertinoButton(
-                                child: Text(localizations.clear, style: roboto14darkGreyMedium),
+                                child: Text(localizations.clear,
+                                    style: roboto14darkGreyMedium),
                                 onPressed: () {
                                   _selectedVehicles.clear();
                                   setState(() {});
@@ -233,11 +249,13 @@ class _SelectScreenState extends State<SelectScreen> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  final _vehicleSelected = _selectedVehicles.contains(_searchVehiclesResult[index]);
+                  final _vehicleSelected =
+                      _selectedVehicles.contains(_searchVehiclesResult[index]);
                   return Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         child: SizedBox(
                           width: tabletScreenWidth,
                           child: ListTile(
@@ -251,21 +269,32 @@ class _SelectScreenState extends State<SelectScreen> {
                             ),
                             title: Text(
                               '[${_searchVehiclesResult[index].BRs[1]}] ${getSpaceFont(_searchVehiclesResult[index].name)}',
-                              style: const TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  color: kBlackColor,
+                                  fontSize: 14,
+                                  fontFamily: 'Symbols',
+                                  fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
                               _searchVehiclesResult[index].vehicleClass[0],
                               style: roboto12greySemiBold,
                             ),
-                            trailing: _vehicleSelected ? const Icon(Icons.check, size: 24) : const Icon(Icons.check, size: 0),
-                            tileColor: _searchVehiclesResult[index].isPremium ? kYellow : Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            trailing: _vehicleSelected
+                                ? const Icon(Icons.check, size: 24)
+                                : const Icon(Icons.check, size: 0),
+                            tileColor: _searchVehiclesResult[index].isPremium
+                                ? kYellow
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
                             onTap: () {
                               setState(() {
                                 if (_vehicleSelected) {
-                                  _selectedVehicles.remove(_searchVehiclesResult[index]);
+                                  _selectedVehicles
+                                      .remove(_searchVehiclesResult[index]);
                                 } else {
-                                  _selectedVehicles.add(_searchVehiclesResult[index]);
+                                  _selectedVehicles
+                                      .add(_searchVehiclesResult[index]);
                                 }
                               });
                             },
@@ -312,46 +341,78 @@ class _SelectScreenState extends State<SelectScreen> {
     );
   }
 
+  Future<int> newMethod() async {
+    return 3;
+  }
+
   Future<void> floatingButtonNavigation(BuildContext context) async {
     switch (_vehicleTypeValue) {
       case 0:
         final List<Plane> vehiclesForComparison = [];
-        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getPlanes();
+        final vehiclesFromFirebase =
+            await context.read<FirestoreProvider>().getPlanes();
 
         for (final item in _selectedVehicles) {
-          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+          vehiclesForComparison.add(vehiclesFromFirebase
+              .where((element) => element.link == item.link)
+              .first);
         }
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PlaneComparisonScreen(
+                    receivedData: vehiclesForComparison)));
         break;
 
       case 1:
         final List<Tank> vehiclesForComparison = [];
-        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getTanks();
+        final vehiclesFromFirebase =
+            await context.read<FirestoreProvider>().getTanks();
 
         for (final item in _selectedVehicles) {
-          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+          vehiclesForComparison.add(vehiclesFromFirebase
+              .where((element) => element.link == item.link)
+              .first);
         }
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TankComparisonScreen(receivedData: vehiclesForComparison)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    TankComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
       case 2:
         final List<Heli> vehiclesForComparison = [];
-        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getHelis();
+        final vehiclesFromFirebase =
+            await context.read<FirestoreProvider>().getHelis();
 
         for (final item in _selectedVehicles) {
-          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+          vehiclesForComparison.add(vehiclesFromFirebase
+              .where((element) => element.link == item.link)
+              .first);
         }
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HeliComparisonScreen(receivedData: vehiclesForComparison)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HeliComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
       case 3:
         final List<Ship> vehiclesForComparison = [];
-        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getShips();
+        final vehiclesFromFirebase =
+            await context.read<FirestoreProvider>().getShips();
 
         for (final item in _selectedVehicles) {
-          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+          vehiclesForComparison.add(vehiclesFromFirebase
+              .where((element) => element.link == item.link)
+              .first);
         }
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ShipComparisonScreen(receivedData: vehiclesForComparison)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ShipComparisonScreen(receivedData: vehiclesForComparison)));
         break;
 
       // final vehiclesFromFirebaseTest = await context.read<FirestoreProvider>().getShips();
