@@ -10,6 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wt_versus/providers/apple_signin_provider.dart';
 
 import '../providers/google_signin_provider.dart';
 import '../utilities/constants.dart';
@@ -62,6 +63,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width - 40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -74,15 +81,20 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 child: ElevatedButton.icon(
                   label: Text(
                     localizations.logout,
-                    style: TextStyle(color: kTextGreyColor),
+                    style: const TextStyle(color: kTextGreyColor),
                   ),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.logout,
                     size: 20,
                     color: kTextGreyColor,
                   ),
                   onPressed: () {
-                    context.read<GoogleSignInProvider>().googleLogOut();
+                    if (Platform.isAndroid) {
+                      context.read<GoogleSignInProvider>().googleLogOut();
+                    }
+                    if (Platform.isIOS) {
+                      context.read<AppleSignInProvider>().signOutWithApple();
+                    }
                   },
                   style: ElevatedButton.styleFrom(primary: kLightGreyColor, splashFactory: NoSplash.splashFactory),
                 ),
@@ -153,7 +165,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   const SizedBox(height: 16),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
-                    width: 500,
+                    width: tabletScreenWidth,
                     child: Text(
                       localizations.versus_description,
                       style: roboto12blackMedium,
@@ -169,12 +181,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: 320,
+                    width: tabletScreenWidth,
                     height: 50,
                     child: ElevatedButton.icon(
                       //context: context,
-                      icon: FaIcon(FontAwesomeIcons.github),
-                      label: Text('GitHub'),
+                      icon: const FaIcon(FontAwesomeIcons.github),
+                      label: Text(localizations.github),
                       onPressed: () async {
                         const url = 'https://github.com/booooohdan/flutter_wt_versus/issues';
                         if (await canLaunch(url)) {
@@ -190,15 +202,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     ),
                   ),
                   Container(
-                    width: 320,
+                    width: tabletScreenWidth,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(
-                          width: 100,
+                          width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
-                            icon: Icon(Icons.star_border, color: kBlackColor),
+                            icon: const Icon(Icons.star_border, color: kBlackColor),
                             label: Text(localizations.rate, style: roboto12blackMedium),
                             style: ElevatedButton.styleFrom(
                               primary: kButtonGreyColor,
@@ -213,10 +225,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
-                            icon: Icon(Icons.share_outlined, color: kBlackColor),
+                            icon: const Icon(Icons.share_outlined, color: kBlackColor),
                             label: Text(localizations.share, style: roboto12blackMedium),
                             style: ElevatedButton.styleFrom(
                               primary: kButtonGreyColor,
@@ -226,17 +238,17 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               if (Platform.isAndroid) {
                                 url = 'https://play.google.com/store/apps/details?id=com.wave.wtversus';
                               } else if (Platform.isIOS) {
-                                url = 'https://apps.apple.com/us/app/thunder-quiz/id1606469760'; //TODO: AppStore ID
+                                url = ''; //TODO: AppStore ID
                               }
                               Share.share('Check this cool comparison app for War Thunder: $url');
                             },
                           ),
                         ),
                         SizedBox(
-                          width: 100,
+                          width: tabletScreenWidth / 3 - 10,
                           height: 50,
                           child: ElevatedButton.icon(
-                            icon: Icon(Icons.email_outlined, color: kBlackColor),
+                            icon: const Icon(Icons.email_outlined, color: kBlackColor),
                             label: Text(localizations.email, style: roboto12blackMedium),
                             style: ElevatedButton.styleFrom(
                               primary: kButtonGreyColor,
@@ -262,7 +274,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     ),
                   ),
                   ElevatedButton.icon(
-                    icon: Icon(Icons.policy_outlined, color: kTextGreyColor),
+                    icon: const Icon(Icons.policy_outlined, color: kTextGreyColor),
                     label: Text(localizations.privacy, style: roboto14greyMedium),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.white,

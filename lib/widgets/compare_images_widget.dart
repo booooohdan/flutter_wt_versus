@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../utilities/constants.dart';
 
-class CompareTextWidget extends StatefulWidget {
-  const CompareTextWidget({
+class CompareImagesWidget extends StatefulWidget {
+  const CompareImagesWidget({
     required this.title,
     required this.noTitle,
-    required this.textStyle,
     required this.list,
+    //required this.tooltipData,
     Key? key,
   }) : super(key: key);
   final String title;
   final String noTitle;
-  final TextStyle textStyle;
   final List<List<String>> list;
 
+  //final List<List<String>> tooltipData;
+
   @override
-  State<CompareTextWidget> createState() => _CompareTextWidgetState();
+  State<CompareImagesWidget> createState() => _CompareImagesWidgetState();
 }
 
-class _CompareTextWidgetState extends State<CompareTextWidget> {
+class _CompareImagesWidgetState extends State<CompareImagesWidget> {
   double _height = 0.0;
   final _globalKey = GlobalKey();
 
@@ -35,6 +37,9 @@ class _CompareTextWidgetState extends State<CompareTextWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    if (screenSize.width > 600) {}
+
     return Column(
       children: [
         widget.title.isNotEmpty
@@ -50,41 +55,46 @@ class _CompareTextWidgetState extends State<CompareTextWidget> {
           key: _globalKey,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            buildListView(0),
+            buildGridView(screenSize, 0),
             Container(height: _height, width: 1, color: kButtonGreyColor),
-            buildListView(1),
+            buildGridView(screenSize, 1),
             Container(height: _height, width: 1, color: kButtonGreyColor),
-            buildListView(2),
+            buildGridView(screenSize, 2),
             Container(height: _height, width: 1, color: kButtonGreyColor),
-            buildListView(3),
+            buildGridView(screenSize, 3),
           ],
         ),
       ],
     );
   }
 
-  Expanded buildListView(paramIndex) {
+  Expanded buildGridView(Size screenSize, paramIndex) {
+    double tabletScreenWidth = screenSize.width - 40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     return Expanded(
       child: widget.list[paramIndex].isEmpty
           ? Center(
-              child: Text(
-                widget.noTitle,
-                style: roboto10redBold,
-              ),
+              child: Text(widget.noTitle, style: roboto10redBold),
             )
           : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return const Divider(height: 2);
-                  },
-                  shrinkWrap: true,
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: tabletScreenWidth / 8,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
                   itemCount: widget.list[paramIndex].length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Text(
-                      widget.list[paramIndex][index],
-                      style: widget.textStyle,
-                      textAlign: TextAlign.center,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Tooltip(
+                      message: widget.list[paramIndex][index],
+                      child: SvgPicture.asset(
+                        'assets/icons/${widget.list[paramIndex][index].replaceAll('/', '')}.svg',
+                      ),
                     );
                   }),
             ),

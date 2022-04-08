@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firestore_cache/firestore_cache.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getPlanesDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statusplane/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('planes');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
@@ -43,7 +45,9 @@ class FirestoreProvider with ChangeNotifier {
           final plane = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
+            rank: doc['rank'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
             vehicleClass: doc['planeClass'].cast<String>(),
@@ -94,7 +98,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getTanksDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statustank/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('tanks');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
@@ -111,7 +115,9 @@ class FirestoreProvider with ChangeNotifier {
           final tank = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
+            rank: doc['rank'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
             vehicleClass: doc['tankClass'].cast<String>(),
@@ -138,12 +144,12 @@ class FirestoreProvider with ChangeNotifier {
             features: doc['features'].cast<String>(),
             crew: doc['crew'],
             weight: doc['weight'],
-            vertGuidance: doc['vertGuidance'],
-            armorHull: doc['armorHull'],
-            armorTurret: doc['armorTurret'],
-            speeds: doc['speeds'],
-            reverseSpeeds: doc['reverseSpeeds'],
-            enginePowers: doc['enginePowers'],
+            vertGuidance: doc['vertGuidance'].cast<String>(),
+            armorHull: doc['armorHull'].cast<String>(),
+            armorTurret: doc['armorTurret'].cast<String>(),
+            speeds: doc['speeds'].cast<String>(),
+            reverseSpeeds: doc['reverseSpeeds'].cast<String>(),
+            enginePowers: doc['enginePowers'].cast<String>(),
             powerToWeights: doc['powerToWeights'].cast<String>(),
             repairCosts: doc['repairCosts'].cast<String>(),
             reloadTime: doc['reloadTime'],
@@ -160,7 +166,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getHelisDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statusheli/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('helis');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
@@ -177,7 +183,9 @@ class FirestoreProvider with ChangeNotifier {
           final heli = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
+            rank: doc['rank'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
             vehicleClass: doc['heliClass'].cast<String>(),
@@ -223,7 +231,7 @@ class FirestoreProvider with ChangeNotifier {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getShipsDocs() async {
     final cacheDocRef = _fireStoreInstance.doc('statusship/status');
-    final cacheField = 'updatedAt';
+    const cacheField = 'updatedAt';
     final query = _fireStoreInstance.collection('ships');
     final snapshot = await FirestoreCache.getDocuments(
       query: query,
@@ -240,7 +248,9 @@ class FirestoreProvider with ChangeNotifier {
           final ship = Vehicle(
             link: doc['link'],
             name: doc['name'],
+            image: doc['image'],
             nation: doc['nation'],
+            rank: doc['rank'],
             BRs: doc['BRs'].cast<String>(),
             isPremium: doc['isPremium'],
             vehicleClass: doc['shipClass'].cast<String>(),

@@ -1,16 +1,26 @@
+// ignore_for_file: avoid_void_async
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/screens/filter_screen.dart';
+import 'package:wt_versus/utilities/ads_collection.dart';
 
+import '../models/heli.dart';
 import '../models/plane.dart';
+import '../models/ship.dart';
+import '../models/tank.dart';
 import '../models/vehicles.dart';
 import '../providers/comparison_provider.dart';
 import '../providers/firestore_provider.dart';
-import '../screens/placeholder_screen.dart';
 import '../utilities/constants.dart';
+import 'heli_comparison_screen.dart';
 import 'plane_comparison_screen.dart';
+import 'ship_comparison_screen.dart';
+import 'tank_comparison_screen.dart';
 
 class SelectScreen extends StatefulWidget {
   const SelectScreen({Key? key}) : super(key: key);
@@ -21,8 +31,12 @@ class SelectScreen extends StatefulWidget {
 
 class _SelectScreenState extends State<SelectScreen> {
   bool _isFirstInit = false;
-  int? _vehicleTypeValue = 0;
+  int? _vehicleTypeValue = 1;
+  InterstitialAd? _interstitialAd;
+  bool isInterstitialAdReady = false;
+  int interstitialCount = 0;
 
+  // ignore: prefer_final_fields
   List<Vehicle> _selectedVehicles = [];
   List<Vehicle> _allVehiclesResults = [];
   List<Vehicle> _searchVehiclesResult = [];
@@ -57,7 +71,7 @@ class _SelectScreenState extends State<SelectScreen> {
     if (!_isFirstInit) {
       _isFirstInit = true;
 
-      _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedPlanes();
+      _allVehiclesResults = await context.read<FirestoreProvider>().getSimplifiedTanks();
       _searchVehiclesResult = _allVehiclesResults;
       setState(() {});
     }
@@ -67,6 +81,7 @@ class _SelectScreenState extends State<SelectScreen> {
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
+    _interstitialAd!.dispose();
     super.dispose();
   }
 
@@ -75,7 +90,9 @@ class _SelectScreenState extends State<SelectScreen> {
     final screenSize = MediaQuery.of(context).size;
     final appbarSize = AppBar().preferredSize.height;
     final localizations = AppLocalizations.of(context)!;
-    var vehicleName = localizations.planes;
+    var vehicleName = localizations.army;
+    const double tabletScreenWidth = 600;
+
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -88,17 +105,17 @@ class _SelectScreenState extends State<SelectScreen> {
               elevation: 0,
               flexibleSpace: FlexibleSpaceBar(
                 background: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   color: kLightGreyColor,
                   child: Column(
                     children: [
                       SizedBox(
-                        width: double.infinity,
+                        width: tabletScreenWidth,
                         child: CupertinoSlidingSegmentedControl<int>(
                           backgroundColor: kBlackColor,
-                          thumbColor: Color(0xfff39393),
+                          thumbColor: const Color(0xfff39393),
                           groupValue: _vehicleTypeValue,
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           children: {
                             0: Container(
                               child: Text(
@@ -151,19 +168,22 @@ class _SelectScreenState extends State<SelectScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '$vehicleName: ${_searchVehiclesResult.length.toString()}',
-                            style: roboto12greySemiBold,
-                          ),
-                          Text(
-                            '${localizations.selected_vehicles}: ${_selectedVehicles.length.toString()}',
-                            style: roboto12greySemiBold,
-                          ),
-                        ],
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: tabletScreenWidth,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '$vehicleName: ${_searchVehiclesResult.length.toString()}',
+                              style: roboto12greySemiBold,
+                            ),
+                            Text(
+                              '${localizations.selected_vehicles}: ${_selectedVehicles.length.toString()}',
+                              style: roboto12greySemiBold,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -173,43 +193,50 @@ class _SelectScreenState extends State<SelectScreen> {
                 preferredSize: Size.fromHeight(appbarSize),
                 child: Container(
                   color: kLightGreyColor,
-                  child: Row(
-                    children: [
-                      CupertinoButton(
-                        //TODO: Add filters
-                        child: Icon(Icons.tune, color: kIconGreyColor),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => PlaceholderScreen()),
-                          );
-                        },
-                      ),
-                      Expanded(
-                        child: CupertinoTextField(
-                          controller: _searchController,
-                          onChanged: (value) {},
-                          prefix: Padding(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: Icon(
-                              Icons.search,
-                              color: kTextGreyColor,
-                            ),
-                          ),
-                          placeholder: localizations.search,
-                          style: roboto14greyMedium,
+                  child: SizedBox(
+                    width: tabletScreenWidth,
+                    child: Row(
+                      children: [
+                        CupertinoButton(
+                          child: const Icon(Icons.tune, color: kIconGreyColor),
+                          onPressed: () async {
+                            _searchVehiclesResult = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FilterScreen(
+                                  vehicleType: _vehicleTypeValue,
+                                ),
+                              ),
+                            );
+                            setState(() {});
+                          },
                         ),
-                      ),
-                      _selectedVehicles.isNotEmpty
-                          ? CupertinoButton(
-                              child: Text(localizations.clear, style: roboto14darkGreyMedium),
-                              onPressed: () {
-                                _selectedVehicles.clear();
-                                setState(() {});
-                              },
-                            )
-                          : Container(width: 16),
-                    ],
+                        Expanded(
+                          child: CupertinoTextField(
+                            controller: _searchController,
+                            onChanged: (value) {},
+                            prefix: const Padding(
+                              padding: EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Icons.search,
+                                color: kTextGreyColor,
+                              ),
+                            ),
+                            placeholder: localizations.search,
+                            style: roboto14greyMedium,
+                          ),
+                        ),
+                        _selectedVehicles.isNotEmpty
+                            ? CupertinoButton(
+                                child: Text(localizations.clear, style: roboto14darkGreyMedium),
+                                onPressed: () {
+                                  _selectedVehicles.clear();
+                                  setState(() {});
+                                },
+                              )
+                            : Container(width: 16),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -222,37 +249,40 @@ class _SelectScreenState extends State<SelectScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: ListTile(
-                          dense: true,
-                          leading: SizedBox(
-                            width: 40,
-                            child: SvgPicture.asset(
-                              'assets/icons/${_searchVehiclesResult[index].nation}.svg',
-                              height: screenSize.height / 20,
+                        child: SizedBox(
+                          width: tabletScreenWidth,
+                          child: ListTile(
+                            dense: true,
+                            leading: SizedBox(
+                              width: 40,
+                              child: SvgPicture.asset(
+                                'assets/icons/${_searchVehiclesResult[index].nation}.svg',
+                                height: screenSize.height / 20,
+                              ),
                             ),
+                            title: Text(
+                              '[${_searchVehiclesResult[index].BRs[1]}] ${getSpaceFont(_searchVehiclesResult[index].name)}',
+                              style: const TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              _searchVehiclesResult[index].vehicleClass.last,
+                              style: roboto12greySemiBold,
+                            ),
+                            trailing: _vehicleSelected ? const Icon(Icons.check, size: 24) : const Icon(Icons.check, size: 0),
+                            tileColor: _searchVehiclesResult[index].isPremium ? kYellow : Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            onTap: () {
+                              setState(() {
+                                if (_vehicleSelected) {
+                                  _selectedVehicles.remove(_searchVehiclesResult[index]);
+                                } else {
+                                  _selectedVehicles.add(_searchVehiclesResult[index]);
+                                }
+                              });
+                            },
+                            selected: _vehicleSelected,
+                            selectedTileColor: kLightGreyColor,
                           ),
-                          title: Text(
-                            '[${_searchVehiclesResult[index].BRs[1]}] ${getSpaceFont(_searchVehiclesResult[index].name)}',
-                            style: TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            _searchVehiclesResult[index].vehicleClass[0],
-                            style: roboto12greySemiBold,
-                          ),
-                          trailing: _vehicleSelected ? Icon(Icons.check, size: 24) : Icon(Icons.check, size: 0),
-                          tileColor: _searchVehiclesResult[index].isPremium ? kYellow : Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          onTap: () {
-                            setState(() {
-                              if (_vehicleSelected) {
-                                _selectedVehicles.remove(_searchVehiclesResult[index]);
-                              } else {
-                                _selectedVehicles.add(_searchVehiclesResult[index]);
-                              }
-                            });
-                          },
-                          selected: _vehicleSelected,
-                          selectedTileColor: kLightGreyColor,
                         ),
                       ),
                     ],
@@ -285,30 +315,80 @@ class _SelectScreenState extends State<SelectScreen> {
                   break;
               }
 
-              switch (_vehicleTypeValue) {
-                case 0:
-                  final List<Plane> vehiclesForComparison = [];
-                  final vehiclesFromFirebase = await context.read<FirestoreProvider>().getPlanes();
-                  for (final item in _selectedVehicles) {
-                    vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
-                  }
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
-                  break;
-
-                case 1: //TODO: Add tanks comparison
-                case 2: //TODO: Add helicopters comparison
-                case 3: //TODO: Add ships comparison
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PlaceholderScreen()),
-                  );
-                  break;
+              interstitialCount++;
+              if (interstitialCount % 2 == 0) {
+                isInterstitialAdReady ? _interstitialAd?.show() : await floatingButtonNavigation(context);
+              } else {
+                await floatingButtonNavigation(context);
               }
             },
           ),
         ),
       ),
     );
+  }
+
+  Future<void> floatingButtonNavigation(BuildContext context) async {
+    await loadInterstitialAd();
+
+    switch (_vehicleTypeValue) {
+      case 0:
+        final List<Plane> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getPlanes();
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PlaneComparisonScreen(receivedData: vehiclesForComparison)));
+        break;
+
+      case 1:
+        final List<Tank> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getTanks();
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TankComparisonScreen(receivedData: vehiclesForComparison)));
+        break;
+
+      case 2:
+        final List<Heli> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getHelis();
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HeliComparisonScreen(receivedData: vehiclesForComparison)));
+        break;
+
+      case 3:
+        final List<Ship> vehiclesForComparison = [];
+        final vehiclesFromFirebase = await context.read<FirestoreProvider>().getShips();
+
+        for (final item in _selectedVehicles) {
+          vehiclesForComparison.add(vehiclesFromFirebase.where((element) => element.link == item.link).first);
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ShipComparisonScreen(receivedData: vehiclesForComparison)));
+        break;
+
+      // final vehiclesFromFirebaseTest = await context.read<FirestoreProvider>().getShips();
+      //
+      // List<String> testList = [];
+      // for(final i in vehiclesFromFirebaseTest){
+      //   if(!testList.contains(i.crew)){
+      //     testList.add(i.crew);
+      //   }
+      // }
+      // List<String> testListList = [];
+      // for(final i in vehiclesFromFirebaseTest){
+      //   for(final k in i.features){
+      //     if(!testListList.contains(k)){
+      //       testListList.add(k);
+      //     }
+      //   }
+      // }
+    }
   }
 
   Future<dynamic> buildShowDialog(BuildContext context) {
@@ -321,7 +401,7 @@ class _SelectScreenState extends State<SelectScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Center(child: const Text('OK')),
+            child: const Center(child: Text('OK')),
           ),
         ],
       ),
@@ -333,5 +413,29 @@ class _SelectScreenState extends State<SelectScreen> {
     context.read<ComparisonProvider>().setInt2Value(j);
     context.read<ComparisonProvider>().setInt3Value(k);
     context.read<ComparisonProvider>().setInt4Value(l);
+  }
+
+  Future<void> loadInterstitialAd() async {
+    InterstitialAd.load(
+      adUnitId: AdsCollection().interstitialAdUnitId(),
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) async {
+              await floatingButtonNavigation(context);
+            },
+          );
+
+          isInterstitialAdReady = true;
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+          isInterstitialAdReady = false;
+        },
+      ),
+    );
   }
 }

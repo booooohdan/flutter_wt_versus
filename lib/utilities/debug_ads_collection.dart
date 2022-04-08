@@ -1,7 +1,37 @@
 import 'dart:io';
 
 class DebugAdsCollection {
-  String bannerAdUnitId() {
+  String bannerPlaneAdUnitId() {
+    if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/6300978111';
+    } else if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/2934735716';
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
+  }
+
+  String bannerTankAdUnitId() {
+    if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/6300978111';
+    } else if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/2934735716';
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
+  }
+
+  String bannerHeliAdUnitId() {
+    if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/6300978111';
+    } else if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/2934735716';
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
+  }
+
+  String bannerShipAdUnitId() {
     if (Platform.isAndroid) {
       return 'ca-app-pub-3940256099942544/6300978111';
     } else if (Platform.isIOS) {

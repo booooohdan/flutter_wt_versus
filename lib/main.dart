@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -17,32 +18,42 @@ import '../screens/signup_screen.dart';
 import '../utilities/constants.dart';
 import '../utilities/introduction_screen_list.dart';
 import '../widgets/bottom_navigation_bar.dart';
+import 'providers/apple_signin_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await MobileAds.instance.initialize();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+  final preferences = await SharedPreferences.getInstance();
+  final _skipIntroduction = preferences.getBool('skipIntroduction') ?? false;
+  Future<void> initAppTrackingTransparency() async {
+    await AppTrackingTransparency.requestTrackingAuthorization();
+  }
+
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
+    const SystemUiOverlayStyle(
       statusBarColor: kLightGreyColor,
       statusBarBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  final prefs = await SharedPreferences.getInstance();
-  final _skipIntroduction = prefs.getBool('skipIntroduction') ?? false;
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<FirestoreProvider>(
           create: (_) => FirestoreProvider(),
         ),
+        ChangeNotifierProvider<ComparisonProvider>(
+          create: (_) => ComparisonProvider(),
+        ),
         ChangeNotifierProvider<GoogleSignInProvider>(
           create: (_) => GoogleSignInProvider(),
         ),
-        ChangeNotifierProvider<ComparisonProvider>(
-          create: (_) => ComparisonProvider(),
+        ChangeNotifierProvider<AppleSignInProvider>(
+          create: (_) => AppleSignInProvider(),
         ),
       ],
       child: MaterialApp(
@@ -57,7 +68,7 @@ Future<void> main() async {
             elevation: 0,
             toolbarHeight: 76,
             titleTextStyle: roboto22blackBold,
-            iconTheme: IconThemeData(color: kIconGreyColor),
+            iconTheme: const IconThemeData(color: kIconGreyColor),
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -78,24 +89,25 @@ Future<void> main() async {
           dividerColor: Colors.transparent,
         ),
         //darkTheme: ThemeData.dark(),
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           AppLocalizations.delegate,
         ],
-        supportedLocales: [
-          const Locale('en', ''),
-          const Locale('ru', ''),
-          const Locale('uk', ''),
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('ru', ''),
+          Locale('uk', ''),
         ],
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            //FirebaseCrashlytics.instance.crash();
+            // FirebaseCrashlytics.instance.crash();
+            initAppTrackingTransparency();
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator.adaptive());
             } else if (snapshot.hasData) {
               return _skipIntroduction
                   ? BottomNavBar()
@@ -106,7 +118,7 @@ Future<void> main() async {
                       next: const Icon(Icons.navigate_next),
                       done: Text(AppLocalizations.of(context)!.done),
                       onDone: () {
-                        prefs.setBool('skipIntroduction', true);
+                        preferences.setBool('skipIntroduction', true);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => BottomNavBar()),
@@ -115,9 +127,9 @@ Future<void> main() async {
                     );
               // Main entry point
             } else if (snapshot.hasError) {
-              return Center(child: Text('Something Went Wrong!'));
+              return const Center(child: Text('Something Went Wrong!'));
             } else {
-              return SignUpScreen();
+              return const SignUpScreen();
             }
           },
         ),

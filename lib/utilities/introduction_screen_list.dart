@@ -10,32 +10,33 @@ List<PageViewModel> getIntroductionPages(BuildContext context) {
           'assets/icons/icon.png',
           width: 144,
         ),
-        title: localizations.introd_title1,
-        body: localizations.introd_body1,
-        decoration: PageDecoration()),
+        title: localizations.introduction_title1,
+        body: localizations.introduction_body1,
+        decoration: const PageDecoration()),
     PageViewModel(
       image: Image.asset(
         'assets/icons/icon.png',
         width: 144,
       ),
-      title: localizations.introd_title2,
-      body: localizations.introd_body2,
+      title: localizations.introduction_title2,
+      body: localizations.introduction_body2,
     ),
     PageViewModel(
       image: Image.asset(
         'assets/icons/icon.png',
         width: 144,
       ),
-      title: localizations.introd_title3,
-      body: localizations.introd_body3,
+      title: localizations.introduction_title3,
+      body: localizations.introduction_body3,
     ),
     PageViewModel(
       image: Image.asset(
         'assets/icons/icon.png',
         width: 144,
       ),
-      title: localizations.introd_title4,
-      body: localizations.introd_body4,
+      title: localizations.introduction_title4,
+      body: localizations.introduction_body4,
     ),
+    //TODO: Update introduction screens.
   ];
 }
