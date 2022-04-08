@@ -194,16 +194,15 @@ class _SelectScreenState extends State<SelectScreen> {
                         CupertinoButton(
                           child: const Icon(Icons.tune, color: kIconGreyColor),
                           onPressed: () async {
-                            final result = await Navigator.push(
+                            _searchVehiclesResult = await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => FilterScreen(
-                                  receivedData: _allVehiclesResults,
                                   vehicleType: _vehicleTypeValue,
                                 ),
                               ),
                             );
-                            await newMethod();
+                            setState(() {});
                           },
                         ),
                         Expanded(
@@ -260,7 +259,7 @@ class _SelectScreenState extends State<SelectScreen> {
                               style: const TextStyle(color: kBlackColor, fontSize: 14, fontFamily: 'Symbols', fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(
-                              _searchVehiclesResult[index].vehicleClass[0],
+                              _searchVehiclesResult[index].vehicleClass.last,
                               style: roboto12greySemiBold,
                             ),
                             trailing: _vehicleSelected ? const Icon(Icons.check, size: 24) : const Icon(Icons.check, size: 0),
@@ -316,10 +315,6 @@ class _SelectScreenState extends State<SelectScreen> {
         ),
       ),
     );
-  }
-
-  Future<int> newMethod() async {
-    return 3;
   }
 
   Future<void> floatingButtonNavigation(BuildContext context) async {
