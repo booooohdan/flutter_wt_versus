@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wt_versus/screens/filter_screen.dart';
+import 'package:wt_versus/utilities/ads_collection.dart';
 
 import '../models/heli.dart';
 import '../models/plane.dart';
@@ -30,6 +32,9 @@ class SelectScreen extends StatefulWidget {
 class _SelectScreenState extends State<SelectScreen> {
   bool _isFirstInit = false;
   int? _vehicleTypeValue = 1;
+  InterstitialAd? _interstitialAd;
+  bool isInterstitialAdReady = false;
+  int interstitialCount = 0;
 
   // ignore: prefer_final_fields
   List<Vehicle> _selectedVehicles = [];
@@ -76,6 +81,7 @@ class _SelectScreenState extends State<SelectScreen> {
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
+    _interstitialAd!.dispose();
     super.dispose();
   }
 
@@ -309,7 +315,12 @@ class _SelectScreenState extends State<SelectScreen> {
                   break;
               }
 
-              await floatingButtonNavigation(context);
+              interstitialCount++;
+              if (interstitialCount % 2 == 0) {
+                isInterstitialAdReady ? _interstitialAd?.show() : await floatingButtonNavigation(context);
+              } else {
+                await floatingButtonNavigation(context);
+              }
             },
           ),
         ),
@@ -318,6 +329,8 @@ class _SelectScreenState extends State<SelectScreen> {
   }
 
   Future<void> floatingButtonNavigation(BuildContext context) async {
+    await loadInterstitialAd();
+
     switch (_vehicleTypeValue) {
       case 0:
         final List<Plane> vehiclesForComparison = [];
@@ -400,5 +413,29 @@ class _SelectScreenState extends State<SelectScreen> {
     context.read<ComparisonProvider>().setInt2Value(j);
     context.read<ComparisonProvider>().setInt3Value(k);
     context.read<ComparisonProvider>().setInt4Value(l);
+  }
+
+  Future<void> loadInterstitialAd() async {
+    InterstitialAd.load(
+      adUnitId: AdsCollection().interstitialAdUnitId(),
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) async {
+              await floatingButtonNavigation(context);
+            },
+          );
+
+          isInterstitialAdReady = true;
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+          isInterstitialAdReady = false;
+        },
+      ),
+    );
   }
 }
