@@ -5,19 +5,31 @@ import 'package:flutter/material.dart';
 import '../utilities/constants.dart';
 
 class CompareTilesWidget extends StatelessWidget {
-  const CompareTilesWidget(this.data, this.moreIsBetter, {Key? key}) : super(key: key);
-  final List<double> data;
+  const CompareTilesWidget({
+    required this.title,
+    required this.moreIsBetter,
+    required this.data,
+    Key? key,
+  }) : super(key: key);
+  final String title;
   final bool moreIsBetter;
+  final List<double> data;
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
+    final maxVal = data.reduce(max);
     final List<Color> colors = [
       Colors.white,
       Colors.white,
       Colors.white,
       Colors.white,
     ];
-    final maxVal = data.reduce(max);
 
     void setColorForMoreIsBetter() {
       for (var i = 0; i < data.length; i++) {
@@ -30,6 +42,10 @@ class CompareTilesWidget extends StatelessWidget {
           colors[i] = kYellow;
         } else {
           colors[i] = kRed;
+        }
+
+        if (data[i] == 0.0) {
+          colors[i] = Colors.white;
         }
       }
     }
@@ -46,67 +62,57 @@ class CompareTilesWidget extends StatelessWidget {
         } else {
           colors[i] = kGreen;
         }
+
+        if (data[i] == 0.0) {
+          colors[i] = Colors.white;
+        }
       }
     }
 
     moreIsBetter ? setColorForMoreIsBetter() : setColorForLessIsBetter();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
       children: [
-        Container(
-          height: 40,
-          width: 80,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: colors[0],
-          ),
-          child: Text(
-            data[0].toString().replaceAll('.0', ''),
-            style: roboto12blackMedium,
-          ),
-        ),
-        Container(
-          height: 40,
-          width: 80,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: colors[1],
-          ),
-          child: Text(
-            data[1].toString().replaceAll('.0', ''),
-            style: roboto12blackMedium,
-          ),
-        ),
-        Container(
-          height: 40,
-          width: 80,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: colors[2],
-          ),
-          child: Text(
-            data[2].toString().replaceAll('.0', ''),
-            style: roboto12blackMedium,
-          ),
-        ),
-        Container(
-          height: 40,
-          width: 80,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: colors[3],
-          ),
-          child: Text(
-            data[3].toString().replaceAll('.0', ''),
-            style: roboto12blackMedium,
-          ),
+        title.isNotEmpty
+            ? Column(
+                children: [
+                  const SizedBox(height: 8),
+                  Text(title, style: roboto12greySemiBold),
+                  const SizedBox(height: 8),
+                ],
+              )
+            : const SizedBox(height: 0),
+        Row(
+          children: [
+            SizedBox(width: tabletScreenWidth / 100),
+            buildColoredTile(colors, 0),
+            SizedBox(width: tabletScreenWidth / 50),
+            buildColoredTile(colors, 1),
+            SizedBox(width: tabletScreenWidth / 50),
+            buildColoredTile(colors, 2),
+            SizedBox(width: tabletScreenWidth / 50),
+            buildColoredTile(colors, 3),
+            SizedBox(width: tabletScreenWidth / 100),
+          ],
         ),
       ],
+    );
+  }
+
+  Expanded buildColoredTile(List<Color> colors, paramIndex) {
+    return Expanded(
+      child: Container(
+        height: 40,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          color: colors[paramIndex],
+        ),
+        child: Text(
+          data[paramIndex].toString().replaceAll('.0', ''),
+          style: roboto12blackMedium,
+        ),
+      ),
     );
   }
 }

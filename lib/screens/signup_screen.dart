@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:wt_versus/providers/apple_signin_provider.dart';
 
 import '../providers/google_signin_provider.dart';
 import '../utilities/constants.dart';
@@ -15,8 +18,19 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final screenSize = MediaQuery.of(context).size;
+    double tabletScreenWidth = screenSize.width - 40;
+    if (screenSize.width > 600) {
+      tabletScreenWidth = 600;
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -25,10 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               flex: 3,
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Image.asset(
-                  'assets/icons/icon.png',
-                  width: 144,
-                ),
+                child: Image.asset('assets/icons/icon.png', width: 144),
               ),
             ),
             Expanded(
@@ -53,35 +64,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     SizedBox(
                       height: 50,
-                      width: 320,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          context.read<GoogleSignInProvider>().googleLogin();
-                        },
-                        icon: FaIcon(FontAwesomeIcons.google, size: 20),
-                        label: Text(
-                          localizations.sign_up,
-                          style: roboto14whiteSemiBold,
-                        ),
-                        // style: ElevatedButton.styleFrom(
-                        //   primary: kBlackColor,
-                        //   shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(16), // <-- Radius
-                        //   ),
-                        // ),
-                      ),
+                      width: tabletScreenWidth,
+                      child: Platform.isAndroid
+                          ? ElevatedButton.icon(
+                              onPressed: () {
+                                context.read<GoogleSignInProvider>().googleLogin();
+                              },
+                              icon: const FaIcon(FontAwesomeIcons.google, size: 20),
+                              label: Text(
+                                localizations.sign_up,
+                                style: roboto14whiteSemiBold,
+                              ),
+                            )
+                          : ElevatedButton.icon(
+                              onPressed: () {
+                                context.read<AppleSignInProvider>().signInWithApple();
+                              },
+                              icon: const FaIcon(FontAwesomeIcons.apple, size: 20),
+                              label: Text(
+                                localizations.sign_up_apple,
+                                style: roboto14whiteSemiBold,
+                              ),
+                            ),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     SizedBox(
                       height: 50,
-                      width: 320,
+                      width: tabletScreenWidth,
                       child: ElevatedButton(
                         onPressed: () {
                           showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
                                     title: Text(localizations.why_login),
-                                    content: Text(
+                                    content: const Text(
                                         'The security policies of the database we use require user authorization. We use a simple login system via Google or Apple account, familiar to you from other programs'),
                                     elevation: 0,
                                     shape: RoundedRectangleBorder(
@@ -90,15 +106,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.of(context).pop(),
-                                        child: Center(child: const Text('OK')),
+                                        child: const Center(child: Text('OK')),
                                       ),
                                     ],
                                   ));
                         },
-                        child: Text(
-                          localizations.why_login,
-                          style: roboto14blackBold,
-                        ),
+                        child: Text(localizations.why_login, style: roboto14blackBold),
                         style: ElevatedButton.styleFrom(
                           primary: kButtonGreyColor,
                         ),
