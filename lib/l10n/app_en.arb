@@ -78,5 +78,11 @@
   "displacement": "Displacement",
   "number_of_sections": "Number of sections",
   "armor_front_side_back_mm": "Armor",
-  "github": "Report a bug"
+  "github": "Report a bug",
+  "filter": "Filter",
+  "nations": "Nations",
+  "ranks": "Ranks",
+  "vehicleTypes": "Vehicle types",
+  "battleRatings": "Battle Ratings",
+  "premiumOrNot": "Premium or not"
 }

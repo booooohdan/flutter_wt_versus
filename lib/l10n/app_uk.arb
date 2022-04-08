@@ -78,5 +78,11 @@
   "displacement": "Водотоннажність",
   "number_of_sections": "Кількість відсіків",
   "armor_front_side_back_mm": "Броня",
-  "github": "Повідомити про помилку"
+  "github": "Повідомити про помилку",
+  "filter": "Фільтр",
+  "nations": "Нації",
+  "ranks": "Ранги",
+  "vehicleTypes": "Типи транспортних засобів",
+  "battleRatings": "Бойовий рейтинг",
+  "premiumOrNot": "Преміум / Не преміум"
 }

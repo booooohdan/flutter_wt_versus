@@ -78,5 +78,11 @@
   "displacement": "Водоизмещение",
   "number_of_sections": "Количество отсеков",
   "armor_front_side_back_mm": "Броня",
-  "github": "Сообщить об ошибке"
+  "github": "Сообщить об ошибке",
+  "filter": "Фильтр",
+  "nations": "Нации",
+  "ranks": "Ранги",
+  "vehicleTypes": "Типы транспортных средств",
+  "battleRatings": "Боевой рейтинг",
+  "premiumOrNot": "Премиум / Не премиум"
 }

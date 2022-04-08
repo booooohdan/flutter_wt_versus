@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,6 +8,7 @@ import 'package:wt_versus/models/chip_item.dart';
 import 'package:wt_versus/models/vehicles.dart';
 import 'package:wt_versus/providers/firestore_provider.dart';
 import 'package:wt_versus/utilities/constants.dart';
+import 'package:wt_versus/widgets/filter_chip_widget.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({
@@ -19,9 +22,8 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  List<Vehicle> _vehicleList = [];
+  final List<Vehicle> _vehicleList = [];
 
-  var _selectedRange = RangeValues(6, 10);
   final List<String> _nations = [];
   final List<String> _ranks = [];
   final List<String> _class = [];
@@ -30,8 +32,8 @@ class _FilterScreenState extends State<FilterScreen> {
   final List<ChipItem> _chipsNations = [];
   final List<ChipItem> _chipsRanks = [];
   final List<ChipItem> _chipsClass = [];
-  final List<ChipItem> _chipsBr = [];
   final List<ChipItem> _chipsIsPremium = [];
+  var _selectedRange = const RangeValues(1.0, 12.0);
 
   @override
   void initState() {
@@ -44,7 +46,6 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     final localizations = AppLocalizations.of(context)!;
 
     return SafeArea(
@@ -53,7 +54,7 @@ class _FilterScreenState extends State<FilterScreen> {
           leadingWidth: 48,
           titleSpacing: 0,
           centerTitle: false,
-          title: Text('Filter'),
+          title: Text(localizations.filter),
           leading: CupertinoButton(
             child: const Icon(Icons.chevron_left),
             onPressed: () {
@@ -62,9 +63,47 @@ class _FilterScreenState extends State<FilterScreen> {
             },
           ),
         ),
-        body: Center(
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(localizations.nations, style: roboto12greySemiBold),
+              ),
+              Wrap(
+                spacing: 6.0,
+                runSpacing: 6.0,
+                children: [
+                  for (var i = 0; i < _nations.length; i++) FilterChipWidget(list: _chipsNations, i: i),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(localizations.ranks, style: roboto12greySemiBold),
+              ),
+              Wrap(
+                spacing: 6.0,
+                runSpacing: 6.0,
+                children: [
+                  for (var i = 0; i < _ranks.length; i++) FilterChipWidget(list: _chipsRanks, i: i),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(localizations.vehicleTypes, style: roboto12greySemiBold),
+              ),
+              Wrap(
+                spacing: 6.0,
+                runSpacing: 6.0,
+                children: [
+                  for (var i = 0; i < _class.length; i++) FilterChipWidget(list: _chipsClass, i: i),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(localizations.battleRatings, style: roboto12greySemiBold),
+              ),
               RangeSlider(
                 values: _selectedRange,
                 onChanged: (newRange) {
@@ -73,18 +112,22 @@ class _FilterScreenState extends State<FilterScreen> {
                 min: 1.0,
                 max: 12.0,
                 divisions: 110,
-                labels: RangeLabels('${_selectedRange.start}', '${_selectedRange.end}'),
+                labels: RangeLabels(
+                  '${_selectedRange.start.toStringAsFixed(1)}',
+                  '${_selectedRange.end.toStringAsFixed(1)}',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(localizations.premiumOrNot, style: roboto12greySemiBold),
               ),
               Wrap(
                 spacing: 6.0,
                 runSpacing: 6.0,
                 children: [
-                  for (var i = 0; i < _nations.length; i++) _filterChipWidget(_chipsNations, i),
-                  for (var i = 0; i < _ranks.length; i++) _filterChipWidget(_chipsRanks, i),
-                  for (var i = 0; i < _class.length; i++) _filterChipWidget(_chipsClass, i),
-                  for (var i = 0; i < _isPremium.length; i++) _filterChipWidget(_chipsIsPremium, i),
+                  for (var i = 0; i < _isPremium.length; i++) FilterChipWidget(list: _chipsIsPremium, i: i),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -92,59 +135,21 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  void _materialBanner(BuildContext context) {
-    ScaffoldMessenger.of(context)
-      ..removeCurrentMaterialBanner()
-      ..showMaterialBanner(
-        MaterialBanner(
-          leading: Icon(
-            Icons.error,
-            color: Colors.white,
-          ),
-          leadingPadding: EdgeInsets.all(8),
-          padding: EdgeInsets.all(8),
-          backgroundColor: kRed,
-          content: Text(
-            'There is no vehicle selected. Please ',
-            style: roboto14whiteSemiBold,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-              },
-              child: Text(
-                'Agree',
-                style: roboto14whiteSemiBold,
-              ),
-            ),
-          ],
-        ),
-      );
-  }
-
-  FilterChip _filterChipWidget(List<ChipItem> list, int i) {
-    return FilterChip(
-      selected: list[i].selected,
-      padding: const EdgeInsets.all(8),
-      labelStyle: roboto14whiteSemiBold,
-      checkmarkColor: Colors.white,
-      showCheckmark: true,
-      selectedColor: kRed,
-      backgroundColor: kTextGreyColor,
-      label: Text(list[i].name),
-      onSelected: (bool selected) {
-        setState(
-          () {
-            if (selected) {
-              list[i].selected = true;
-            } else {
-              list[i].selected = false;
-            }
-          },
-        );
-      },
-    );
+  Future<List<Vehicle>> _getVehiclesFromFirebase(int vehicleType) async {
+    if (vehicleType == 0) {
+      return await context.read<FirestoreProvider>().getSimplifiedPlanes();
+    }
+    if (vehicleType == 1) {
+      return await context.read<FirestoreProvider>().getSimplifiedTanks();
+    }
+    if (vehicleType == 2) {
+      return await context.read<FirestoreProvider>().getSimplifiedHelis();
+    }
+    if (vehicleType == 3) {
+      return await context.read<FirestoreProvider>().getSimplifiedShips();
+    } else {
+      throw 'Exception';
+    }
   }
 
   void _getListsForChips() {
@@ -196,13 +201,11 @@ class _FilterScreenState extends State<FilterScreen> {
       _chipsClass.add(ChipItem(name: item, selected: true));
     }
 
-    for (final item in _br) {
-      _chipsBr.add(ChipItem(name: item, selected: true));
-    }
+    final doubleBr = _br.map((data) => double.parse(data)).toList();
+    _selectedRange = RangeValues(doubleBr.reduce(min), doubleBr.reduce(max));
 
-    for (final item in _isPremium) {
-      _chipsIsPremium.add(ChipItem(name: item, selected: true));
-    }
+    _chipsIsPremium.add(ChipItem(name: 'Premium', selected: true));
+    _chipsIsPremium.add(ChipItem(name: 'Not premium', selected: true));
 
     _chipsNations.sort((a, b) {
       return a.name.compareTo(b.name);
@@ -234,26 +237,24 @@ class _FilterScreenState extends State<FilterScreen> {
 
     for (final item in _chipsClass) {
       if (!item.selected) {
-        //_vehicleList.removeWhere((element) => element.vehicleClass.any((e) => e == item.name));
         _vehicleList.removeWhere((element) => element.vehicleClass.last == item.name);
       }
     }
-  }
 
-  Future<List<Vehicle>> _getVehiclesFromFirebase(int vehicleType) async {
-    if (vehicleType == 0) {
-      return await context.read<FirestoreProvider>().getSimplifiedPlanes();
+    for (final item in _br) {
+      if (_selectedRange.start > double.parse(item)) {
+        _vehicleList.removeWhere((element) => element.BRs[1] == item);
+      }
+      if (_selectedRange.end < double.parse(item)) {
+        _vehicleList.removeWhere((element) => element.BRs[1] == item);
+      }
     }
-    if (vehicleType == 1) {
-      return await context.read<FirestoreProvider>().getSimplifiedTanks();
+
+    if (!_chipsIsPremium[0].selected) {
+      _vehicleList.removeWhere((element) => element.isPremium);
     }
-    if (vehicleType == 2) {
-      return await context.read<FirestoreProvider>().getSimplifiedHelis();
-    }
-    if (vehicleType == 3) {
-      return await context.read<FirestoreProvider>().getSimplifiedShips();
-    } else {
-      throw 'Exception';
+    if (!_chipsIsPremium[1].selected) {
+      _vehicleList.removeWhere((element) => !element.isPremium);
     }
   }
 }
