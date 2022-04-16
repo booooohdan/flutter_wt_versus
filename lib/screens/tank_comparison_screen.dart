@@ -287,17 +287,6 @@ class _TankComparisonScreenState extends State<TankComparisonScreen> {
                             widget.receivedData[indexController4].features,
                           ],
                         ),
-                        //TODO: Uncomment whe icons will be added
-                        // CompareImagesWidget(
-                        //   title: localizations.features,
-                        //   noTitle: localizations.no_data,
-                        //   list: [
-                        //     widget.receivedData[indexController1].features,
-                        //     widget.receivedData[indexController2].features,
-                        //     widget.receivedData[indexController3].features,
-                        //     widget.receivedData[indexController4].features,
-                        //   ],
-                        // ),
                         CompareTextWidget(
                           title: localizations.turret_armor_mm,
                           noTitle: localizations.no_data,

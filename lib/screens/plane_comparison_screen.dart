@@ -10,7 +10,6 @@ import '../providers/comparison_provider.dart';
 import '../utilities/ads_collection.dart';
 import '../utilities/constants.dart';
 import '../widgets/compare_icon_widget.dart';
-import '../widgets/compare_images_widget.dart';
 import '../widgets/compare_text_widget.dart';
 import '../widgets/compare_tiles_widget.dart';
 import '../widgets/scroll_vehicles_widget.dart';
@@ -326,20 +325,10 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             double.parse(widget.receivedData[indexController4].flutterGear.replaceAll(' ', '')),
                           ],
                         ),
-                        // CompareTextWidget(
-                        //   localizations.features,
-                        //   noTitle: localizations.no_data,
-                        //   textStyle: roboto10blackRegular,
-                        //   list: [
-                        //     widget.receivedData[indexController1].features,
-                        //     widget.receivedData[indexController2].features,
-                        //     widget.receivedData[indexController3].features,
-                        //     widget.receivedData[indexController4].features,
-                        //   ],
-                        // ),
-                        CompareImagesWidget(
+                        CompareTextWidget(
                           title: localizations.features,
                           noTitle: localizations.no_data,
+                          textStyle: roboto10blackRegular,
                           list: [
                             widget.receivedData[indexController1].features,
                             widget.receivedData[indexController2].features,
@@ -358,7 +347,6 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             [widget.receivedData[indexController4].engineName],
                           ],
                         ),
-                        //TODO Add icons
                         const SizedBox(height: 8),
                         Text(
                           localizations.cooling_system,
@@ -397,7 +385,6 @@ class _PlaneComparisonScreenState extends State<PlaneComparisonScreen> {
                             ),
                           ],
                         ),
-                        //TODO Add icons
                         const SizedBox(height: 8),
                         Text(
                           localizations.engine_type,

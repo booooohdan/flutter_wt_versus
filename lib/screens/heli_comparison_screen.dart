@@ -223,7 +223,7 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                       initiallyExpanded: true,
                       children: [
                         CompareTextWidget(
-                          title: 'Features',
+                          title: localizations.features,
                           noTitle: localizations.no_data,
                           textStyle: roboto10blackRegular,
                           list: [
@@ -233,17 +233,6 @@ class _HeliComparisonScreenState extends State<HeliComparisonScreen> {
                             widget.receivedData[indexController4].features,
                           ],
                         ),
-                        //TODO Add icons
-                        // CompareImagesWidget(
-                        //   title: 'Features',
-                        //   noTitle: localizations.no_data,
-                        //   list: [
-                        //     widget.receivedData[indexController1].features,
-                        //     widget.receivedData[indexController2].features,
-                        //     widget.receivedData[indexController3].features,
-                        //     widget.receivedData[indexController4].features,
-                        //   ],
-                        // ),
                         CompareTilesWidget(
                           title: localizations.max_speed_km_h,
                           moreIsBetter: true,

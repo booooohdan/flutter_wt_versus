@@ -219,7 +219,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               if (await inAppReview.isAvailable()) {
                                 inAppReview.requestReview();
                               } else {
-                                inAppReview.openStoreListing(appStoreId: '1606469760'); //TODO: AppStore ID
+                                inAppReview.openStoreListing(appStoreId: '1616758564');
                               }
                             },
                           ),
@@ -238,7 +238,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               if (Platform.isAndroid) {
                                 url = 'https://play.google.com/store/apps/details?id=com.wave.wtversus';
                               } else if (Platform.isIOS) {
-                                url = ''; //TODO: AppStore ID
+                                url = 'https://apps.apple.com/ru/app/thunder-versus/id1616758564';
                               }
                               Share.share('Check this cool comparison app for War Thunder: $url');
                             },
