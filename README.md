@@ -7,7 +7,7 @@ Cross-platform Flutter app, that can compare aircrafts, tanks, helicopters and s
 * Started: ***10.02.2022***
 * Published: ***24.03.2022***
 * Status: ***Supported***
-* Version: ***3.0.2***
+* Version: ***3.0.3***
  
 ### Used:
 
